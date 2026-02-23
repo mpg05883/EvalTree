@@ -8,15 +8,15 @@ def winrate(
     include_ties: bool = True,
 ) -> float:
     """
-    Compute the winrate between two sets of scores.
+    Compute the win-rate between two sets of scores.
 
     Args:
         scores1: The first set of scores.
         scores2: The second set of scores.
-        include_ties: Whether to include ties in the winrate calculation.
+        include_ties: Whether to include ties in the win-rate calculation.
 
     Returns:
-        The winrate between the two sets of scores.
+        The win-rate between the two sets of scores.
     """
     scores1 = scores1.to_numpy() if isinstance(scores1, pd.Series) else scores1
     scores2 = scores2.to_numpy() if isinstance(scores2, pd.Series) else scores2
