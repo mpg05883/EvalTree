@@ -1,3 +1,4 @@
+from .metrics import winrate
 from .path import (
     resolve_datasets_dir,
     resolve_eval_results_dir,
@@ -7,6 +8,7 @@ from .path import (
 )
 
 __all__ = [
+    "winrate",
     "resolve_datasets_dir",
     "resolve_eval_results_dir",
     "resolve_results_dir",
