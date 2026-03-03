@@ -37,7 +37,7 @@ data = {
 }
 for model in datasets2models[(args.predictor_dataset, args.target_dataset)] :
     for direction in ("lower", "higher") :
-        with open("EvalTree/WeaknessProfile/ExtractedNode_Analysis/results/{}->{}/[direction={}]{}.json".format(args.predictor_dataset, args.target_dataset, direction, model2path[model]), "r") as fin :
+        with open("EvalTree/WeaknessProfile/ExtractedNode_Analysis/results/{}-{}/direction-{}{}.json".format(args.predictor_dataset, args.target_dataset, direction, model2path[model]), "r") as fin :
             data[direction].append(json.load(fin))
 
 

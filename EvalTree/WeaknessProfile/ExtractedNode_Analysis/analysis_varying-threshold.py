@@ -116,6 +116,7 @@ while True :
 
 
 assert args.results_path.startswith("real/")
-os.makedirs("EvalTree/WeaknessProfile/ExtractedNode_Analysis/results/{}->{}".format(args.tree_dataset, args.embedding_dataset), exist_ok = True)
-with open("EvalTree/WeaknessProfile/ExtractedNode_Analysis/results/{}->{}/[direction={}]{}.json".format(args.tree_dataset, args.embedding_dataset, args.direction, args.results_path[len("real/") :]), "w") as fout :
+results_path_clean = args.results_path[len("real/"):].replace("[", "").replace("]", "").replace("=", "-")
+os.makedirs("EvalTree/WeaknessProfile/ExtractedNode_Analysis/results/{}-{}".format(args.tree_dataset, args.embedding_dataset), exist_ok = True)
+with open("EvalTree/WeaknessProfile/ExtractedNode_Analysis/results/{}-{}/direction-{}{}.json".format(args.tree_dataset, args.embedding_dataset, args.direction, results_path_clean), "w") as fout :
     json.dump(dict(THRESHOLD = Threshold, PERFORMANCE = Performance, all_mean = float(RESULTS[RANGE].mean()), INSTANCE_NUMBER = Instance_Number), fout, indent = 2)
