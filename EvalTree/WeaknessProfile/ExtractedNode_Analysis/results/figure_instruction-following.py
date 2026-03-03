@@ -18,10 +18,10 @@ ood_data = {
     "higher" : [],
 }
 for direction in ("lower", "higher") :
-    with open("EvalTree/WeaknessProfile/ExtractedNode_Analysis/results/WildChat10K->WildChat10K/[direction={}][llama3.2-3b-instruct]BEAT[gemma2-2b-it].json".format(direction), "r") as fin :
+    with open("EvalTree/WeaknessProfile/ExtractedNode_Analysis/results/WildChat10K-WildChat10K/direction-{}llama3.2-3b-instructBEATgemma2-2b-it.json".format(direction), "r") as fin :
         id_data[direction] = json.load(fin)
     for ood_dataset in ("ShareGPT10K", "Chatbot-Arena", ) :
-        with open("EvalTree/WeaknessProfile/ExtractedNode_Analysis/results/WildChat10K->{}/[direction={}][llama3.2-3b-instruct]BEAT[gemma2-2b-it].json".format(ood_dataset, direction), "r") as fin :
+        with open("EvalTree/WeaknessProfile/ExtractedNode_Analysis/results/WildChat10K-{}/direction-{}llama3.2-3b-instructBEATgemma2-2b-it.json".format(ood_dataset, direction), "r") as fin :
             ood_data[direction].append(json.load(fin))
 
 
