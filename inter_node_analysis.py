@@ -56,22 +56,22 @@ def main(dataset: Dataset, min_instances: int) -> None:
             fontweight="bold",
         )
 
-    # Add vertical line at mean
-    ax.axvline(
-        mean_tau,
-        color="red",
-        linestyle="--",
-        label=f"Mean: {mean_tau:.3g}",
-    )
-
-    # Add shaded region for +/- 1 std
-    ax.axvspan(
-        mean_tau - std_tau,
-        mean_tau + std_tau,
-        alpha=0.2,
-        color="red",
-        label=f"±1 Std: {std_tau:.3g}",
-    )
+    # Add vertical line at mean and shaded region for +/- 1 std (if not NaN)
+    if not (np.isnan(mean_tau) and np.isnan(std_tau)):
+        ax.axvline(
+            mean_tau,
+            color="red",
+            linestyle="--",
+            label=f"Mean: {mean_tau:.3g}",
+        )
+        ax.axvspan(
+            mean_tau - std_tau,
+            mean_tau + std_tau,
+            alpha=0.2,
+            color="red",
+            label=f"±1 Std: {std_tau:.3g}",
+        )
+        ax.legend()
 
     ax.set_xlabel("Kendall's Tau")
     ax.set_ylabel("Node Count")
@@ -79,7 +79,6 @@ def main(dataset: Dataset, min_instances: int) -> None:
         f"{dataset}: Distribution of Kendall's Tau Across Nodes"
         f"\n({num_models} models, {len(nodes)} nodes, min_instances={min_instances})"
     )
-    ax.legend()
     plt.tight_layout()
 
     plot_path = build_plot_path(
