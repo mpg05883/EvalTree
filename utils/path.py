@@ -37,3 +37,21 @@ def resolve_capability_tree_path(dataset: DATASETS) -> Path:
         / "stage3-RecursiveClustering"
         / "[split=full]_[annotation=gpt-4o-mini]_[embedding=text-embedding-3-small]_[max-children=10]_[stage4-CapabilityDescription-model=gpt-4o].json"
     )
+
+
+def resolve_plots_dir() -> Path:
+    """Resolve the absolute file path to the plots directory."""
+    return Path(__file__).resolve().parent.parent / "plots"
+
+
+def build_plot_path(
+    dataset: DATASETS,
+    analysis: str,
+    plot_name: str,
+    extension: str = "png",
+) -> Path:
+    """Build the absolute file path to the plot file and create the directory
+    if it doesn't exist."""
+    path = resolve_plots_dir() / analysis / dataset / f"{plot_name}.{extension}"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    return path

@@ -13,16 +13,16 @@ def load_eval_results(dataset: DATASETS) -> pd.DataFrame:
     return pd.read_csv(file_path)
 
 
-def compute_rankings(
+def compute_ranking(
     df: pd.DataFrame,
     ascending: bool = False,
     method: Literal["min", "max", "average", "first", "dense"] = "average",
 ) -> np.ndarray:
-    """Compute model rankings from performance data.
+    """Compute model rankings from accuracy data.
 
     Args:
         df: DataFrame where rows are instances and columns are models.
-            Values should be performance scores (e.g., 0/1 for correct/incorrect).
+            Values should be accuracy scores (e.g., 0/1 for correct/incorrect).
         ascending: Whether to rank in ascending or descending order. Default is
         False.
         - If True, lower accuracies are ranked higher.
@@ -39,9 +39,13 @@ def compute_rankings(
     Returns:
         numpy array of rankings (1 = best) in the same order as df columns.
     """
-    average_accuracies = df.mean(axis=0)
-    rankings = average_accuracies.rank(
-        ascending=ascending,
-        method=method,
-    ).astype(int)
-    return rankings.values
+    df = df.select_dtypes(include="number")  # Only consider numerical columns
+    return (
+        df.mean(axis=0)
+        .rank(
+            ascending=ascending,
+            method=method,
+        )
+        .astype(int)
+        .values
+    )
