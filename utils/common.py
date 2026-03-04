@@ -5,9 +5,10 @@ DATASETS = [
     "MMLU",
 ]
 
-# Map local dataset names to HuggingFace dataset identifiers
-HF_DATASET_MAP = {
-    "DS-1000": "xlangai/DS-1000",
-    "MATH": "hendrycks/competition_math",
-    "MMLU": "cais/mmlu",
+
+# Number of instances in each dataset according to EvalTree web demo page
+DATASET_TO_NUM_INSTANCES = {
+    "DS-1000": 1000,
+    "MATH": 5000,
+    "MMLU": 14042,
 }

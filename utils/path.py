@@ -17,19 +17,14 @@ def resolve_evaltree_dir() -> Path:
     return Path(__file__).resolve().parent.parent / "EvalTree"
 
 
-def resolve_datasets_dir() -> Path:
-    """Resolve the absolute file path to the EvalTree/Datasets directory."""
-    return resolve_evaltree_dir() / "Datasets"
-
-
 def resolve_dataset_path(dataset: DATASETS) -> Path:
     """Resolve the absolute file path to the raw dataset file."""
-    return resolve_datasets_dir() / dataset / "dataset.json"
+    return resolve_evaltree_dir() / "Datasets" / dataset / "dataset.json"
 
 
 def resolve_eval_results_dir(dataset: DATASETS) -> Path:
     """Resolve the absolute file path to the model eval results directory."""
-    return resolve_eval_results_dir(dataset) / "eval_results"
+    return resolve_evaltree_dir() / "Datasets" / dataset / "eval_results"
 
 
 def resolve_capability_tree_path(dataset: DATASETS) -> Path:
