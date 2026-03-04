@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from utils.common import DATASETS
+from utils.data import Dataset
 
 
 def resolve_data_dir() -> Path:
@@ -17,17 +17,17 @@ def resolve_evaltree_dir() -> Path:
     return Path(__file__).resolve().parent.parent / "EvalTree"
 
 
-def resolve_dataset_path(dataset: DATASETS) -> Path:
+def resolve_dataset_path(dataset: Dataset) -> Path:
     """Resolve the absolute file path to the raw dataset file."""
     return resolve_evaltree_dir() / "Datasets" / dataset / "dataset.json"
 
 
-def resolve_eval_results_dir(dataset: DATASETS) -> Path:
+def resolve_eval_results_dir(dataset: Dataset) -> Path:
     """Resolve the absolute file path to the model eval results directory."""
     return resolve_evaltree_dir() / "Datasets" / dataset / "eval_results"
 
 
-def resolve_capability_tree_path(dataset: DATASETS) -> Path:
+def resolve_capability_tree_path(dataset: Dataset) -> Path:
     """Resolve the absolute file path to the capability tree file."""
     return (
         resolve_evaltree_dir()
@@ -45,7 +45,7 @@ def resolve_plots_dir() -> Path:
 
 
 def build_plot_path(
-    dataset: DATASETS,
+    dataset: Dataset,
     analysis: str,
     plot_name: str,
     extension: str = "png",
