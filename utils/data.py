@@ -4,9 +4,12 @@ import pandas as pd
 
 
 class Dataset(StrEnum):
+    CHATBOT_ARENA = "Chatbot-Arena"
+    CHATBOT_ARENA_NEW = "Chatbot-Arena_NEW"
     DS_1000 = "DS-1000"
     MATH = "MATH"
     MMLU = "MMLU"
+    WILDCHAT_10K = "WildChat10K"
 
     @property
     def num_instances(self) -> int:

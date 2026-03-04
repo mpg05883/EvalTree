@@ -60,7 +60,7 @@ def align_rankings(
     """
     global_scores = {model: score for model, score in global_ranking}
     local_scores = {model: score for model, score in local_ranking}
-    models = list(global_scores.keys())
+    models = [m for m in global_scores if m in local_scores]
     global_vec = [global_scores[m] for m in models]
     local_vec = [local_scores[m] for m in models]
     return global_vec, local_vec

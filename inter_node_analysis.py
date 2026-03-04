@@ -1,47 +1,99 @@
-import argparse
-import json
-
 import matplotlib.pyplot as plt
+import numpy as np
 import seaborn as sns
 from scipy.stats import kendalltau
+from tqdm import tqdm
 
-from utils.capability_tree import align_rankings, collect_nodes
-from utils.path import build_plot_path, resolve_capability_tree_path
+from utils.capability_tree import (
+    align_rankings,
+    collect_nodes,
+    load_capability_tree,
+)
+from utils.data import Dataset
+from utils.path import build_plot_path
 
 
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("dataset", help="Dataset name (e.g. DS-1000, MATH, MMLU)")
-    args = parser.parse_args()
-
-    data_path = resolve_capability_tree_path(args.dataset)
-    with open(data_path) as f:
-        root = json.load(f)
-
+def main(dataset: Dataset, min_instances: int) -> None:
+    root = load_capability_tree(dataset)
+    nodes = collect_nodes(root, min_instances)
     global_ranking = root["ranking"]
-    nodes = collect_nodes(root)
-    print(f"Found {len(nodes)} qualifying nodes (non-root, size > 50)")
-
+    num_models = len(global_ranking)
+    print(f"Number of models: {num_models}")
     taus = []
-    for node in nodes:
+
+    kwargs = {
+        "desc": "Computing Kendall's Taus",
+        "total": len(nodes),
+        "unit": "node",
+    }
+
+    for node in tqdm(nodes, **kwargs):
+        if node["ranking"] is None:
+            continue
         global_vec, local_vec = align_rankings(global_ranking, node["ranking"])
         tau, _ = kendalltau(global_vec, local_vec)
         taus.append(tau)
 
+    # Compute mean and std
+    taus_arr = np.array(taus)
+    mean_tau = taus_arr.mean()
+    std_tau = taus_arr.std()
+
     fig, ax = plt.subplots(figsize=(8, 4))
-    sns.histplot(taus, ax=ax)
+    sns.histplot(taus, ax=ax, bins=10)
+
+    # Annotate bar heights
+    for bar in ax.patches:
+        if (height := bar.get_height()) == 0:
+            continue
+        ax.annotate(
+            f"{int(height)}",
+            xy=(bar.get_x() + bar.get_width() / 2, height),
+            xytext=(0, 4),
+            textcoords="offset points",
+            ha="center",
+            va="bottom",
+            fontweight="bold",
+        )
+
+    # Add vertical line at mean
+    ax.axvline(
+        mean_tau,
+        color="red",
+        linestyle="--",
+        label=f"Mean: {mean_tau:.3g}",
+    )
+
+    # Add shaded region for +/- 1 std
+    ax.axvspan(
+        mean_tau - std_tau,
+        mean_tau + std_tau,
+        alpha=0.2,
+        color="red",
+        label=f"±1 Std: {std_tau:.3g}",
+    )
+
     ax.set_xlabel("Kendall's Tau")
     ax.set_ylabel("Node Count")
-    ax.set_title(f"Distribution of Kendall's Tau – {args.dataset}")
+    ax.set_title(
+        f"{dataset}: Distribution of Kendall's Tau Across Nodes"
+        f"\n({num_models} models, {len(nodes)} nodes, min_instances={min_instances})"
+    )
+    ax.legend()
     plt.tight_layout()
 
     plot_path = build_plot_path(
-        args.dataset, "inter_node_analysis", "kendall_tau_distribution"
+        dataset,
+        analysis="inter_node_analysis",
+        plot_name=f"kendall_tau_distribution-min_instances={min_instances}",
     )
     plt.savefig(plot_path)
     print(f"Plot saved to {plot_path}")
-    plt.show()
 
 
 if __name__ == "__main__":
-    main()
+    min_instance_counts = [0, 50]
+    datasets = [d.value for d in Dataset]
+    for dataset in datasets:
+        for min_instances in min_instance_counts:
+            main(dataset, min_instances)
