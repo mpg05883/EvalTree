@@ -3,13 +3,9 @@ from pathlib import Path
 from utils.data import Dataset
 
 
-def resolve_data_dir() -> Path:
-    """Resolve the absolute file path to the data directory.
-
-    NOTE: This directory contains data that's already been processed and is
-    ready to be used to create a capability tree.
-    """
-    return Path(__file__).resolve().parent.parent / "data"
+def resolve_capability_tree_path(dataset: Dataset) -> Path:
+    """Resolve the absolute file path to the processed capability tree file."""
+    return Path(__file__).resolve().parent.parent / "data" / f"{dataset}.json"
 
 
 def resolve_evaltree_dir() -> Path:
@@ -25,18 +21,6 @@ def resolve_dataset_path(dataset: Dataset) -> Path:
 def resolve_eval_results_dir(dataset: Dataset) -> Path:
     """Resolve the absolute file path to the model eval results directory."""
     return resolve_evaltree_dir() / "Datasets" / dataset / "eval_results"
-
-
-def resolve_capability_tree_path(dataset: Dataset) -> Path:
-    """Resolve the absolute file path to the capability tree file."""
-    return (
-        resolve_evaltree_dir()
-        / "Datasets"
-        / dataset
-        / "EvalTree"
-        / "stage3-RecursiveClustering"
-        / "[split=full]_[annotation=gpt-4o-mini]_[embedding=text-embedding-3-small]_[max-children=10]_[stage4-CapabilityDescription-model=gpt-4o].json"
-    )
 
 
 def resolve_plots_dir() -> Path:
