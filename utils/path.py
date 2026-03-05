@@ -15,6 +15,8 @@ def resolve_evaltree_dir() -> Path:
 
 def resolve_dataset_path(dataset: Dataset) -> Path:
     """Resolve the absolute file path to the raw dataset file."""
+    # Chatbot Arena (New) uses the same dataset as Chatbot Arena
+    dataset = Dataset.CHATBOT_ARENA if dataset == Dataset.CHATBOT_ARENA_NEW else dataset
     return resolve_evaltree_dir() / "Datasets" / dataset / "dataset.json"
 
 
