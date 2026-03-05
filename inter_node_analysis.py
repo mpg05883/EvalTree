@@ -30,8 +30,11 @@ def main(dataset: Dataset, min_instances: int) -> None:
     for node in tqdm(nodes, **kwargs):
         if node["ranking"] is None:
             continue
-        global_vec, local_vec = align_rankings(global_ranking, node["ranking"])
-        tau, _ = kendalltau(global_vec, local_vec)
+        aligned_global_ranking, aligned_local_ranking = align_rankings(
+            global_ranking,
+            node["ranking"],
+        )
+        tau, _ = kendalltau(aligned_global_ranking, aligned_local_ranking)
         taus.append(tau)
 
     # Compute mean and std
