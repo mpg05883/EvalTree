@@ -1,36 +1,54 @@
 from pathlib import Path
 
-from utils.data import Dataset
-
-_SRC_DIR = Path(__file__).resolve().parent.parent   # → <root>/src/
-_ROOT_DIR = _SRC_DIR.parent                         # → <root>/
+from src.utils.data import Dataset
 
 
-def resolve_capability_tree_path(dataset: Dataset) -> Path:
-    """Resolve the absolute file path to the processed capability tree file."""
-    return _ROOT_DIR / "data" / f"{dataset}.json"
+def resolve_root_dir() -> Path:
+    """Resolve the absolute file path to the root directory."""
+    return Path(__file__).resolve().parent.parent.parent
 
 
-def resolve_evaltree_dir() -> Path:
-    """Resolve the absolute file path to the EvalTree directory."""
-    return _SRC_DIR / "EvalTree"
+def resolve_data_dir() -> Path:
+    """Resolve the absolute file path to the data directory."""
+    return resolve_root_dir() / "data"
+
+
+def resolve_dataset_dir(dataset: Dataset) -> Path:
+    """Resolve the absolute file path to the dataset directory."""
+    return resolve_data_dir() / dataset
 
 
 def resolve_dataset_path(dataset: Dataset) -> Path:
-    """Resolve the absolute file path to the raw dataset file."""
+    """Resolve the absolute file path to the dataset file."""
     # Chatbot Arena (New) uses the same dataset as Chatbot Arena
     dataset = Dataset.CHATBOT_ARENA if dataset == Dataset.CHATBOT_ARENA_NEW else dataset
-    return resolve_evaltree_dir() / "Datasets" / dataset / "dataset.json"
+    return resolve_dataset_dir(dataset) / "dataset.json"
+
+
+def resolve_capability_tree_path(dataset: Dataset) -> Path:
+    """Resolve the absolute file path to the capability tree file."""
+    return resolve_dataset_dir(dataset) / "capability_tree.json"
+
+
+def resolve_model_scores_path(dataset: Dataset) -> Path:
+    """Resolve the absolute file path to the file containing each model's
+    per-instance scores."""
+    return resolve_dataset_dir(dataset) / "model_scores.csv"
 
 
 def resolve_eval_results_dir(dataset: Dataset) -> Path:
-    """Resolve the absolute file path to the model eval results directory."""
-    return resolve_evaltree_dir() / "Datasets" / dataset / "eval_results"
+    """Resolve the absolute file path to the eval results directory."""
+    return resolve_dataset_dir(dataset) / "eval_results"
+
+
+def resolve_results_dir() -> Path:
+    """Resolve the absolute file path to the results directory."""
+    return resolve_root_dir() / "results"
 
 
 def resolve_plots_dir() -> Path:
     """Resolve the absolute file path to the plots directory."""
-    return _ROOT_DIR / "plots"
+    return resolve_results_dir() / "plots"
 
 
 def build_plot_path(

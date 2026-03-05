@@ -1,48 +1,13 @@
-from enum import StrEnum
-
 import pandas as pd
 
-
-class Dataset(StrEnum):
-    CHATBOT_ARENA = "Chatbot-Arena"
-    CHATBOT_ARENA_NEW = "Chatbot-Arena_NEW"
-    DS_1000 = "DS-1000"
-    MATH = "MATH"
-    MMLU = "MMLU"
-    WILDCHAT_10K = "WildChat10K"
-
-    @property
-    def num_instances(self) -> int:
-        if self == Dataset.DS_1000:
-            return 1000
-        elif self == Dataset.MATH:
-            return 5000
-        elif self == Dataset.MMLU:
-            return 14042
-        else:
-            raise ValueError(f"Unknown dataset: {self}")
+from src.utils.enum import Dataset, Library, MetadataKey, PerturbationType
+from src.utils.path import resolve_dataset_path
 
 
-class Library(StrEnum):
-    MATPLOTLIB = "Matplotlib"
-    NUMPY = "Numpy"
-    PANDAS = "Pandas"
-    PYTORCH = "Pytorch"
-    SCIPY = "Scipy"
-    SKLEARN = "Sklearn"
-    TENSORFLOW = "Tensorflow"
-
-
-class PerturbationType(StrEnum):
-    ORIGIN = "Origin"
-    SEMANTIC = "Semantic"
-    DIFFICULT_REWRITE = "Difficult-Rewrite"
-    SURFACE = "Surface"
-
-
-class MetadataKey(StrEnum):
-    LIBRARY = "library"
-    PERTURBATION_TYPE = "perturbation_type"
+def load_dataset(dataset: Dataset) -> pd.DataFrame:
+    """Load a dataset from the local directory."""
+    file_path = resolve_dataset_path(dataset)
+    return pd.read_json(file_path)
 
 
 def get_unique_metadata_values(

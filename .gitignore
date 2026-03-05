@@ -7,7 +7,7 @@ EvalTree/Datasets/*/EvalTree/stage3-RecursiveClustering/*.bin
 # Too Large Dataset
 **/dataset.json
 
-
+.cursor
 
 .claude/
 
