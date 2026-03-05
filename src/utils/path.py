@@ -2,15 +2,18 @@ from pathlib import Path
 
 from utils.data import Dataset
 
+_SRC_DIR = Path(__file__).resolve().parent.parent   # → <root>/src/
+_ROOT_DIR = _SRC_DIR.parent                         # → <root>/
+
 
 def resolve_capability_tree_path(dataset: Dataset) -> Path:
     """Resolve the absolute file path to the processed capability tree file."""
-    return Path(__file__).resolve().parent.parent / "data" / f"{dataset}.json"
+    return _ROOT_DIR / "data" / f"{dataset}.json"
 
 
 def resolve_evaltree_dir() -> Path:
     """Resolve the absolute file path to the EvalTree directory."""
-    return Path(__file__).resolve().parent.parent / "EvalTree"
+    return _SRC_DIR / "EvalTree"
 
 
 def resolve_dataset_path(dataset: Dataset) -> Path:
@@ -27,7 +30,7 @@ def resolve_eval_results_dir(dataset: Dataset) -> Path:
 
 def resolve_plots_dir() -> Path:
     """Resolve the absolute file path to the plots directory."""
-    return Path(__file__).resolve().parent.parent / "plots"
+    return _ROOT_DIR / "plots"
 
 
 def build_plot_path(
