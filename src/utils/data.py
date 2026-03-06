@@ -1,6 +1,6 @@
 import pandas as pd
 
-from src.utils.enum import Dataset, Library, MetadataKey, PerturbationType
+from src.utils.enums import Dataset, Library, MetadataKey, PerturbationType
 from src.utils.path import resolve_dataset_path
 
 

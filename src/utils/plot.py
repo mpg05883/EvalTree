@@ -1,7 +1,7 @@
 import math
 
 import matplotlib.pyplot as plt
-import matplotlib.ticker as ticker
+import numpy as np
 import pandas as pd
 import seaborn as sns
 from matplotlib.axes import Axes
@@ -9,8 +9,7 @@ from matplotlib.figure import Figure
 
 
 def plot_histogram(
-    df: pd.DataFrame,
-    column: str,
+    data: pd.Series | np.ndarray,
     xlabel: str,
     ylabel: str,
     title: str,
@@ -23,11 +22,10 @@ def plot_histogram(
     xlim: tuple[float, float] | None = None,
     ylim: tuple[float, float] | None = None,
 ) -> Figure:
-    """Plot a histogram of a DataFrame column using seaborn.
+    """Plot a histogram using seaborn.
 
     Args:
-        df (pd.DataFrame): DataFrame containing the column to plot.
-        column (str): Column name to plot.
+        data (pd.Series | np.ndarray): Data to plot.
         xlabel (str): Label for the x-axis.
         ylabel (str): Label for the y-axis.
         title (str): Title of the plot.
@@ -48,8 +46,10 @@ def plot_histogram(
     else:
         fig = ax.figure
 
-    data_min, data_max = xlim if xlim is not None else (df[column].min(), df[column].max())
-    sns.histplot(data=df, x=column, ax=ax, bins=10, binrange=(data_min, data_max))
+    data_min, data_max = (
+        xlim if xlim is not None else (data.min(), data.max())
+    )
+    sns.histplot(data=data, ax=ax, bins=10, binrange=(data_min, data_max))
     ax.set_xlim(data_min, data_max)
 
     # Optionally annotate bars with their heights

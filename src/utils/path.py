@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from src.utils.data import Dataset
+from src.utils.enums import Dataset
 
 
 def resolve_root_dir() -> Path:
@@ -55,10 +55,13 @@ def build_plot_path(
     dataset: Dataset,
     analysis: str,
     plot_name: str,
+    sub_analysis: str | None = None,
     extension: str = "png",
 ) -> Path:
     """Build the absolute file path to the plot file and create the directory
     if it doesn't exist."""
     path = resolve_plots_dir() / analysis / dataset / f"{plot_name}.{extension}"
+    if sub_analysis:
+        path = path.parent / sub_analysis / path.name
     path.parent.mkdir(parents=True, exist_ok=True)
     return path

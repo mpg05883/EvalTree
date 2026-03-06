@@ -20,6 +20,17 @@ class Dataset(StrEnum):
         else:
             raise ValueError(f"Unknown dataset: {self}")
 
+    @property
+    def metric(self) -> str:
+        return {
+            Dataset.CHATBOT_ARENA: "elo Score",
+            Dataset.CHATBOT_ARENA_NEW: "elo score",
+            Dataset.DS_1000: "accuracy",
+            Dataset.MATH: "accuracy",
+            Dataset.MMLU: "accuracy",
+            Dataset.WILDCHAT_10K: "win-rate",
+        }[self]
+
 
 class Library(StrEnum):
     MATPLOTLIB = "Matplotlib"

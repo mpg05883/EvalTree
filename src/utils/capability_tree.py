@@ -1,8 +1,8 @@
 import json
 from typing import Any
 
-from utils.data import Dataset
-from utils.path import resolve_capability_tree_path
+from src.utils.enums import Dataset
+from src.utils.path import resolve_capability_tree_path
 
 
 def load_capability_tree(dataset: Dataset) -> dict[str, Any]:
@@ -44,8 +44,8 @@ def collect_nodes(root: dict, min_instances: int = 50) -> list[dict]:
 
 
 def align_rankings(
-    global_ranking: list[list],
-    local_ranking: list[list],
+    global_ranking: list[list[str | float]],
+    local_ranking: list[list[str | float]],
 ) -> tuple[list[float], list[float]]:
     """Align the rankings of the node and the global ranking.
 
@@ -61,6 +61,6 @@ def align_rankings(
     global_scores = {model: score for model, score in global_ranking}
     local_scores = {model: score for model, score in local_ranking}
     models = [m for m in global_scores if m in local_scores]
-    global_vec = [global_scores[m] for m in models]
-    local_vec = [local_scores[m] for m in models]
-    return global_vec, local_vec
+    aligned_global_ranking = [global_scores[m] for m in models]
+    aligned_local_ranking = [local_scores[m] for m in models]
+    return aligned_global_ranking, aligned_local_ranking

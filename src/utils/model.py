@@ -2,7 +2,7 @@ from typing import Literal
 
 import pandas as pd
 
-from src.utils.data import Dataset
+from src.utils.enums import Dataset
 from src.utils.path import resolve_model_scores_path
 
 
