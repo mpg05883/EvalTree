@@ -5,9 +5,9 @@ EvalTree/Datasets/*/EvalTree/stage1-CapabilityAnnotation
 EvalTree/Datasets/*/EvalTree/stage3-RecursiveClustering/*.bin
 
 # Too Large Dataset
-EvalTree/Datasets/Chatbot-Arena_NEW/dataset.json
+**/dataset.json
 
-
+.cursor
 
 .claude/
 
