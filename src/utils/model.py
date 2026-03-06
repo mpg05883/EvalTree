@@ -1,6 +1,5 @@
 from typing import Literal
 
-import numpy as np
 import pandas as pd
 
 from src.utils.data import Dataset
@@ -13,16 +12,18 @@ def load_model_scores(dataset: Dataset) -> pd.DataFrame:
     return pd.read_csv(file_path)
 
 
-def compute_ranking(
-    df: pd.DataFrame,
+def compute_model_ranking(
+    data: pd.DataFrame | list[dict[str, float]],
     ascending: bool = False,
     method: Literal["min", "max", "average", "first", "dense"] = "average",
-) -> np.ndarray:
-    """Compute model rankings from accuracy data.
+) -> dict[str, float]:
+    """Compute model ranks from accuracy data.
 
     Args:
-        df: DataFrame where rows are instances and columns are models.
-            Values should be accuracy scores (e.g., 0/1 for correct/incorrect).
+        data: One of:
+            - DataFrame where rows are instances and columns are models.
+              Values should be accuracy scores (e.g., 0/1 for correct/incorrect).
+            - List of dicts mapping model names to scores, one dict per instance.
         ascending: Whether to rank in ascending or descending order. Default is
         False.
         - If True, lower accuracies are ranked higher.
@@ -37,15 +38,24 @@ def compute_ranking(
             - "dense": [1, 2, 2, 3] - Like min, but next rank doesn't skip.
 
     Returns:
-        numpy array of rankings (1 = best) in the same order as df columns.
+        Dict mapping model names to their ranks (1 = best), sorted alphabetically by model name.
     """
-    df = df.select_dtypes(include="number")  # Only consider numerical columns
-    return (
-        df.mean(axis=0)
+    # Convert data to mean scores, and then a dict of model names to scores
+    model_scores = (
+        data.select_dtypes(include="number").mean(axis=0).to_dict()
+        if isinstance(data, pd.DataFrame)
+        else pd.DataFrame(data).mean(axis=0).to_dict()
+    )
+
+    # Rank the models by their scores
+    model_ranks = (
+        pd.Series(model_scores)
         .rank(
             ascending=ascending,
             method=method,
         )
-        .astype(int)
-        .values
+        .to_dict()
     )
+
+    # Return dict of model names to ranks, sorted alphabetically by model name
+    return dict(sorted(model_ranks.items()))
