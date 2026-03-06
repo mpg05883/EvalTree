@@ -23,8 +23,8 @@ class Dataset(StrEnum):
     @property
     def metric(self) -> str:
         return {
-            Dataset.CHATBOT_ARENA: "elo Score",
-            Dataset.CHATBOT_ARENA_NEW: "elo score",
+            Dataset.CHATBOT_ARENA: "Elo score",
+            Dataset.CHATBOT_ARENA_NEW: "Elo score",
             Dataset.DS_1000: "accuracy",
             Dataset.MATH: "accuracy",
             Dataset.MMLU: "accuracy",
