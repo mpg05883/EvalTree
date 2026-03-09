@@ -55,13 +55,13 @@ def build_plot_path(
     dataset: Dataset,
     analysis: str,
     plot_name: str,
-    sub_analysis: str | None = None,
+    sub_dirs: list[str] | None = None,
     extension: str = "png",
 ) -> Path:
     """Build the absolute file path to the plot file and create the directory
     if it doesn't exist."""
     path = resolve_plots_dir() / analysis / dataset / f"{plot_name}.{extension}"
-    if sub_analysis:
-        path = path.parent / sub_analysis / path.name
+    if sub_dirs:
+        path = path.parent.joinpath(*sub_dirs) / path.name
     path.parent.mkdir(parents=True, exist_ok=True)
     return path
