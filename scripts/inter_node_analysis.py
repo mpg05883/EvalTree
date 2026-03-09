@@ -1,25 +1,29 @@
+from collections import Counter
+
 import matplotlib.pyplot as plt
 import numpy as np
-import seaborn as sns
+import pandas as pd
 from scipy.stats import kendalltau
 from tqdm import tqdm
 
-from utils.capability_tree import (
+from src.utils.capability_tree import (
     align_rankings,
     collect_nodes,
     load_capability_tree,
 )
-from utils.data import Dataset
-from utils.path import build_plot_path
+from src.utils.enums import Dataset
+from src.utils.path import build_plot_path
+from src.utils.plot import plot_barplot, plot_histogram
 
 
 def main(dataset: Dataset, min_instances: int) -> None:
     root = load_capability_tree(dataset)
-    nodes = collect_nodes(root, min_instances)
     global_ranking = root["ranking"]
-    num_models = len(global_ranking)
-    print(f"Number of models: {num_models}")
-    taus = []
+    nodes = collect_nodes(root, min_instances)
+
+    num_models, num_nodes = len(global_ranking), len(nodes)
+
+    taus = np.zeros(len(nodes))
 
     kwargs = {
         "desc": "Computing Kendall's Taus",
@@ -27,74 +31,103 @@ def main(dataset: Dataset, min_instances: int) -> None:
         "unit": "node",
     }
 
-    for node in tqdm(nodes, **kwargs):
+    for i, node in tqdm(enumerate(nodes), **kwargs):
         if node["ranking"] is None:
             continue
-        aligned_global_ranking, aligned_local_ranking = align_rankings(
+        aligned_global, aligned_local = align_rankings(
             global_ranking,
             node["ranking"],
         )
-        tau, _ = kendalltau(aligned_global_ranking, aligned_local_ranking)
-        taus.append(tau)
+        tau, _ = kendalltau(aligned_global, aligned_local)
+        taus[i] = tau
 
-    # Compute mean and std
-    taus_arr = np.array(taus)
-    mean_tau = taus_arr.mean()
-    std_tau = taus_arr.std()
-
-    fig, ax = plt.subplots(figsize=(8, 4))
-    sns.histplot(taus, ax=ax, bins=10)
-
-    # Annotate bar heights
-    for bar in ax.patches:
-        if (height := bar.get_height()) == 0:
-            continue
-        ax.annotate(
-            f"{int(height)}",
-            xy=(bar.get_x() + bar.get_width() / 2, height),
-            xytext=(0, 4),
-            textcoords="offset points",
-            ha="center",
-            va="bottom",
-            fontweight="bold",
-        )
-
-    # Add vertical line at mean and shaded region for +/- 1 std (if not NaN)
-    if not (np.isnan(mean_tau) and np.isnan(std_tau)):
-        ax.axvline(
-            mean_tau,
-            color="red",
-            linestyle="--",
-            label=f"Mean: {mean_tau:.3g}",
-        )
-        ax.axvspan(
-            mean_tau - std_tau,
-            mean_tau + std_tau,
-            alpha=0.2,
-            color="red",
-            label=f"±1 Std: {std_tau:.3g}",
-        )
-        ax.legend()
-
-    ax.set_xlabel("Kendall's Tau")
-    ax.set_ylabel("Node Count")
-    ax.set_title(
+    xlabel = "Kendall's Tau"
+    ylabel = "Node Count"
+    title = (
         f"{dataset}: Distribution of Kendall's Tau Across Nodes"
-        f"\n({num_models} models, {len(nodes)} nodes, min_instances={min_instances})"
+        f"\n({num_models} models, {num_nodes} nodes)"
     )
-    plt.tight_layout()
+    annotate = True
+    xlim = (-1, 1) if min(taus) < 0 else (0, 1)
 
+    plot_histogram(
+        taus,
+        xlabel=xlabel,
+        ylabel=ylabel,
+        title=title,
+        annotate=annotate,
+        mean=taus.mean(),
+        std=taus.std(),
+        xlim=xlim,
+    )
+
+    analysis = "inter_node_analysis"
+    plot_name = f"kendall_tau_distribution-min_instances={min_instances}"
     plot_path = build_plot_path(
         dataset,
-        analysis="inter_node_analysis",
-        plot_name=f"kendall_tau_distribution-min_instances={min_instances}",
+        analysis=analysis,
+        plot_name=plot_name,
     )
     plt.savefig(plot_path)
-    print(f"Plot saved to {plot_path}")
+    print(f"Saved plot to {plot_path}")
+
+    instance_counter = Counter()
+    for node in nodes:
+        if node["ranking"] is None:
+            continue
+        ranking = " > ".join(name for name, _ in node["ranking"])
+        instance_counter[ranking] += node["size"]
+
+    ranking_counts_df = pd.DataFrame(
+        instance_counter.most_common(),
+        columns=["ranking", "instance_count"],
+    )
+
+    print(f"Number of unique rankings: {(num_rankings:=len(ranking_counts_df))}")
+    ranking_counts_df.head()
+
+    # TODO: Explain why there are repeat instances in the cumulative node sizes
+    topk = min(10, len(instance_counter))
+    num_instances = root["size"]
+
+    # Rename rankings to prevent text from overflowing
+    plot_df = ranking_counts_df.head(topk).copy()
+    plot_df["ranking"] = [f"Ranking {i + 1}" for i in range(topk)]
+
+    x = "ranking"
+    y = "instance_count"
+    xlabel = "Model Ranking"
+    ylabel = "Cumulative Node Size"
+    title = (
+        f"{dataset}: Top {topk} Model Rankings by Cumulative Node Size"
+        f"\n({num_instances} instances, {num_nodes} nodes, {num_models} models, {num_rankings} rankings)"
+    )
+    annotate = True
+
+    plot_barplot(
+        plot_df,
+        x=x,
+        y=y,
+        xlabel=xlabel,
+        ylabel=ylabel,
+        title=title,
+        annotate=annotate,
+        mean=plot_df["instance_count"].mean(),
+        std=plot_df["instance_count"].std(),
+    )
+
+    plot_name = f"top_{topk}-rankings-min_instances={min_instances}"
+    plot_path = build_plot_path(
+        dataset,
+        analysis=analysis,
+        plot_name=plot_name,
+    )
+    plt.savefig(plot_path)
+    print(f"Saved plot to {plot_path}")
 
 
 if __name__ == "__main__":
-    min_instance_counts = [0, 50]
+    min_instance_counts = [50]
     datasets = [d.value for d in Dataset]
     for dataset in datasets:
         for min_instances in min_instance_counts:
