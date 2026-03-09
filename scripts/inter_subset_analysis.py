@@ -46,9 +46,10 @@ def main(dataset: Dataset) -> None:
         num_different += 1 if different_ranking else 0
 
     plural = "libraries" if is_ds_1000 else f"{subset_col}s"
+    print(f"{(plural)}: {subsets}")
     print(
         f"Total {plural}: {(num_subsets := len(subsets))}. "
-        f"Subsets that differ from global ranking: {num_different}"
+        f"{plural.capitalize()} that differ from global ranking: {num_different}"
     )
 
     # Compute Kendall's tau between each subset and the global model ranking
