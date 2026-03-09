@@ -32,14 +32,18 @@ def collect_nodes(root: dict, min_instances: int = 50) -> list[dict]:
         A list of nodes with more than `min_instances` instances.
     """
     nodes = []
-    stack = [(root, True)]
+    stack = []
+    if isinstance(root["subtrees"], list):
+        stack.extend(root["subtrees"])
+
     while stack:
-        node, is_root = stack.pop()
-        if not is_root and node["size"] > min_instances:
-            nodes.append(node)
+        node = stack.pop()
+        if node["size"] <= min_instances:
+            continue
+        nodes.append(node)
         if isinstance(node["subtrees"], list):
-            for child in node["subtrees"]:
-                stack.append((child, False))
+            stack.extend(node["subtrees"])
+
     return nodes
 
 
