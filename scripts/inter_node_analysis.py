@@ -22,7 +22,7 @@ def main(dataset: Dataset, min_instances: int) -> None:
     num_models, num_nodes = len(global_ranking), len(nodes)
 
     # -------------------------------------------------------------------------
-    # 1. Kendall's Tau
+    # 1. Compute distribution of Kendall's Tau across nodes
     # -------------------------------------------------------------------------\
     taus = np.zeros(len(nodes))
 
@@ -87,26 +87,35 @@ def main(dataset: Dataset, min_instances: int) -> None:
     node_scores_df.index.name = "node"
 
     _, axes = plt.subplots(num_models, 1, figsize=(8, 3 * num_models))
+    metric = Dataset(dataset).metric
+
+    xlim = {
+        Dataset.CHATBOT_ARENA: None,
+        Dataset.CHATBOT_ARENA_NEW: None,
+        Dataset.DS_1000: (0, 1),
+        Dataset.MATH: (0, 1),
+        Dataset.MMLU: (0, 1),
+        Dataset.WILDCHAT_10K: (0, 1),
+    }[dataset]
 
     for i, model in enumerate(node_scores_df.columns):
         plot_histogram(
             node_scores_df[model].dropna(),
-            xlabel="Mean Accuracy",
+            xlabel=f"Mean {metric.title()}",
             ylabel="Node Count",
             title=f"{model}",
             ax=axes[i] if num_models > 1 else axes,
             annotate=True,
             mean=global_scores_dict[model],
-            mean_label="Benchmark-level accuracy",
-            xlim=(0, 1),
+            mean_label=f"Benchmark-level {metric}",
+            xlim=xlim,
         )
 
     plt.suptitle(
-        f"{dataset}: Mean Accuracy Across Nodes"
-        f"\n({num_nodes} nodes, min_instances={min_instances})",
+        f"{dataset}: Mean {metric.title()} Across Nodes" f"\n({num_nodes} nodes)",
     )
     plt.tight_layout()
-    plot_name = f"accuracy_histogram_min-instances={min_instances}"
+    plot_name = f"performance_histogram_min-instances={min_instances}"
     plot_path = build_plot_path(dataset, analysis, plot_name)
     plt.savefig(plot_path)
     print(f"Saved plot to {plot_path}")

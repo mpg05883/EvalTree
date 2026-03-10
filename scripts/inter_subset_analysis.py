@@ -86,11 +86,7 @@ def main(dataset: Dataset) -> None:
     num_models = len(model_scores_df.columns)
     num_instances = len(dataset_df)
 
-    xlim = {
-        Dataset.DS_1000: (0, 1),
-        Dataset.MATH: (0, 1),
-        Dataset.MMLU: (0, 1),
-    }[dataset]
+    xlim = (-1, 1) if min(kendall_tau_df["kendall_tau"]) < 0 else (0, 1)
 
     ylim = {
         Dataset.DS_1000: (0, num_subsets),
@@ -138,11 +134,7 @@ def main(dataset: Dataset) -> None:
     global_means = model_scores_df.mean()
     _, axes = plt.subplots(num_models, 1, figsize=(8, 3 * num_models))
 
-    xlim = {
-        Dataset.DS_1000: (0, 1),
-        Dataset.MATH: (0, 1),
-        Dataset.MMLU: (0, 1),
-    }[dataset]
+    xlim = (0, 1)
 
     ylim = {
         Dataset.DS_1000: (0, num_subsets),
@@ -150,27 +142,29 @@ def main(dataset: Dataset) -> None:
         Dataset.MMLU: (0, num_subsets // 2),
     }[dataset]
 
+    metric = Dataset(dataset).metric
+
     for i, model in enumerate(subset_scores_df.columns):
         plot_histogram(
             subset_scores_df[model],
-            xlabel="Mean Accuracy",
+            xlabel=f"Mean {metric.title()}",
             ylabel=f"{subset_col.capitalize()} Count",
             title=f"{model}",
             ax=axes[i] if num_models > 1 else axes,
             annotate=True,
             mean=global_means[model],
-            mean_label="Benchmark-level accuracy",
+            mean_label=f"Benchmark-level {metric}",
             xlim=xlim,
             ylim=ylim,
         )
 
     plt.suptitle(
-        f"{dataset}: Mean Accuracy Across {plural.capitalize()}"
+        f"{dataset}: Mean {metric.title()} Across {plural.capitalize()}"
         f"\n({num_subsets} {plural}, {num_instances} instances)",
-        y=1.01 if dataset == Dataset.MMLU else None,
+        y=1.0,
     )
     plt.tight_layout()
-    plot_name = "accuracy_histogram"
+    plot_name = "performance_histogram"
     file_path = build_plot_path(dataset, analysis, plot_name)
     plt.savefig(file_path)
     print(f"Saved plot to {file_path}")
