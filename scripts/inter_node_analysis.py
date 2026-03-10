@@ -62,7 +62,7 @@ def main(dataset: Dataset, min_instances: int) -> None:
     )
 
     analysis = "inter_node_analysis"
-    plot_name = f"kendall_tau_distribution-min_instances={min_instances}"
+    plot_name = f"kendall_tau-histogram-min_instances={min_instances}"
     plot_path = build_plot_path(
         dataset,
         analysis=analysis,
@@ -116,7 +116,7 @@ def main(dataset: Dataset, min_instances: int) -> None:
         std=plot_df["instance_count"].std(),
     )
 
-    plot_name = f"top_{topk}-rankings-min_instances={min_instances}"
+    plot_name = f"top_{topk}_rankings-barplot-min_instances={min_instances}"
     plot_path = build_plot_path(
         dataset,
         analysis=analysis,

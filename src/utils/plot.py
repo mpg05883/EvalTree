@@ -1,3 +1,4 @@
+import colorsys
 import math
 
 import matplotlib.pyplot as plt
@@ -6,6 +7,18 @@ import pandas as pd
 import seaborn as sns
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
+
+
+def _complementary_color(color: str) -> tuple:
+    """Return a color roughly 120° away on the HSV wheel (triadic offset).
+
+    A 120° rotation mirrors the blue-red relationship — somewhat opposite but
+    not fully complementary (which would be 180°).
+    """
+    r, g, b = plt.matplotlib.colors.to_rgb(color)
+    h, s, v = colorsys.rgb_to_hsv(r, g, b)
+    h = (h + 1 / 3) % 1.0
+    return colorsys.hsv_to_rgb(h, s, v)
 
 
 def plot_histogram(
@@ -21,6 +34,7 @@ def plot_histogram(
     std: float | None = None,
     xlim: tuple[float, float] | None = None,
     ylim: tuple[float, float] | None = None,
+    color: str | None = None,
 ) -> Figure:
     """Plot a histogram using seaborn.
 
@@ -39,6 +53,9 @@ def plot_histogram(
             the range is inferred from the data.
         ylim (tuple[float, float] | None): (min, max) limits for the y-axis. If None,
             the limits are inferred from the data.
+        color (str | None): Bar color. If provided, the mean/std overlay uses the
+            complementary color (opposite on the color wheel). If None, uses seaborn's
+            default color for the bars and red for the mean/std overlay.
     """
     owns_figure = ax is None
     if owns_figure:
@@ -46,8 +63,10 @@ def plot_histogram(
     else:
         fig = ax.figure
 
+    mean_color = _complementary_color(color) if color is not None else "red"
+
     data_min, data_max = xlim if xlim is not None else (data.min(), data.max())
-    sns.histplot(data=data, ax=ax, bins=10, binrange=(data_min, data_max))
+    sns.histplot(data=data, ax=ax, bins=10, binrange=(data_min, data_max), color=color)
     ax.set_xlim(data_min, data_max)
 
     # Optionally annotate bars with their heights
@@ -67,7 +86,7 @@ def plot_histogram(
     if mean is not None and not math.isnan(mean):
         ax.axvline(
             mean,
-            color="red",
+            color=mean_color,
             linestyle="--",
             label=f"{mean_label}: {mean:.3g}",
         )
@@ -76,7 +95,7 @@ def plot_histogram(
                 mean - std,
                 mean + std,
                 alpha=0.2,
-                color="red",
+                color=mean_color,
                 label=f"±1 Std: {std:.3g}",
             )
         ax.legend()

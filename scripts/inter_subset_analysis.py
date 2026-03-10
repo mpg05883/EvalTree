@@ -46,7 +46,6 @@ def main(dataset: Dataset) -> None:
         num_different += 1 if different_ranking else 0
 
     plural = "libraries" if is_ds_1000 else f"{subset_col}s"
-    print(f"{(plural)}: {subsets}")
     print(
         f"Total {plural}: {(num_subsets := len(subsets))}. "
         f"{plural.capitalize()} that differ from global ranking: {num_different}"
@@ -106,7 +105,7 @@ def main(dataset: Dataset) -> None:
     )
 
     analysis = "inter_subset_analysis"
-    plot_name = f"kendall_tau_distribution-subset_col={subset_col}"
+    plot_name = "kendall_tau-histogram"
     file_path = build_plot_path(dataset, analysis, plot_name)
     plt.savefig(file_path)
     print(f"Saved plot to {file_path}")
@@ -153,7 +152,7 @@ def main(dataset: Dataset) -> None:
         y=1.01 if dataset == Dataset.MMLU else 1.0,
     )
     plt.tight_layout()
-    plot_name = f"accuracy_distribution-subset_col={subset_col}"
+    plot_name = "accuracy-histogram"
     file_path = build_plot_path(dataset, analysis, plot_name)
     plt.savefig(file_path)
     print(f"Saved plot to {file_path}")
