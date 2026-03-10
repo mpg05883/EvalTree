@@ -90,13 +90,11 @@ def main(dataset: Dataset, min_instances: int) -> None:
     metric = Dataset(dataset).metric
 
     xlim = {
-        Dataset.CHATBOT_ARENA: None,
-        Dataset.CHATBOT_ARENA_NEW: None,
         Dataset.DS_1000: (0, 1),
         Dataset.MATH: (0, 1),
         Dataset.MMLU: (0, 1),
         Dataset.WILDCHAT_10K: (0, 1),
-    }[dataset]
+    }.get(dataset)
 
     for i, model in enumerate(node_scores_df.columns):
         plot_histogram(
@@ -113,6 +111,7 @@ def main(dataset: Dataset, min_instances: int) -> None:
 
     plt.suptitle(
         f"{dataset}: Mean {metric.title()} Across Nodes" f"\n({num_nodes} nodes)",
+        y=1.0,
     )
     plt.tight_layout()
     plot_name = f"performance_histogram_min-instances={min_instances}"
