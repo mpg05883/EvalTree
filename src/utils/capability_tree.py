@@ -47,6 +47,37 @@ def collect_nodes(root: dict, min_instances: int = 50) -> list[dict]:
     return nodes
 
 
+def collect_nodes_by_level(
+    root: dict, min_instances: int = 50
+) -> dict[int, list[dict]]:
+    """Iteratively collect all non-root nodes with more than `min_instances`
+    instances, grouped by their depth level in the tree (root's children = 1).
+
+    Args:
+        root: The root node of the capability tree.
+        min_instances: The minimum number of instances required for a node to be
+        collected.
+
+    Returns:
+        A dict mapping level (int) to the list of nodes at that level with
+        more than `min_instances` instances.
+    """
+    nodes_by_level: dict[int, list[dict]] = {}
+    stack: list[tuple[dict, int]] = []
+    if isinstance(root["subtrees"], list):
+        stack.extend((child, 1) for child in root["subtrees"])
+
+    while stack:
+        node, level = stack.pop()
+        if node["size"] <= min_instances:
+            continue
+        nodes_by_level.setdefault(level, []).append(node)
+        if isinstance(node["subtrees"], list):
+            stack.extend((child, level + 1) for child in node["subtrees"])
+
+    return nodes_by_level
+
+
 def get_node_indices(node: dict) -> list[int]:
     """Iteratively collect all dataset row indices for instances in a node.
 
