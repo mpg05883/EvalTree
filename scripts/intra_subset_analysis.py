@@ -79,6 +79,12 @@ def main(dataset: Dataset) -> None:
 
     split_half_df = pd.DataFrame(split_half_results)
 
+    xlim = {
+        Dataset.DS_1000: (-1, 1),
+        Dataset.MATH: (-1, 1),
+        Dataset.MMLU: (-1, 1),
+    }[dataset]
+
     ylim = {
         Dataset.DS_1000: (0, num_subsets),
         Dataset.MATH: (0, num_subsets),
@@ -96,13 +102,13 @@ def main(dataset: Dataset) -> None:
         annotate=True,
         mean=split_half_df["mean_kendall_tau"].mean(),
         std=split_half_df["mean_kendall_tau"].std(),
-        xlim=(0, 1),
+        xlim=xlim,
         ylim=ylim,
         color=colors[0],
     )
 
     file_path = build_plot_path(
-        dataset, analysis, plot_name="split_halves-kendall_tau-histogram"
+        dataset, analysis, plot_name="split-halves_kendall-tau_histogram"
     )
     plt.savefig(file_path)
     print(f"Saved plot to {file_path}")
@@ -150,6 +156,12 @@ def main(dataset: Dataset) -> None:
 
     bootstrap_df = pd.DataFrame(bootstrap_results)
 
+    xlim = {
+        Dataset.DS_1000: (-1, 1),
+        Dataset.MATH: (-1, 1),
+        Dataset.MMLU: (-1, 1),
+    }[dataset]
+
     ylim = {
         Dataset.DS_1000: (0, num_subsets),
         Dataset.MATH: (0, num_subsets),
@@ -167,13 +179,13 @@ def main(dataset: Dataset) -> None:
         annotate=True,
         mean=bootstrap_df["mean_kendall_tau"].mean(),
         std=bootstrap_df["mean_kendall_tau"].std(),
-        xlim=(0, 1),
+        xlim=xlim,
         ylim=ylim,
         color=colors[1],
     )
 
     file_path = build_plot_path(
-        dataset, analysis, plot_name="bootstrap-kendall_tau-histogram"
+        dataset, analysis, plot_name="bootstrap_kendall-tau_histogram"
     )
     plt.savefig(file_path)
     print(f"Saved plot to {file_path}")
@@ -225,6 +237,12 @@ def main(dataset: Dataset) -> None:
 
     minibatch_w_df = pd.DataFrame(minibatch_w_results)
 
+    xlim = {
+        Dataset.DS_1000: (0, 1),
+        Dataset.MATH: (0, 1),
+        Dataset.MMLU: (0, 1),
+    }[dataset]
+
     ylim = {
         Dataset.DS_1000: (0, num_subsets),
         Dataset.MATH: (0, num_subsets),
@@ -242,13 +260,13 @@ def main(dataset: Dataset) -> None:
         annotate=True,
         mean=minibatch_w_df["mean_kendallw"].mean(),
         std=minibatch_w_df["mean_kendallw"].std(),
-        xlim=(0, 1),
+        xlim=xlim,
         ylim=ylim,
         color=colors[2],
     )
 
     file_path = build_plot_path(
-        dataset, analysis, plot_name="mini-batch-kendall_w-histogram"
+        dataset, analysis, plot_name="mini-batch_kendall-w_histogram"
     )
     plt.savefig(file_path)
     print(f"Saved plot to {file_path}")

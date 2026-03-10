@@ -20,7 +20,9 @@ def main(dataset: Dataset) -> None:
     model_scores_df = load_model_scores(dataset)
     assert len(dataset_df) == len(model_scores_df)
 
-    # Count subsets with different model ranking from the global model ranking
+    # -------------------------------------------------------------------------
+    # 1. Kendall's Tau
+    # -------------------------------------------------------------------------
     global_scores = model_scores_df.mean()
     global_ranking = rankdata(global_scores)
 
@@ -105,11 +107,14 @@ def main(dataset: Dataset) -> None:
     )
 
     analysis = "inter_subset_analysis"
-    plot_name = "kendall_tau-histogram"
+    plot_name = "kendall-tau_histogram"
     file_path = build_plot_path(dataset, analysis, plot_name)
     plt.savefig(file_path)
     print(f"Saved plot to {file_path}")
 
+    # -------------------------------------------------------------------------
+    # 2. Mean Accuracy
+    # -------------------------------------------------------------------------
     # Compute each subset's mean model scores
     subset_to_scores = {}
     for subset in subsets:
@@ -152,7 +157,7 @@ def main(dataset: Dataset) -> None:
         y=1.01 if dataset == Dataset.MMLU else 1.0,
     )
     plt.tight_layout()
-    plot_name = "accuracy-histogram"
+    plot_name = "accuracy_histogram"
     file_path = build_plot_path(dataset, analysis, plot_name)
     plt.savefig(file_path)
     print(f"Saved plot to {file_path}")

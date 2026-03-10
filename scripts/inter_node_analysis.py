@@ -23,6 +23,9 @@ def main(dataset: Dataset, min_instances: int) -> None:
 
     num_models, num_nodes = len(global_ranking), len(nodes)
 
+    # -------------------------------------------------------------------------
+    # 1. Kendall's Tau
+    # -------------------------------------------------------------------------\
     taus = np.zeros(len(nodes))
 
     kwargs = {
@@ -62,7 +65,7 @@ def main(dataset: Dataset, min_instances: int) -> None:
     )
 
     analysis = "inter_node_analysis"
-    plot_name = f"kendall_tau-histogram-min_instances={min_instances}"
+    plot_name = f"kendall-tau_histogram_min-instances={min_instances}"
     plot_path = build_plot_path(
         dataset,
         analysis=analysis,
@@ -71,6 +74,9 @@ def main(dataset: Dataset, min_instances: int) -> None:
     plt.savefig(plot_path)
     print(f"Saved plot to {plot_path}")
 
+    # -------------------------------------------------------------------------
+    # 2. Model Rankings by Cumulative Node Size
+    # -------------------------------------------------------------------------
     instance_counter = Counter()
     for node in nodes:
         if node["ranking"] is None:
@@ -116,7 +122,7 @@ def main(dataset: Dataset, min_instances: int) -> None:
         std=plot_df["instance_count"].std(),
     )
 
-    plot_name = f"top_{topk}_rankings-barplot-min_instances={min_instances}"
+    plot_name = f"top-{topk}-rankings_barplot_min-instances={min_instances}"
     plot_path = build_plot_path(
         dataset,
         analysis=analysis,

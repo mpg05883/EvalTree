@@ -47,6 +47,30 @@ def collect_nodes(root: dict, min_instances: int = 50) -> list[dict]:
     return nodes
 
 
+def get_node_indices(node: dict) -> list[int]:
+    """Iteratively collect all dataset row indices for instances in a node.
+
+    Each leaf node's subtrees field is an integer — the direct row index into
+    model_scores_df / dataset_df. This function collects all such indices from
+    a node and its descendants.
+
+    Args:
+        node: A capability tree node (from load_capability_tree or collect_nodes).
+
+    Returns:
+        A list of integer row indices into the dataset.
+    """
+    indices = []
+    stack = [node]
+    while stack:
+        current = stack.pop()
+        if isinstance(current["subtrees"], int):
+            indices.append(current["subtrees"])
+        else:
+            stack.extend(current["subtrees"])
+    return indices
+
+
 def preview_tree(
     root: dict, model: str, num_levels: int = 2, max_characters: int = 120,
 ) -> "plt.Figure":
