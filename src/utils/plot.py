@@ -230,6 +230,7 @@ def plot_capability_tree(
     web demo.
 
     Args:
+        dataset: The dataset to plot the capability tree for.
         root: The root node of the capability tree (from load_capability_tree).
         model: The model name whose score to display at each node. If None, model
             performance and CI are not shown.
@@ -253,14 +254,14 @@ def plot_capability_tree(
 
     # ── geometry ──────────────────────────────────────────────────────────────
     show_model = model is not None
-    X_GAP = 1.0
-    NW = 0.94
-    NH = 2.0 if show_model else 1.55
+    X_GAP = 1.5
+    NW = 1.3
+    NH = 2.0 if show_model else 1.6
     Y_GAP = NH + 1.2
-    PILL_H = 0.16  # height of score / CI pills
-    INST_H = 0.15  # height of instance count pill
-    LINE_H = NH * 0.07  # line pitch
-    WRAP_W = 28
+    PILL_H = 0.18  # height of score / CI pills
+    INST_H = 0.17  # height of instance count pill
+    LINE_H = NH * 0.055  # line pitch
+    WRAP_W = 36
 
     # ── helpers ───────────────────────────────────────────────────────────────
     def _score(node: dict) -> float | None:
@@ -326,7 +327,7 @@ def plot_capability_tree(
     n_leaves = leaf_x[0]
 
     # ── step 3: build figure ──────────────────────────────────────────────────
-    fig_w = max(12, n_leaves * 2.6)
+    fig_w = max(12, n_leaves * 3.4)
     fig_h = max(5, num_levels * Y_GAP + NH + 1.0)
     fig, ax = plt.subplots(figsize=(fig_w, fig_h))
     fig.patch.set_facecolor(C_FIG)
@@ -397,14 +398,14 @@ def plot_capability_tree(
                 line,
                 ha="center",
                 va="top",
-                fontsize=9,
+                fontsize=11,
                 fontweight="bold",
                 color=C_TITLE,
                 zorder=3,
             )
             row += 1.0
         if dist_lines:
-            row += 0.2  # small gap between title and description
+            row += 0.1  # small gap between title and description
 
         for line in cap_lines:
             ax.text(
@@ -413,7 +414,7 @@ def plot_capability_tree(
                 line,
                 ha="center",
                 va="top",
-                fontsize=8,
+                fontsize=10,
                 fontweight="normal",
                 color=C_BODY,
                 zorder=3,
@@ -421,9 +422,9 @@ def plot_capability_tree(
             row += 1.0
 
         # Instance pill: dynamically positioned just below text
-        text_end_y = text_top - (row + 0.75) * LINE_H
+        text_end_y = text_top - (row + 0.5) * LINE_H
         inst_y = text_end_y - INST_H / 2
-        inst_y_min = yB + NH * (0.37 if show_model else 0.12)
+        inst_y_min = yB + NH * (0.24 if show_model else 0.10)
         inst_y_max = yB + NH * 0.82
         inst_y = max(inst_y_min, min(inst_y, inst_y_max))
 
@@ -444,18 +445,21 @@ def plot_capability_tree(
             f"{node['size']} instances",
             ha="center",
             va="center",
-            fontsize=6.5,
+            fontsize=8.5,
             fontweight="bold",
             color=C_PILL_TXT,
             zorder=4,
         )
 
-        # Score pill (purple, stacked, full width)
-        if node["score"] is not None:
-            score_y = yB + NH * 0.185
+        # Score + CI combined into one full-width pill, just below instance pill
+        if node["score"] is not None or node["ci"] is not None:
+            perf_y = inst_y - INST_H / 2 - PILL_H / 2 - 0.04
+            score_str = f"{node['score']:.3f} {metric.capitalize()}" if node["score"] is not None else ""
+            ci_str = f"95% CI: [{node['ci'][0]:.3f}, {node['ci'][1]:.3f}]" if node["ci"] is not None else ""
+            perf_label = "   ".join(filter(None, [score_str, ci_str]))
             ax.add_patch(
                 FancyBboxPatch(
-                    (x - pw / 2, score_y - PILL_H / 2),
+                    (x - pw / 2, perf_y - PILL_H / 2),
                     pw,
                     PILL_H,
                     boxstyle="round,pad=0.01",
@@ -466,38 +470,11 @@ def plot_capability_tree(
             )
             ax.text(
                 x,
-                score_y,
-                f"{node['score']:.3f} {metric.capitalize()}",
+                perf_y,
+                perf_label,
                 ha="center",
                 va="center",
-                fontsize=6.5,
-                fontweight="bold",
-                color=C_PILL_TXT,
-                zorder=4,
-            )
-
-        # CI pill (purple, stacked below score, full width)
-        if node["ci"] is not None:
-            lo, hi = node["ci"]
-            ci_y = yB + NH * 0.075
-            ax.add_patch(
-                FancyBboxPatch(
-                    (x - pw / 2, ci_y - PILL_H / 2),
-                    pw,
-                    PILL_H,
-                    boxstyle="round,pad=0.01",
-                    facecolor=C_PERF_BG,
-                    edgecolor="none",
-                    zorder=3,
-                )
-            )
-            ax.text(
-                x,
-                ci_y,
-                f"95% CI: [{lo:.3f}, {hi:.3f}] {metric.capitalize()}",
-                ha="center",
-                va="center",
-                fontsize=6.5,
+                fontsize=8.5,
                 fontweight="bold",
                 color=C_PILL_TXT,
                 zorder=4,
@@ -508,7 +485,7 @@ def plot_capability_tree(
         if show_model
         else f"{dataset.value} Capability Tree"
     )
-    fig.suptitle(title, fontsize=10, color="#333333", y=0.99)
+    fig.suptitle(title, fontsize=12, color="#333333", y=0.99)
     plt.tight_layout()
     plt.close(fig)
     return fig

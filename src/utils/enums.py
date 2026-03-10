@@ -55,8 +55,8 @@ class Dataset(StrEnum):
         https://github.com/Zhiyuan-Zeng/EvalTree/tree/demo?tab=readme-ov-file#-model-performance
         """
         return {
-            Dataset.CHATBOT_ARENA: "Elo score",
-            Dataset.CHATBOT_ARENA_NEW: "Elo score",
+            Dataset.CHATBOT_ARENA: "Elo rating",
+            Dataset.CHATBOT_ARENA_NEW: "Elo rating",
             Dataset.DS_1000: "accuracy",
             Dataset.MATH: "accuracy",
             Dataset.MMLU: "accuracy",

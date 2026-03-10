@@ -48,7 +48,8 @@ def collect_nodes(root: dict, min_instances: int = 50) -> list[dict]:
 
 
 def collect_nodes_by_level(
-    root: dict, min_instances: int = 50
+    root: dict,
+    min_instances: int = 50,
 ) -> dict[int, list[dict]]:
     """Iteratively collect all non-root nodes with more than `min_instances`
     instances, grouped by their depth level in the tree (root's children = 1).
