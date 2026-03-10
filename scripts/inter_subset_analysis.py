@@ -21,7 +21,7 @@ def main(dataset: Dataset) -> None:
     assert len(dataset_df) == len(model_scores_df)
 
     # -------------------------------------------------------------------------
-    # 1. Kendall's Tau
+    # 1. Compute number of subsets that differ from global ranking
     # -------------------------------------------------------------------------
     global_scores = model_scores_df.mean()
     global_ranking = rankdata(global_scores)
@@ -53,7 +53,9 @@ def main(dataset: Dataset) -> None:
         f"{plural.capitalize()} that differ from global ranking: {num_different}"
     )
 
-    # Compute Kendall's tau between each subset and the global model ranking
+    # -------------------------------------------------------------------------
+    # 2. Compute distribution of Kendall's Tau across subsets
+    # -------------------------------------------------------------------------
     kwargs = {
         "desc": "Computing Kendall's taus",
         "total": num_subsets,
@@ -81,9 +83,14 @@ def main(dataset: Dataset) -> None:
 
     kendall_tau_df = pd.DataFrame(kendall_tau_results)
 
-    # Plot the Kendall's tau distribution across subsets
     num_models = len(model_scores_df.columns)
     num_instances = len(dataset_df)
+
+    xlim = {
+        Dataset.DS_1000: (0, 1),
+        Dataset.MATH: (0, 1),
+        Dataset.MMLU: (0, 1),
+    }[dataset]
 
     ylim = {
         Dataset.DS_1000: (0, num_subsets),
@@ -102,7 +109,7 @@ def main(dataset: Dataset) -> None:
         annotate=True,
         mean=kendall_tau_df["kendall_tau"].mean(),
         std=kendall_tau_df["kendall_tau"].std(),
-        xlim=(0, 1),
+        xlim=xlim,
         ylim=ylim,
     )
 
@@ -113,7 +120,7 @@ def main(dataset: Dataset) -> None:
     print(f"Saved plot to {file_path}")
 
     # -------------------------------------------------------------------------
-    # 2. Mean Accuracy
+    # 3. Mean Accuracy
     # -------------------------------------------------------------------------
     # Compute each subset's mean model scores
     subset_to_scores = {}
@@ -131,6 +138,12 @@ def main(dataset: Dataset) -> None:
     global_means = model_scores_df.mean()
     _, axes = plt.subplots(num_models, 1, figsize=(8, 3 * num_models))
 
+    xlim = {
+        Dataset.DS_1000: (0, 1),
+        Dataset.MATH: (0, 1),
+        Dataset.MMLU: (0, 1),
+    }[dataset]
+
     ylim = {
         Dataset.DS_1000: (0, num_subsets),
         Dataset.MATH: (0, num_subsets),
@@ -147,14 +160,14 @@ def main(dataset: Dataset) -> None:
             annotate=True,
             mean=global_means[model],
             mean_label="Benchmark-level accuracy",
-            xlim=(0, 1),
+            xlim=xlim,
             ylim=ylim,
         )
 
     plt.suptitle(
         f"{dataset}: Mean Accuracy Across {plural.capitalize()}"
         f"\n({num_subsets} {plural}, {num_instances} instances)",
-        y=1.01 if dataset == Dataset.MMLU else 1.0,
+        y=1.01 if dataset == Dataset.MMLU else None,
     )
     plt.tight_layout()
     plot_name = "accuracy_histogram"
