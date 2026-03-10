@@ -1,5 +1,6 @@
 import colorsys
 import math
+import textwrap
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -7,6 +8,10 @@ import pandas as pd
 import seaborn as sns
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
+from matplotlib.patches import FancyBboxPatch, PathPatch
+from matplotlib.path import Path
+
+from src.utils.enums import Dataset
 
 
 def _complementary_color(color: str) -> tuple:
@@ -208,4 +213,302 @@ def plot_barplot(
     ax.tick_params(axis="y", labelsize=tick_fontsize)
     if owns_figure:
         fig.tight_layout()
+    return fig
+
+
+def plot_capability_tree(
+    dataset: Dataset,
+    root: dict,
+    model: str | None = None,
+    num_levels: int = 2,
+    max_characters: int = 120,
+) -> "plt.Figure":
+    """Display the first num_levels levels of a capability tree as a styled diagram.
+
+    Renders each node as a dark-blue rounded box showing the capability description,
+    instance count, and (optionally) model score and CI. Style mirrors the EvalTree
+    web demo.
+
+    Args:
+        root: The root node of the capability tree (from load_capability_tree).
+        model: The model name whose score to display at each node. If None, model
+            performance and CI are not shown.
+        num_levels: Maximum depth to display (root = level 1).
+        max_characters: Maximum characters of the capability description to wrap
+            inside each node.
+
+    Returns:
+        The matplotlib Figure.
+    """
+    # ── colours ───────────────────────────────────────────────────────────────
+    C_FIG = "#dce4f0"  # figure background
+    C_NODE = "#2d4e8c"  # node fill
+    C_BORDER = "#3d6aad"  # node border
+    C_TITLE = "#f5a623"  # distinction text for non-root nodes (orange)
+    C_BODY = "#ffffff"  # capability description text (white)
+    C_INST_BG = "#1a3575"  # instance count pill background
+    C_PERF_BG = "#b055c0"  # accuracy / CI pill background (purple)
+    C_PILL_TXT = "#ffffff"  # all pill text (white)
+    C_EDGE = "#7ab0d4"  # bezier edge colour
+
+    # ── geometry ──────────────────────────────────────────────────────────────
+    show_model = model is not None
+    X_GAP = 1.0
+    NW = 0.94
+    NH = 2.0 if show_model else 1.55
+    Y_GAP = NH + 1.2
+    PILL_H = 0.16  # height of score / CI pills
+    INST_H = 0.15  # height of instance count pill
+    LINE_H = NH * 0.07  # line pitch
+    WRAP_W = 28
+
+    # ── helpers ───────────────────────────────────────────────────────────────
+    def _score(node: dict) -> float | None:
+        if not show_model:
+            return None
+        return next((s for m, s in node.get("ranking", []) if m == model), None)
+
+    def _ci(node: dict) -> tuple | None:
+        if not show_model:
+            return None
+        ci = node.get("CI", {})
+        return tuple(ci[model]) if isinstance(ci, dict) and model in ci else None
+
+    # ── step 1: collect nodes ─────────────────────────────────────────────────
+    nodes: list[dict] = []
+    children: dict[int, list[int]] = {}
+
+    def _collect(node: dict, depth: int, parent: int | None) -> None:
+        idx = len(nodes)
+        cap = textwrap.shorten(
+            node.get("capability", ""), width=max_characters, placeholder="…"
+        )
+        cap_lines = textwrap.wrap(cap, width=WRAP_W)[:3]
+        distinction = node.get("distinction")
+        dist_lines = textwrap.wrap(distinction, width=WRAP_W)[:2] if distinction else []
+        nodes.append(
+            {
+                "cap_lines": cap_lines,
+                "dist_lines": dist_lines,
+                "size": node.get("size", "?"),
+                "score": _score(node),
+                "ci": _ci(node),
+                "depth": depth,
+                "parent": parent,
+                "x": 0.0,
+            }
+        )
+        children[idx] = []
+        if parent is not None:
+            children[parent].append(idx)
+        if depth < num_levels:
+            subtrees = node.get("subtrees", [])
+            if isinstance(subtrees, list):
+                for child in subtrees:
+                    _collect(child, depth + 1, idx)
+
+    _collect(root, 1, None)
+
+    # ── step 2: assign x positions (centred over leaves) ──────────────────────
+    leaf_x = [0]
+
+    def _assign_x(idx: int) -> None:
+        kids = children[idx]
+        if not kids:
+            nodes[idx]["x"] = float(leaf_x[0]) * X_GAP
+            leaf_x[0] += 1
+        else:
+            for k in kids:
+                _assign_x(k)
+            nodes[idx]["x"] = sum(nodes[k]["x"] for k in kids) / len(kids)
+
+    _assign_x(0)
+    n_leaves = leaf_x[0]
+
+    # ── step 3: build figure ──────────────────────────────────────────────────
+    fig_w = max(12, n_leaves * 2.6)
+    fig_h = max(5, num_levels * Y_GAP + NH + 1.0)
+    fig, ax = plt.subplots(figsize=(fig_w, fig_h))
+    fig.patch.set_facecolor(C_FIG)
+    ax.set_facecolor(C_FIG)
+    x_pad = NW * 0.6 + 0.2
+    ax.set_xlim(-x_pad, (n_leaves - 1) * X_GAP + x_pad)
+    ax.set_ylim(-(num_levels - 1) * Y_GAP - NH * 0.6, NH * 0.6)
+    ax.axis("off")
+
+    # ── step 4: curved bezier edges (drawn before nodes) ──────────────────────
+    for idx, node in enumerate(nodes):
+        if node["parent"] is None:
+            continue
+        px = nodes[node["parent"]]["x"]
+        py = -(nodes[node["parent"]]["depth"] - 1) * Y_GAP
+        cx_ = node["x"]
+        cy = -(node["depth"] - 1) * Y_GAP
+        y0, y1 = py - NH / 2, cy + NH / 2
+        ym = (y0 + y1) / 2
+        verts = [(px, y0), (px, ym), (cx_, ym), (cx_, y1)]
+        codes = [Path.MOVETO, Path.CURVE4, Path.CURVE4, Path.CURVE4]
+        ax.add_patch(
+            PathPatch(
+                Path(verts, codes),
+                facecolor="none",
+                edgecolor=C_EDGE,
+                lw=1.4,
+                zorder=1,
+            )
+        )
+
+    # ── step 5: draw nodes ────────────────────────────────────────────────────
+    PILL_MARGIN = 0.03
+    pw = NW - 2 * PILL_MARGIN  # full-width pills
+
+    for idx, node in enumerate(nodes):
+        x = node["x"]
+        y = -(node["depth"] - 1) * Y_GAP
+        xL = x - NW / 2
+        yB = y - NH / 2
+
+        # Background box (uniform border on all nodes)
+        ax.add_patch(
+            FancyBboxPatch(
+                (xL, yB),
+                NW,
+                NH,
+                boxstyle="round,pad=0.04",
+                facecolor=C_NODE,
+                edgecolor=C_BORDER,
+                linewidth=1.0,
+                zorder=2,
+            )
+        )
+
+        dist_lines = node["dist_lines"]
+        cap_lines = node["cap_lines"]
+
+        # Text: distinction (orange, bold) then capability (white), stacked from top
+        text_top = yB + NH * 0.93
+        row = 0.0
+        metric = Dataset(dataset).metric
+
+        for line in dist_lines:
+            ax.text(
+                x,
+                text_top - row * LINE_H,
+                line,
+                ha="center",
+                va="top",
+                fontsize=9,
+                fontweight="bold",
+                color=C_TITLE,
+                zorder=3,
+            )
+            row += 1.0
+        if dist_lines:
+            row += 0.2  # small gap between title and description
+
+        for line in cap_lines:
+            ax.text(
+                x,
+                text_top - row * LINE_H,
+                line,
+                ha="center",
+                va="top",
+                fontsize=8,
+                fontweight="normal",
+                color=C_BODY,
+                zorder=3,
+            )
+            row += 1.0
+
+        # Instance pill: dynamically positioned just below text
+        text_end_y = text_top - (row + 0.75) * LINE_H
+        inst_y = text_end_y - INST_H / 2
+        inst_y_min = yB + NH * (0.37 if show_model else 0.12)
+        inst_y_max = yB + NH * 0.82
+        inst_y = max(inst_y_min, min(inst_y, inst_y_max))
+
+        ax.add_patch(
+            FancyBboxPatch(
+                (x - pw / 2, inst_y - INST_H / 2),
+                pw,
+                INST_H,
+                boxstyle="round,pad=0.01",
+                facecolor=C_INST_BG,
+                edgecolor="none",
+                zorder=3,
+            )
+        )
+        ax.text(
+            x,
+            inst_y,
+            f"{node['size']} instances",
+            ha="center",
+            va="center",
+            fontsize=6.5,
+            fontweight="bold",
+            color=C_PILL_TXT,
+            zorder=4,
+        )
+
+        # Score pill (purple, stacked, full width)
+        if node["score"] is not None:
+            score_y = yB + NH * 0.185
+            ax.add_patch(
+                FancyBboxPatch(
+                    (x - pw / 2, score_y - PILL_H / 2),
+                    pw,
+                    PILL_H,
+                    boxstyle="round,pad=0.01",
+                    facecolor=C_PERF_BG,
+                    edgecolor="none",
+                    zorder=3,
+                )
+            )
+            ax.text(
+                x,
+                score_y,
+                f"{node['score']:.3f} {metric.capitalize()}",
+                ha="center",
+                va="center",
+                fontsize=6.5,
+                fontweight="bold",
+                color=C_PILL_TXT,
+                zorder=4,
+            )
+
+        # CI pill (purple, stacked below score, full width)
+        if node["ci"] is not None:
+            lo, hi = node["ci"]
+            ci_y = yB + NH * 0.075
+            ax.add_patch(
+                FancyBboxPatch(
+                    (x - pw / 2, ci_y - PILL_H / 2),
+                    pw,
+                    PILL_H,
+                    boxstyle="round,pad=0.01",
+                    facecolor=C_PERF_BG,
+                    edgecolor="none",
+                    zorder=3,
+                )
+            )
+            ax.text(
+                x,
+                ci_y,
+                f"95% CI: [{lo:.3f}, {hi:.3f}] {metric.capitalize()}",
+                ha="center",
+                va="center",
+                fontsize=6.5,
+                fontweight="bold",
+                color=C_PILL_TXT,
+                zorder=4,
+            )
+
+    title = (
+        f"{dataset.value} Capability Tree: {model}"
+        if show_model
+        else f"{dataset.value} Capability Tree"
+    )
+    fig.suptitle(title, fontsize=10, color="#333333", y=0.99)
+    plt.tight_layout()
+    plt.close(fig)
     return fig
