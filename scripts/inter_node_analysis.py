@@ -1,5 +1,3 @@
-from collections import Counter
-
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -13,7 +11,7 @@ from src.utils.capability_tree import (
 )
 from src.utils.enums import Dataset
 from src.utils.path import build_plot_path
-from src.utils.plot import plot_barplot, plot_histogram
+from src.utils.plot import plot_histogram
 
 
 def main(dataset: Dataset, min_instances: int) -> None:
@@ -75,59 +73,41 @@ def main(dataset: Dataset, min_instances: int) -> None:
     print(f"Saved plot to {plot_path}")
 
     # -------------------------------------------------------------------------
-    # 2. Model Rankings by Cumulative Node Size
+    # 2. Model Performance Analysis
     # -------------------------------------------------------------------------
-    instance_counter = Counter()
-    for node in nodes:
+    global_scores_dict = {model: score for model, score in global_ranking}
+
+    node_to_scores = {}
+    for i, node in enumerate(nodes):
         if node["ranking"] is None:
             continue
-        ranking = " > ".join(name for name, _ in node["ranking"])
-        instance_counter[ranking] += node["size"]
+        node_to_scores[i] = {model: score for model, score in node["ranking"]}
 
-    ranking_counts_df = pd.DataFrame(
-        instance_counter.most_common(),
-        columns=["ranking", "instance_count"],
+    node_scores_df = pd.DataFrame(node_to_scores).T
+    node_scores_df.index.name = "node"
+
+    _, axes = plt.subplots(num_models, 1, figsize=(8, 3 * num_models))
+
+    for i, model in enumerate(node_scores_df.columns):
+        plot_histogram(
+            node_scores_df[model].dropna(),
+            xlabel="Mean Accuracy",
+            ylabel="Node Count",
+            title=f"{model}",
+            ax=axes[i] if num_models > 1 else axes,
+            annotate=True,
+            mean=global_scores_dict[model],
+            mean_label="Benchmark-level accuracy",
+            xlim=(0, 1),
+        )
+
+    plt.suptitle(
+        f"{dataset}: Mean Accuracy Across Nodes"
+        f"\n({num_nodes} nodes, min_instances={min_instances})",
     )
-
-    print(f"Number of unique rankings: {(num_rankings:=len(ranking_counts_df))}")
-    ranking_counts_df.head()
-
-    # TODO: Explain why there are repeat instances in the cumulative node sizes
-    topk = min(10, len(instance_counter))
-    num_instances = root["size"]
-
-    # Rename rankings to prevent text from overflowing
-    plot_df = ranking_counts_df.head(topk).copy()
-    plot_df["ranking"] = [f"Ranking {i + 1}" for i in range(topk)]
-
-    x = "ranking"
-    y = "instance_count"
-    xlabel = "Model Ranking"
-    ylabel = "Cumulative Node Size"
-    title = (
-        f"{dataset}: Top {topk} Model Rankings by Cumulative Node Size"
-        f"\n({num_instances} instances, {num_nodes} nodes, {num_models} models, {num_rankings} rankings)"
-    )
-    annotate = True
-
-    plot_barplot(
-        plot_df,
-        x=x,
-        y=y,
-        xlabel=xlabel,
-        ylabel=ylabel,
-        title=title,
-        annotate=annotate,
-        mean=plot_df["instance_count"].mean(),
-        std=plot_df["instance_count"].std(),
-    )
-
-    plot_name = f"top-{topk}-rankings_barplot_min-instances={min_instances}"
-    plot_path = build_plot_path(
-        dataset,
-        analysis=analysis,
-        plot_name=plot_name,
-    )
+    plt.tight_layout()
+    plot_name = f"accuracy_histogram_min-instances={min_instances}"
+    plot_path = build_plot_path(dataset, analysis, plot_name)
     plt.savefig(plot_path)
     print(f"Saved plot to {plot_path}")
 
