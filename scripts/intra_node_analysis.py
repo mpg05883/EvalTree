@@ -5,7 +5,11 @@ import seaborn as sns
 from scipy.stats import kendalltau
 from tqdm import tqdm
 
-from src.utils.capability_tree import collect_nodes, get_node_indices, load_capability_tree
+from src.utils.capability_tree import (
+    collect_nodes,
+    get_node_indices,
+    load_capability_tree,
+)
 from src.utils.enums import Dataset
 from src.utils.metrics import kendallw
 from src.utils.model import load_model_scores
@@ -88,7 +92,7 @@ def main(dataset: Dataset) -> None:
         ylabel="Node Count",
         title=(
             f"{dataset}: Split-Halves Kendall's Tau Across Nodes"
-            f"\n({num_models} models, {num_nodes} nodes, {num_instances} instances, {num_trials} trials)"
+            f"\n({num_models} models, {num_nodes} nodes, {num_instances} instances)"
         ),
         annotate=True,
         mean=split_half_df["mean_kendall_tau"].mean(),
@@ -98,7 +102,11 @@ def main(dataset: Dataset) -> None:
         color=colors[0],
     )
 
-    file_path = build_plot_path(dataset, analysis, plot_name="split-halves_kendall-tau_histogram")
+    file_path = build_plot_path(
+        dataset,
+        analysis,
+        plot_name=f"split-halves_kendall-tau_histogram_num-trials={num_trials}",
+    )
     plt.savefig(file_path)
     print(f"Saved plot to {file_path}")
     plt.close()
@@ -165,7 +173,7 @@ def main(dataset: Dataset) -> None:
         ylabel="Node Count",
         title=(
             f"{dataset}: Bootstrapped Kendall's Tau Across Nodes"
-            f"\n({num_models} models, {num_nodes} nodes, {num_instances} instances, {num_trials} trials)"
+            f"\n({num_models} models, {num_nodes} nodes, {num_instances} instances)"
         ),
         annotate=True,
         mean=bootstrap_df["mean_kendall_tau"].mean(),
@@ -175,7 +183,11 @@ def main(dataset: Dataset) -> None:
         color=colors[1],
     )
 
-    file_path = build_plot_path(dataset, analysis, plot_name="bootstrap_kendall-tau_histogram")
+    file_path = build_plot_path(
+        dataset,
+        analysis,
+        plot_name=f"bootstrap_kendall-tau_histogram_num-trials={num_trials}",
+    )
     plt.savefig(file_path)
     print(f"Saved plot to {file_path}")
     plt.close()
@@ -186,7 +198,7 @@ def main(dataset: Dataset) -> None:
     num_folds = 5
 
     kwargs = {
-        "desc": "Computing mini-batch Kendall's W",
+        "desc": "Computing mini-batch Kendall's Ws",
         "total": num_nodes,
         "unit": "nodes",
     }
@@ -246,7 +258,7 @@ def main(dataset: Dataset) -> None:
         ylabel="Node Count",
         title=(
             f"{dataset}: Mini-Batch Kendall's W Across Nodes"
-            f"\n({num_models} models, {num_nodes} nodes, {num_instances} instances, {num_folds} folds, {num_trials} trials)"
+            f"\n({num_models} models, {num_nodes} nodes, {num_instances} instances)"
         ),
         annotate=True,
         mean=minibatch_w_df["mean_kendallw"].mean(),
@@ -256,12 +268,22 @@ def main(dataset: Dataset) -> None:
         color=colors[2],
     )
 
-    file_path = build_plot_path(dataset, analysis, plot_name="mini-batch_kendall-w_histogram")
+    file_path = build_plot_path(
+        dataset,
+        analysis,
+        plot_name=f"mini-batch_kendall-w_histogram_num-folds={num_folds}_num-trials={num_trials}",
+    )
     plt.savefig(file_path)
     print(f"Saved plot to {file_path}")
     plt.close()
 
 
 if __name__ == "__main__":
-    for dataset in Dataset:
+    # NOTE: We ignore these datasets for the following reasons:
+    # - Chatbot-Arena and Chatbot-Arena (New) don't have per-instance scores
+    # - WildChat-10K only has evaluation results for two models
+
+    datasets = [Dataset.DS_1000, Dataset.MATH, Dataset.MMLU]
+    
+    for dataset in datasets:
         main(dataset)
