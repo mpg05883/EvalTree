@@ -79,11 +79,7 @@ def main(dataset: Dataset) -> None:
 
     split_half_df = pd.DataFrame(split_half_results)
 
-    xlim = {
-        Dataset.DS_1000: (-1, 1),
-        Dataset.MATH: (-1, 1),
-        Dataset.MMLU: (-1, 1),
-    }[dataset]
+    xlim = (-1, 1) if min(split_half_df["mean_kendall_tau"]) < 0 else (0, 1)
 
     ylim = {
         Dataset.DS_1000: (0, num_subsets),
@@ -97,7 +93,7 @@ def main(dataset: Dataset) -> None:
         ylabel=f"{subset_col.capitalize()} Count",
         title=(
             f"{dataset}: Split-Halves Kendall's Tau Across {plural.capitalize()}"
-            f"\n({num_models} models, {num_subsets} subsets, {num_instances} instances, {num_trials} trials)"
+            f"\n({num_models} models, {num_subsets} subsets, {num_instances} instances)"
         ),
         annotate=True,
         mean=split_half_df["mean_kendall_tau"].mean(),
@@ -108,7 +104,9 @@ def main(dataset: Dataset) -> None:
     )
 
     file_path = build_plot_path(
-        dataset, analysis, plot_name="split-halves_kendall-tau_histogram"
+        dataset,
+        analysis,
+        plot_name=f"split-halves_kendall-tau_histogram_num-trials={num_trials}",
     )
     plt.savefig(file_path)
     print(f"Saved plot to {file_path}")
@@ -156,11 +154,7 @@ def main(dataset: Dataset) -> None:
 
     bootstrap_df = pd.DataFrame(bootstrap_results)
 
-    xlim = {
-        Dataset.DS_1000: (-1, 1),
-        Dataset.MATH: (-1, 1),
-        Dataset.MMLU: (-1, 1),
-    }[dataset]
+    xlim = (-1, 1) if min(bootstrap_df["mean_kendall_tau"]) < 0 else (0, 1)
 
     ylim = {
         Dataset.DS_1000: (0, num_subsets),
@@ -174,7 +168,7 @@ def main(dataset: Dataset) -> None:
         ylabel=f"{subset_col.capitalize()} Count",
         title=(
             f"{dataset}: Bootstrapped Kendall's Tau Across {plural.capitalize()}"
-            f"\n({num_models} models, {num_subsets} subsets, {num_instances} instances, {num_trials} trials)"
+            f"\n({num_models} models, {num_subsets} subsets, {num_instances} instances)"
         ),
         annotate=True,
         mean=bootstrap_df["mean_kendall_tau"].mean(),
@@ -185,7 +179,9 @@ def main(dataset: Dataset) -> None:
     )
 
     file_path = build_plot_path(
-        dataset, analysis, plot_name="bootstrap_kendall-tau_histogram"
+        dataset,
+        analysis,
+        plot_name=f"bootstrap_kendall-tau_histogram_num-trials={num_trials}",
     )
     plt.savefig(file_path)
     print(f"Saved plot to {file_path}")
@@ -237,11 +233,7 @@ def main(dataset: Dataset) -> None:
 
     minibatch_w_df = pd.DataFrame(minibatch_w_results)
 
-    xlim = {
-        Dataset.DS_1000: (0, 1),
-        Dataset.MATH: (0, 1),
-        Dataset.MMLU: (0, 1),
-    }[dataset]
+    xlim = (0, 1)
 
     ylim = {
         Dataset.DS_1000: (0, num_subsets),
@@ -255,7 +247,7 @@ def main(dataset: Dataset) -> None:
         ylabel=f"{subset_col.capitalize()} Count",
         title=(
             f"{dataset}: Mini-Batch Kendall's W Across {plural.capitalize()}"
-            f"\n({num_models} models, {num_subsets} subsets, {num_instances} instances, {num_trials} trials)"
+            f"\n({num_models} models, {num_subsets} subsets, {num_instances} instances)"
         ),
         annotate=True,
         mean=minibatch_w_df["mean_kendallw"].mean(),
@@ -266,7 +258,9 @@ def main(dataset: Dataset) -> None:
     )
 
     file_path = build_plot_path(
-        dataset, analysis, plot_name="mini-batch_kendall-w_histogram"
+        dataset,
+        analysis,
+        plot_name=f"mini-batch_kendall-w_histogram_num-folds={num_folds}_num-trials={num_trials}",
     )
     plt.savefig(file_path)
     print(f"Saved plot to {file_path}")
