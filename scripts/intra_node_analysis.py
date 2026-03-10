@@ -17,35 +17,43 @@ from src.utils.path import build_plot_path
 from src.utils.plot import plot_histogram
 
 
-def main(dataset: Dataset) -> None:
-    model_scores_df = load_model_scores(dataset)
-    models = model_scores_df.columns.tolist()
+def split_halves_kendall_tau(
+    dataset: Dataset,
+    nodes_with_levels: list[tuple[dict, int]],
+    levels: list[int],
+    model_scores_df: pd.DataFrame,
+    num_trials: int,
+    num_nodes: int,
+    num_models: int,
+    num_instances: int,
+    analysis: str,
+    color,
+) -> None:
+    """Compute and plot split-halves Kendall's Tau across all nodes and by level.
 
-    root = load_capability_tree(dataset)
-    nodes_by_level = collect_nodes_by_level(root)
-    levels = sorted(nodes_by_level.keys())
-    nodes_with_levels = [
-        (node, level) for level in levels for node in nodes_by_level[level]
-    ]
-    nodes = [node for node, _ in nodes_with_levels]
-    colors = sns.color_palette("tab10")
+    For each node, the instances are randomly split in half num_trials times.
+    Kendall's Tau is computed between the mean model scores of each half, and
+    the mean Tau across trials is recorded.
 
-    num_instances = len(model_scores_df)
-    num_models = len(models)
-    num_nodes = len(nodes)
-    num_trials = 500
-    analysis = "intra_node_analysis"
-
-    # -------------------------------------------------------------------------
-    # 1. Split-Halves Kendall's Tau
-    # -------------------------------------------------------------------------
+    Args:
+        dataset: The dataset being analysed.
+        nodes_with_levels: List of (node, level) pairs to analyse.
+        levels: Sorted list of depth levels present in the tree.
+        model_scores_df: DataFrame of per-instance model scores.
+        num_trials: Number of random split-half trials per node.
+        num_nodes: Total number of nodes being analysed.
+        num_models: Number of models in the dataset.
+        num_instances: Total number of instances in the dataset.
+        analysis: Analysis name used when building plot file paths.
+        color: Matplotlib colour for histogram bars.
+    """
     kwargs = {
         "desc": "Computing split-half Kendall's Taus",
         "total": num_nodes,
         "unit": "nodes",
     }
 
-    split_half_results = []
+    results = []
 
     for node, level in tqdm(nodes_with_levels, **kwargs):
         indices = get_node_indices(node)
@@ -62,7 +70,7 @@ def main(dataset: Dataset) -> None:
             tau, _ = kendalltau(scores_a, scores_b)
             taus.append(tau)
 
-        split_half_results.append(
+        results.append(
             {
                 "node": node["capability"],
                 "level": level,
@@ -72,9 +80,9 @@ def main(dataset: Dataset) -> None:
             }
         )
 
-    split_half_df = pd.DataFrame(split_half_results)
+    df = pd.DataFrame(results)
 
-    xlim = (-1, 1) if min(split_half_df["mean_kendall_tau"]) < 0 else (0, 1)
+    xlim = (-1, 1) if min(df["mean_kendall_tau"]) < 0 else (0, 1)
 
     ylim = {
         Dataset.CHATBOT_ARENA: (0, num_nodes),
@@ -86,19 +94,19 @@ def main(dataset: Dataset) -> None:
     }[dataset]
 
     plot_histogram(
-        split_half_df["mean_kendall_tau"],
+        df["mean_kendall_tau"],
         xlabel="Kendall's Tau",
         ylabel="Node Count",
         title=(
             f"{dataset}: Split-Halves Kendall's Tau Across Nodes"
-            f"\n({num_models} models, {num_nodes} nodes, {num_instances} instances)"
+            f"\n({num_models} models, {num_nodes} nodes, {num_instances} instances, {num_trials} trials)"
         ),
         annotate=True,
-        mean=split_half_df["mean_kendall_tau"].mean(),
-        std=split_half_df["mean_kendall_tau"].std(),
+        mean=df["mean_kendall_tau"].mean(),
+        std=df["mean_kendall_tau"].std(),
         xlim=xlim,
         ylim=ylim,
-        color=colors[0],
+        color=color,
     )
 
     file_path = build_plot_path(
@@ -115,23 +123,23 @@ def main(dataset: Dataset) -> None:
     axes = np.atleast_1d(axes)
 
     for i, level in enumerate(levels):
-        level_data = split_half_df[split_half_df["level"] == level]["mean_kendall_tau"]
+        level_data = df[df["level"] == level]["mean_kendall_tau"]
         plot_histogram(
             level_data,
             xlabel="Kendall's Tau",
             ylabel="Node Count",
-            title=f"Level {level} ({len(level_data)} nodes)",
+            title=f"Level {level} ({len(level_data)} nodes, {num_trials} trials)",
             ax=axes[i],
             annotate=True,
             mean=level_data.mean(),
             std=level_data.std(),
             xlim=xlim,
-            color=colors[0],
+            color=color,
         )
 
     plt.suptitle(
         f"{dataset}: Split-Halves Kendall's Tau by Level"
-        f"\n({num_models} models, {num_nodes} nodes, {num_instances} instances)",
+        f"\n({num_models} models, {num_nodes} nodes, {num_instances} instances, {num_trials} trials)",
         y=1.0,
     )
     plt.tight_layout()
@@ -145,16 +153,44 @@ def main(dataset: Dataset) -> None:
     print(f"Saved plot to {file_path}")
     plt.close()
 
-    # -------------------------------------------------------------------------
-    # 2. Bootstrapped Kendall's Tau
-    # -------------------------------------------------------------------------
+
+def bootstrapped_kendall_tau(
+    dataset: Dataset,
+    nodes_with_levels: list[tuple[dict, int]],
+    levels: list[int],
+    model_scores_df: pd.DataFrame,
+    num_trials: int,
+    num_nodes: int,
+    num_models: int,
+    num_instances: int,
+    analysis: str,
+    color,
+) -> None:
+    """Compute and plot bootstrapped Kendall's Tau across all nodes and by level.
+
+    For each node, bootstrap samples are drawn num_trials times. Kendall's Tau
+    is computed between the reference ranking (mean across all instances) and
+    the bootstrap ranking, and the mean Tau across trials is recorded.
+
+    Args:
+        dataset: The dataset being analysed.
+        nodes_with_levels: List of (node, level) pairs to analyse.
+        levels: Sorted list of depth levels present in the tree.
+        model_scores_df: DataFrame of per-instance model scores.
+        num_trials: Number of bootstrap trials per node.
+        num_nodes: Total number of nodes being analysed.
+        num_models: Number of models in the dataset.
+        num_instances: Total number of instances in the dataset.
+        analysis: Analysis name used when building plot file paths.
+        color: Matplotlib colour for histogram bars.
+    """
     kwargs = {
         "desc": "Computing bootstrapped Kendall's Taus",
         "total": num_nodes,
         "unit": "nodes",
     }
 
-    bootstrap_results = []
+    results = []
 
     for node, level in tqdm(nodes_with_levels, **kwargs):
         indices = get_node_indices(node)
@@ -172,7 +208,7 @@ def main(dataset: Dataset) -> None:
             tau, _ = kendalltau(reference_scores, bootstrap_scores)
             taus.append(tau)
 
-        bootstrap_results.append(
+        results.append(
             {
                 "node": node["capability"],
                 "level": level,
@@ -182,9 +218,9 @@ def main(dataset: Dataset) -> None:
             }
         )
 
-    bootstrap_df = pd.DataFrame(bootstrap_results)
+    df = pd.DataFrame(results)
 
-    xlim = (-1, 1) if min(bootstrap_df["mean_kendall_tau"]) < 0 else (0, 1)
+    xlim = (-1, 1) if min(df["mean_kendall_tau"]) < 0 else (0, 1)
 
     ylim = {
         Dataset.CHATBOT_ARENA: (0, num_nodes),
@@ -196,19 +232,19 @@ def main(dataset: Dataset) -> None:
     }[dataset]
 
     plot_histogram(
-        bootstrap_df["mean_kendall_tau"],
+        df["mean_kendall_tau"],
         xlabel="Kendall's Tau",
         ylabel="Node Count",
         title=(
             f"{dataset}: Bootstrapped Kendall's Tau Across Nodes"
-            f"\n({num_models} models, {num_nodes} nodes, {num_instances} instances)"
+            f"\n({num_models} models, {num_nodes} nodes, {num_instances} instances, {num_trials} trials)"
         ),
         annotate=True,
-        mean=bootstrap_df["mean_kendall_tau"].mean(),
-        std=bootstrap_df["mean_kendall_tau"].std(),
+        mean=df["mean_kendall_tau"].mean(),
+        std=df["mean_kendall_tau"].std(),
         xlim=xlim,
         ylim=ylim,
-        color=colors[1],
+        color=color,
     )
 
     file_path = build_plot_path(
@@ -225,23 +261,23 @@ def main(dataset: Dataset) -> None:
     axes = np.atleast_1d(axes)
 
     for i, level in enumerate(levels):
-        level_data = bootstrap_df[bootstrap_df["level"] == level]["mean_kendall_tau"]
+        level_data = df[df["level"] == level]["mean_kendall_tau"]
         plot_histogram(
             level_data,
             xlabel="Kendall's Tau",
             ylabel="Node Count",
-            title=f"Level {level} ({len(level_data)} nodes)",
+            title=f"Level {level} ({len(level_data)} nodes, {num_trials} trials)",
             ax=axes[i],
             annotate=True,
             mean=level_data.mean(),
             std=level_data.std(),
             xlim=xlim,
-            color=colors[1],
+            color=color,
         )
 
     plt.suptitle(
         f"{dataset}: Bootstrapped Kendall's Tau by Level"
-        f"\n({num_models} models, {num_nodes} nodes, {num_instances} instances)",
+        f"\n({num_models} models, {num_nodes} nodes, {num_instances} instances, {num_trials} trials)",
         y=1.0,
     )
     plt.tight_layout()
@@ -255,18 +291,46 @@ def main(dataset: Dataset) -> None:
     print(f"Saved plot to {file_path}")
     plt.close()
 
-    # -------------------------------------------------------------------------
-    # 3. Mini-Batch Kendall's W
-    # -------------------------------------------------------------------------
-    num_folds = 5
 
+def minibatch_kendall_w(
+    dataset: Dataset,
+    nodes_with_levels: list[tuple[dict, int]],
+    levels: list[int],
+    model_scores_df: pd.DataFrame,
+    num_trials: int,
+    num_folds: int,
+    num_nodes: int,
+    num_models: int,
+    num_instances: int,
+    analysis: str,
+    color,
+) -> None:
+    """Compute and plot mini-batch Kendall's W across all nodes and by level.
+
+    For each node, instances are randomly shuffled and split into num_folds
+    folds num_trials times. Kendall's W is computed across the per-fold mean
+    model scores, and the mean W across trials is recorded.
+
+    Args:
+        dataset: The dataset being analysed.
+        nodes_with_levels: List of (node, level) pairs to analyse.
+        levels: Sorted list of depth levels present in the tree.
+        model_scores_df: DataFrame of per-instance model scores.
+        num_trials: Number of random shuffle trials per node.
+        num_folds: Number of folds to split instances into per trial.
+        num_nodes: Total number of nodes being analysed.
+        num_models: Number of models in the dataset.
+        num_instances: Total number of instances in the dataset.
+        analysis: Analysis name used when building plot file paths.
+        color: Matplotlib colour for histogram bars.
+    """
     kwargs = {
         "desc": "Computing mini-batch Kendall's Ws",
         "total": num_nodes,
         "unit": "nodes",
     }
 
-    minibatch_w_results = []
+    results = []
 
     for node, level in tqdm(nodes_with_levels, **kwargs):
         indices = get_node_indices(node)
@@ -286,7 +350,7 @@ def main(dataset: Dataset) -> None:
 
             kendallw_values.append(kendallw(fold_scores))
 
-        minibatch_w_results.append(
+        results.append(
             {
                 "node": node["capability"],
                 "level": level,
@@ -296,26 +360,25 @@ def main(dataset: Dataset) -> None:
             }
         )
 
-    minibatch_w_df = pd.DataFrame(minibatch_w_results)
+    df = pd.DataFrame(results)
 
     xlim = (0, 1)
-
     ylim = (0, num_nodes)
 
     plot_histogram(
-        minibatch_w_df["mean_kendallw"],
+        df["mean_kendallw"],
         xlabel="Kendall's W",
         ylabel="Node Count",
         title=(
             f"{dataset}: Mini-Batch Kendall's W Across Nodes"
-            f"\n({num_models} models, {num_nodes} nodes, {num_instances} instances)"
+            f"\n({num_models} models, {num_nodes} nodes, {num_instances} instances, {num_trials} trials, {num_folds} folds)"
         ),
         annotate=True,
-        mean=minibatch_w_df["mean_kendallw"].mean(),
-        std=minibatch_w_df["mean_kendallw"].std(),
+        mean=df["mean_kendallw"].mean(),
+        std=df["mean_kendallw"].std(),
         xlim=xlim,
         ylim=ylim,
-        color=colors[2],
+        color=color,
     )
 
     file_path = build_plot_path(
@@ -332,23 +395,23 @@ def main(dataset: Dataset) -> None:
     axes = np.atleast_1d(axes)
 
     for i, level in enumerate(levels):
-        level_data = minibatch_w_df[minibatch_w_df["level"] == level]["mean_kendallw"]
+        level_data = df[df["level"] == level]["mean_kendallw"]
         plot_histogram(
             level_data,
             xlabel="Kendall's W",
             ylabel="Node Count",
-            title=f"Level {level} ({len(level_data)} nodes)",
+            title=f"Level {level} ({len(level_data)} nodes, {num_trials} trials, {num_folds} folds)",
             ax=axes[i],
             annotate=True,
             mean=level_data.mean(),
             std=level_data.std(),
             xlim=xlim,
-            color=colors[2],
+            color=color,
         )
 
     plt.suptitle(
         f"{dataset}: Mini-Batch Kendall's W by Level"
-        f"\n({num_models} models, {num_nodes} nodes, {num_instances} instances)",
+        f"\n({num_models} models, {num_nodes} nodes, {num_instances} instances, {num_trials} trials, {num_folds} folds)",
         y=1.0,
     )
     plt.tight_layout()
@@ -361,6 +424,48 @@ def main(dataset: Dataset) -> None:
     plt.savefig(file_path, bbox_inches="tight")
     print(f"Saved plot to {file_path}")
     plt.close()
+
+
+def main(dataset: Dataset) -> None:
+    model_scores_df = load_model_scores(dataset)
+    models = model_scores_df.columns.tolist()
+
+    root = load_capability_tree(dataset)
+    nodes_by_level = collect_nodes_by_level(root)
+    levels = sorted(nodes_by_level.keys())
+    nodes_with_levels = [
+        (
+            node,
+            level,
+        )
+        for level in levels
+        for node in nodes_by_level[level]
+    ]
+
+    colors = sns.color_palette("tab10")
+
+    num_instances = len(model_scores_df)
+    num_models = len(models)
+    num_nodes = len(nodes_with_levels)
+    num_trials = 500
+    num_folds = 5
+    analysis = "intra_node_analysis"
+
+    shared = dict(
+        dataset=dataset,
+        nodes_with_levels=nodes_with_levels,
+        levels=levels,
+        model_scores_df=model_scores_df,
+        num_trials=num_trials,
+        num_nodes=num_nodes,
+        num_models=num_models,
+        num_instances=num_instances,
+        analysis=analysis,
+    )
+
+    split_halves_kendall_tau(**shared, color=colors[0])
+    bootstrapped_kendall_tau(**shared, color=colors[1])
+    minibatch_kendall_w(**shared, num_folds=num_folds, color=colors[2])
 
 
 if __name__ == "__main__":

@@ -93,7 +93,7 @@ def main(dataset: Dataset) -> None:
         ylabel=f"{subset_col.capitalize()} Count",
         title=(
             f"{dataset}: Split-Halves Kendall's Tau Across {plural.capitalize()}"
-            f"\n({num_models} models, {num_subsets} subsets, {num_instances} instances)"
+            f"\n({num_models} models, {num_subsets} {plural}, {num_instances} instances, {num_trials} trials)"
         ),
         annotate=True,
         mean=split_half_df["mean_kendall_tau"].mean(),
@@ -168,7 +168,7 @@ def main(dataset: Dataset) -> None:
         ylabel=f"{subset_col.capitalize()} Count",
         title=(
             f"{dataset}: Bootstrapped Kendall's Tau Across {plural.capitalize()}"
-            f"\n({num_models} models, {num_subsets} subsets, {num_instances} instances)"
+            f"\n({num_models} models, {num_subsets} {plural}, {num_instances} instances, {num_trials} trials)"
         ),
         annotate=True,
         mean=bootstrap_df["mean_kendall_tau"].mean(),
@@ -247,7 +247,7 @@ def main(dataset: Dataset) -> None:
         ylabel=f"{subset_col.capitalize()} Count",
         title=(
             f"{dataset}: Mini-Batch Kendall's W Across {plural.capitalize()}"
-            f"\n({num_models} models, {num_subsets} subsets, {num_instances} instances)"
+            f"\n({num_models} models, {num_subsets} {plural}, {num_instances} instances, {num_trials} trials, {num_folds} folds)"
         ),
         annotate=True,
         mean=minibatch_w_df["mean_kendallw"].mean(),

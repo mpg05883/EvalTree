@@ -46,7 +46,7 @@ def main(dataset: Dataset, min_instances: int) -> None:
     ylabel = "Node Count"
     title = (
         f"{dataset}: Distribution of Kendall's Tau Across Nodes"
-        f"\n({num_models} models, {num_nodes} nodes)"
+        f"\n({num_models} models, {num_nodes} nodes, {min_instances} instances minimum)"
     )
     annotate = True
     xlim = (-1, 1) if min(taus) < 0 else (0, 1)
@@ -110,7 +110,8 @@ def main(dataset: Dataset, min_instances: int) -> None:
         )
 
     plt.suptitle(
-        f"{dataset}: Mean {metric.title()} Across Nodes" f"\n({num_nodes} nodes)",
+        f"{dataset}: Mean {metric.title()} Across Nodes"
+        f"\n({num_nodes} nodes, {min_instances} instances minimum)",
         y=1.0,
     )
     plt.tight_layout()

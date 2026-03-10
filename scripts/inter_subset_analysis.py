@@ -100,7 +100,7 @@ def main(dataset: Dataset) -> None:
         ylabel=f"{subset_col.capitalize()} Count",
         title=(
             f"{dataset}: Kendall's Tau Across {plural.capitalize()}"
-            f"\n({num_models} models, {num_subsets} subsets, {num_instances} instances)"
+            f"\n({num_models} models, {num_subsets} {plural}, {num_instances} instances)"
         ),
         annotate=True,
         mean=kendall_tau_df["kendall_tau"].mean(),
