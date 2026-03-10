@@ -1,8 +1,77 @@
 import json
+from dataclasses import dataclass
 from typing import Any
 
 from src.utils.enums import Dataset
 from src.utils.path import resolve_capability_tree_path
+
+
+@dataclass
+class CapabilityNode:
+    """A node in a capability tree.
+
+    Attributes:
+        capability: Natural-language description of the capability this node
+            represents.
+        size: Total number of dataset instances contained in this subtree.
+        depth: Depth of this node in the tree (root is 1).
+        subtrees: Child nodes if this is an internal node, or a single integer
+            dataset row index if this is a leaf node.
+        ranking: Model performance ranking for this node, as a list of
+            [model_name, score] pairs sorted descending by score.
+        CI: Bootstrap confidence interval for each model's score, as a dict
+            mapping model name to a [lower, upper] bound pair. Only present on
+            nodes with enough instances for reliable estimation.
+        distinction: Short label distinguishing this node from its siblings
+            (e.g. "Combinatorial and statistical structure analysis"). Absent
+            on the root.
+        input: A representative input example from this node's instances.
+            Only present on leaf nodes.
+    """
+
+    capability: str
+    size: int
+    depth: int
+    subtrees: "list[CapabilityNode] | int"
+    ranking: list[list[str | float]]
+    CI: dict[str, list[float]] | None = None
+    distinction: str | None = None
+    input: str | None = None
+
+    @classmethod
+    def from_dict(cls, data: dict[str, Any]) -> "CapabilityNode":
+        subtrees = data["subtrees"]
+        if isinstance(subtrees, list):
+            subtrees = [cls.from_dict(child) for child in subtrees]
+        return cls(
+            capability=data["capability"],
+            size=data["size"],
+            depth=data["depth"],
+            subtrees=subtrees,
+            ranking=data["ranking"],
+            CI=data.get("CI"),
+            distinction=data.get("distinction"),
+            input=data.get("input"),
+        )
+
+    def get_indices(self) -> list[int]:
+        """Return all dataset row indices for instances in this subtree.
+
+        Traverses descendant nodes and collects the integer index stored at
+        each leaf (where ``subtrees`` is an int rather than a list).
+
+        Returns:
+            A list of integer row indices into the dataset.
+        """
+        indices = []
+        stack: list[CapabilityNode] = [self]
+        while stack:
+            node = stack.pop()
+            if isinstance(node.subtrees, int):
+                indices.append(node.subtrees)
+            else:
+                stack.extend(node.subtrees)
+        return indices
 
 
 def load_capability_tree(dataset: Dataset) -> dict[str, Any]:

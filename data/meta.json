@@ -11,7 +11,7 @@
       "dart-math-llama3-8b-uniform"
     ]
   },
-  "WildChat": {
+  "WildChat10K": {
     "path": "data/WildChat10K.json",
     "metrics": "Win-Rate",
     "url": "https://wildchat.allen.ai/",
@@ -20,7 +20,7 @@
       "gemma2-2b-it"
     ]
   },
-  "Chatbot Arena": {
+  "Chatbot-Arena": {
     "path": "data/Chatbot-Arena.json",
     "metrics": "Elo Rating",
     "url": "https://lmarena.ai/",
@@ -91,7 +91,7 @@
       "llama-13b"
     ]
   },
-  "Chatbot Arena (NEW)": {
+  "Chatbot-Arena_NEW": {
     "path": "data/Chatbot-Arena_NEW.json",
     "metrics": "Elo Rating",
     "url": "https://huggingface.co/datasets/lmarena-ai/arena-human-preference-100k",

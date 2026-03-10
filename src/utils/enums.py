@@ -1,4 +1,8 @@
+import json
 from enum import StrEnum
+from functools import cached_property
+
+from src.utils.path import resolve_metadata_path
 
 
 class Library(StrEnum):
@@ -47,21 +51,24 @@ class Dataset(StrEnum):
             Dataset.WILDCHAT_10K: 10000,
         }[self]
 
+    @cached_property
+    def metadata(self) -> dict[str, str | list[str]]:
+        """Metadata for the dataset. Values were obtained from metadata.json."""
+        return json.load(resolve_metadata_path())[self]
+
     @property
     def metric(self) -> str:
-        """Metric used to evaluate model performance on the dataset. Values
-        obtained from EvalTree's web demo README:
-
-        https://github.com/Zhiyuan-Zeng/EvalTree/tree/demo?tab=readme-ov-file#-model-performance
+        """Metric used to evaluate model performance on the dataset as a
+        string. Values were obtained from metadata.json.
         """
-        return {
-            Dataset.CHATBOT_ARENA: "Elo rating",
-            Dataset.CHATBOT_ARENA_NEW: "Elo rating",
-            Dataset.DS_1000: "accuracy",
-            Dataset.MATH: "accuracy",
-            Dataset.MMLU: "accuracy",
-            Dataset.WILDCHAT_10K: "win-rate",
-        }[self]
+        return self.metadata["metrics"]
+
+    @property
+    def models(self) -> list[str]:
+        """Models that were evaluated on the dataset as a list of strings.
+        Values were obtained from metadata.json.
+        """
+        return self.metadata["models"]
 
     @property
     def subset_col(self) -> str:

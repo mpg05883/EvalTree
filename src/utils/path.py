@@ -8,14 +8,9 @@ def resolve_root_dir() -> Path:
     return Path(__file__).resolve().parent.parent.parent
 
 
-def resolve_data_dir() -> Path:
-    """Resolve the absolute file path to the data directory."""
-    return resolve_root_dir() / "data"
-
-
 def resolve_dataset_dir(dataset: Dataset) -> Path:
     """Resolve the absolute file path to the dataset directory."""
-    return resolve_data_dir() / dataset
+    return resolve_root_dir() / "data" / dataset
 
 
 def resolve_dataset_path(dataset: Dataset) -> Path:
@@ -23,6 +18,11 @@ def resolve_dataset_path(dataset: Dataset) -> Path:
     # Chatbot Arena (New) uses the same dataset as Chatbot Arena
     dataset = Dataset.CHATBOT_ARENA if dataset == Dataset.CHATBOT_ARENA_NEW else dataset
     return resolve_dataset_dir(dataset) / "dataset.json"
+
+
+def resolve_metadata_path() -> Path:
+    """Resolve the absolute file path to the metadata file."""
+    return resolve_root_dir() / "data" / "metadata.json"
 
 
 def resolve_capability_tree_path(dataset: Dataset) -> Path:
