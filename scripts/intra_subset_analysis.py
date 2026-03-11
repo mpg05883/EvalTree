@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -16,6 +17,13 @@ from src.utils.metrics import kendallw
 from src.utils.model import load_model_scores
 from src.utils.path import build_data_path, build_plot_path
 from src.utils.plot import plot_histogram
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(levelname)s: %(message)s",
+    force=True,
+)
+logger = logging.getLogger(__name__)
 
 
 def split_halves_analysis(
@@ -156,6 +164,9 @@ def bootstrap_analysis(
     Kendall's Tau between each bootstrap ranking and the reference. A high
     mean tau indicates that resampled subsets reliably recover the same model
     ordering, reflecting stable estimation within the subset.
+    
+    NOTE: Bootstrapping can produce upwardly biased estimates. See here for 
+    more details: https://stats.stackexchange.com/questions/96739/what-is-the-632-rule-in-bootstrapping
 
     Args:
         dataset: The dataset being analysed, used for subset masking and labels.
@@ -169,7 +180,7 @@ def bootstrap_analysis(
         ``["subset", "mean_kendall_tau", "std_kendall_tau", "num_instances"]``.
     """
     tqdm_kwargs = {
-        "desc": "Computing bootstrapped Kendall's taus",
+        "desc": "Computing bootstrap Kendall's taus",
         "total": len(subsets),
         "unit": dataset.plural,
     }
@@ -235,7 +246,7 @@ def plot_bootstrap_histogram(
     xlabel = r"Kendall's $\tau$"
     ylabel = f"Number of {dataset.plural.capitalize()}"
     title = (
-        f"{dataset.pretty_name}: {dataset.subset_col.title()} Internal Agreement (Bootstrapped {xlabel})"
+        f"{dataset.pretty_name}: {dataset.subset_col.title()} Internal Agreement (Bootstrap {xlabel})"
         f"\n({num_models} models, {num_subsets} {dataset.plural}, {num_trials} trials)"
     )
     median = data.median()
@@ -364,7 +375,7 @@ def plot_minibatch_w_histogram(
     ylabel = f"Number of {dataset.plural.capitalize()}"
     title = (
         f"{dataset.pretty_name}: {dataset.subset_col.title()} Internal Agreement (Mini-Batch Kendall's W)"
-        f"\n({num_models} models, {num_subsets} {dataset.plural}, {num_instances} instances, {num_trials} trials, {num_folds} folds)"
+        f"\n({num_models} models, {num_subsets} {dataset.plural}, {num_trials} trials, {num_folds} folds)"
     )
     median = data.median()
     q1 = data.quantile(0.25)
@@ -422,14 +433,14 @@ def main(dataset: Dataset, experiment: str, num_trials: int, num_folds: int) -> 
     data_name = f"split-halves_internal-agreement_num-models={num_models}_num-trials={num_trials}"
     data_path = build_data_path(dataset, experiment, data_name)
     split_halves_df.to_csv(data_path, index=False)
-    print(f"Saved data to {data_path}")
+    logger.info(f"Saved data to {data_path}")
 
     split_halves_fig = plot_split_halves_histogram(split_halves_df, **shared)
     plot_name = f"split-halves_internal-agreement_histogram_num-models={num_models}_num-trials={num_trials}"
     plot_path = build_plot_path(dataset, experiment, plot_name)
     split_halves_fig.savefig(plot_path)
     plt.close(split_halves_fig)
-    print(f"Saved plot to {plot_path}")
+    logger.info(f"Saved plot to {plot_path}")
 
     bootstrap_df = bootstrap_analysis(**shared)
     data_name = (
@@ -437,38 +448,41 @@ def main(dataset: Dataset, experiment: str, num_trials: int, num_folds: int) -> 
     )
     data_path = build_data_path(dataset, experiment, data_name)
     bootstrap_df.to_csv(data_path, index=False)
-    print(f"Saved data to {data_path}")
+    logger.info(f"Saved data to {data_path}")
 
     bootstrap_fig = plot_bootstrap_histogram(bootstrap_df, **shared)
     plot_name = f"bootstrap_internal-agreement_histogram_num-models={num_models}_num-trials={num_trials}"
     plot_path = build_plot_path(dataset, experiment, plot_name)
     bootstrap_fig.savefig(plot_path)
     plt.close(bootstrap_fig)
-    print(f"Saved plot to {plot_path}")
+    logger.info(f"Saved plot to {plot_path}")
 
     minibatch_w_df = minibatch_w_analysis(**shared)
     data_name = f"mini-batch_internal-agreement_num-models={num_models}_num-folds={num_folds}_num-trials={num_trials}"
     data_path = build_data_path(dataset, experiment, data_name)
     minibatch_w_df.to_csv(data_path, index=False)
-    print(f"Saved data to {data_path}")
+    logger.info(f"Saved data to {data_path}")
 
     minibatch_w_fig = plot_minibatch_w_histogram(minibatch_w_df, **shared)
     plot_name = f"mini-batch_internal-agreement_histogram_num-models={num_models}_num-folds={num_folds}_num-trials={num_trials}"
     plot_path = build_plot_path(dataset, experiment, plot_name)
     minibatch_w_fig.savefig(plot_path)
     plt.close(minibatch_w_fig)
-    print(f"Saved plot to {plot_path}")
+    logger.info(f"Saved plot to {plot_path}")
 
 
 if __name__ == "__main__":
     # Only MATH, MMLU, and DS-1000 have pre-defined subsets
     datasets = [Dataset.MATH, Dataset.MMLU, Dataset.DS_1000]
     experiment = Path(__file__).stem
-    num_trial_values = [500]
-    num_fold_values = [5]
+    num_trial_values = [50, 500, 1000]
+    num_fold_values = [2, 5, 10]
 
-    for dataset in datasets:
+    for i, dataset in enumerate(datasets):
         for num_trials in num_trial_values:
             for num_folds in num_fold_values:
+                print(
+                    f"{'-'*80} Dataset {i+1}/{len(datasets)}: {dataset.pretty_name}, "
+                    f"{num_trials=}, {num_folds=} {'-'*80}"
+                )
                 main(dataset, experiment, num_trials, num_folds)
-        print(f"{'-'*200}")

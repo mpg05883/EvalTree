@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -16,6 +17,13 @@ from src.utils.metrics import kendallw
 from src.utils.model import load_model_scores
 from src.utils.path import build_data_path, build_plot_path
 from src.utils.plot import plot_histogram, plot_stripplot
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(levelname)s: %(message)s",
+    force=True,
+)
+logger = logging.getLogger(__name__)
 
 
 def split_halves_analysis(
@@ -555,86 +563,105 @@ def main(
     data_name = f"all-nodes_split-halves_internal-agreement_num-models={num_models}_min-instances={min_instances}_num-trials={num_trials}"
     data_path = build_data_path(dataset, experiment, data_name)
     split_halves_df.to_csv(data_path, index=False)
-    print(f"Saved data to {data_path}")
+    logger.info(f"Saved data to {data_path}")
 
     split_halves_all_nodes_fig = plot_all_nodes_split_halves_histogram(
-        split_halves_df, **shared
+        split_halves_df,
+        **shared,
     )
     plot_name = f"all-nodes_split-halves_internal-agreement_histogram_min-instances={min_instances}_num-trials={num_trials}"
     plot_path = build_plot_path(dataset, experiment, plot_name)
     split_halves_all_nodes_fig.savefig(plot_path)
     plt.close(split_halves_all_nodes_fig)
-    print(f"Saved plot to {plot_path}")
+    logger.info(f"Saved plot to {plot_path}")
 
     split_halves_per_level_fig = plot_per_level_split_halves_stripplot(
-        split_halves_df, **shared
+        split_halves_df,
+        **shared,
     )
-    plot_name = f"per-level_split-halves_internal-agreement_strip-plot_min-instances={min_instances}_num-trials={num_trials}"
+    plot_name = f"per-level_split-halves_internal-agreement_stripplot_min-instances={min_instances}_num-trials={num_trials}"
     plot_path = build_plot_path(dataset, experiment, plot_name)
     split_halves_per_level_fig.savefig(plot_path)
     plt.close(split_halves_per_level_fig)
-    print(f"Saved plot to {plot_path}")
+    logger.info(f"Saved plot to {plot_path}")
 
     bootstrap_df = bootstrap_analysis(**shared)
     data_name = f"all-nodes_bootstrap_internal-agreement_num-models={num_models}_min-instances={min_instances}_num-trials={num_trials}"
     data_path = build_data_path(dataset, experiment, data_name)
     bootstrap_df.to_csv(data_path, index=False)
-    print(f"Saved data to {data_path}")
+    logger.info(f"Saved data to {data_path}")
 
-    bootstrap_all_nodes_fig = plot_all_nodes_bootstrap_histogram(bootstrap_df, **shared)
+    bootstrap_all_nodes_fig = plot_all_nodes_bootstrap_histogram(
+        bootstrap_df,
+        **shared,
+    )
     plot_name = f"all-nodes_bootstrap_internal-agreement_histogram_min-instances={min_instances}_num-trials={num_trials}"
     plot_path = build_plot_path(dataset, experiment, plot_name)
     bootstrap_all_nodes_fig.savefig(plot_path)
     plt.close(bootstrap_all_nodes_fig)
-    print(f"Saved plot to {plot_path}")
+    logger.info(f"Saved plot to {plot_path}")
 
     bootstrap_per_level_fig = plot_per_level_bootstrap_stripplot(
-        bootstrap_df, **shared
+        bootstrap_df,
+        **shared,
     )
-    plot_name = f"per-level_bootstrap_internal-agreement_strip-plot_min-instances={min_instances}_num-trials={num_trials}"
+    plot_name = f"per-level_bootstrap_internal-agreement_stripplot_min-instances={min_instances}_num-trials={num_trials}"
     plot_path = build_plot_path(dataset, experiment, plot_name)
     bootstrap_per_level_fig.savefig(plot_path)
     plt.close(bootstrap_per_level_fig)
-    print(f"Saved plot to {plot_path}")
+    logger.info(f"Saved plot to {plot_path}")
 
     minibatch_w_df = minibatch_w_analysis(**shared)
     data_name = f"all-nodes_mini-batch_internal-agreement_num-models={num_models}_min-instances={min_instances}_num-trials={num_trials}_num-folds={num_folds}"
     data_path = build_data_path(dataset, experiment, data_name)
     minibatch_w_df.to_csv(data_path, index=False)
-    print(f"Saved data to {data_path}")
+    logger.info(f"Saved data to {data_path}")
 
     minibatch_w_all_nodes_fig = plot_all_nodes_minibatch_w_histogram(
-        minibatch_w_df, **shared
+        minibatch_w_df,
+        **shared,
     )
     plot_name = f"all-nodes_mini-batch_internal-agreement_histogram_min-instances={min_instances}_num-trials={num_trials}_num-folds={num_folds}"
     plot_path = build_plot_path(dataset, experiment, plot_name)
     minibatch_w_all_nodes_fig.savefig(plot_path)
     plt.close(minibatch_w_all_nodes_fig)
-    print(f"Saved plot to {plot_path}")
+    logger.info(f"Saved plot to {plot_path}")
 
     minibatch_w_per_level_fig = plot_per_level_minibatch_w_stripplot(
-        minibatch_w_df, **shared
+        minibatch_w_df,
+        **shared,
     )
-    plot_name = f"per-level_mini-batch_internal-agreement_strip-plot_min-instances={min_instances}_num-trials={num_trials}_num-folds={num_folds}"
+    plot_name = f"per-level_mini-batch_internal-agreement_stripplot_min-instances={min_instances}_num-trials={num_trials}_num-folds={num_folds}"
     plot_path = build_plot_path(dataset, experiment, plot_name)
     minibatch_w_per_level_fig.savefig(plot_path)
     plt.close(minibatch_w_per_level_fig)
-    print(f"Saved plot to {plot_path}")
+    logger.info(f"Saved plot to {plot_path}")
 
 
 if __name__ == "__main__":
-    # NOTE: We ignore these datasets for the following reasons:
+    # NOTE: We ignore the following datasets:
     # - Chatbot-Arena and Chatbot-Arena (New) don't have per-instance scores
     # - WildChat-10K only has evaluation results for two models
     datasets = [Dataset.DS_1000, Dataset.MATH, Dataset.MMLU]
     experiment = Path(__file__).stem
-    min_instance_values = [50]
-    num_trial_values = [500]
-    num_fold_values = [5]
+    num_trial_values = [50, 500, 1000]
+    num_fold_values = [2, 5, 10]
 
-    for dataset in datasets:
+    for i, dataset in enumerate(datasets):
+        one_tenth = dataset.num_instances // 10
+        min_instance_values = [0, 50, one_tenth]
+
         for min_instances in min_instance_values:
             for num_trials in num_trial_values:
                 for num_folds in num_fold_values:
-                    main(dataset, min_instances, experiment, num_trials, num_folds)
-        print(f"{'-'*200}")
+                    print(
+                        f"{'-'*80} Dataset {i+1}/{len(datasets)}: {dataset.pretty_name}, "
+                        f"{min_instances=}, {num_trials=}, {num_folds=} {'-'*80}"
+                    )
+                    main(
+                        dataset,
+                        min_instances,
+                        experiment,
+                        num_trials,
+                        num_folds,
+                    )
