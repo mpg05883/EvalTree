@@ -111,8 +111,9 @@ def plot_all_nodes_split_halves_histogram(
         f"{dataset.pretty_name}: Internal Node Agreement (Split-Halves {xlabel})"
         f"\n({num_models} models, {num_nodes} nodes, {num_trials} trials, {min_instance_label}={min_instances})"
     )
-    mean = data.mean()
-    std = data.std()
+    median = data.median()
+    q1 = data.quantile(0.25)
+    q3 = data.quantile(0.75)
     xlim = (-1, 1) if min(data) < 0 else (0, 1)
     ylim = (0, num_nodes)
 
@@ -122,14 +123,15 @@ def plot_all_nodes_split_halves_histogram(
         ylabel=ylabel,
         title=title,
         annotate=True,
-        mean=mean,
-        std=std,
+        median=median,
+        q1=q1,
+        q3=q3,
         xlim=xlim,
         ylim=ylim,
     )
 
 
-def plot_per_level_split_halves_strip_plot(
+def plot_per_level_split_halves_stripplot(
     df: pd.DataFrame,
     dataset: Dataset,
     num_models: int,
@@ -274,8 +276,9 @@ def plot_all_nodes_bootstrap_histogram(
         f"{dataset.pretty_name}: Internal Node Agreement (Bootstrapped {xlabel})"
         f"\n({num_models} models, {num_nodes} nodes, {num_trials} trials, {min_instance_label}={min_instances})"
     )
-    mean = data.mean()
-    std = data.std()
+    median = data.median()
+    q1 = data.quantile(0.25)
+    q3 = data.quantile(0.75)
     xlim = (-1, 1) if min(data) < 0 else (0, 1)
     ylim = (0, num_nodes)
 
@@ -285,14 +288,15 @@ def plot_all_nodes_bootstrap_histogram(
         ylabel=ylabel,
         title=title,
         annotate=True,
-        mean=mean,
-        std=std,
+        median=median,
+        q1=q1,
+        q3=q3,
         xlim=xlim,
         ylim=ylim,
     )
 
 
-def plot_per_level_bootstrap_strip_plot(
+def plot_per_level_bootstrap_stripplot(
     df: pd.DataFrame,
     dataset: Dataset,
     num_models: int,
@@ -444,8 +448,9 @@ def plot_all_nodes_minibatch_w_histogram(
         f"{dataset.pretty_name}: Internal Node Agreement (Mini-Batch Kendall's W)"
         f"\n({num_models} models, {num_nodes} nodes, {num_trials} trials, {num_folds} folds, {min_instance_label}={min_instances})"
     )
-    mean = data.mean()
-    std = data.std()
+    median = data.median()
+    q1 = data.quantile(0.25)
+    q3 = data.quantile(0.75)
     xlim = (0, 1)
     ylim = (0, num_nodes)
 
@@ -455,14 +460,15 @@ def plot_all_nodes_minibatch_w_histogram(
         ylabel=ylabel,
         title=title,
         annotate=True,
-        mean=mean,
-        std=std,
+        median=median,
+        q1=q1,
+        q3=q3,
         xlim=xlim,
         ylim=ylim,
     )
 
 
-def plot_per_level_minibatch_w_strip_plot(
+def plot_per_level_minibatch_w_stripplot(
     df: pd.DataFrame,
     dataset: Dataset,
     num_models: int,
@@ -560,7 +566,7 @@ def main(
     plt.close(split_halves_all_nodes_fig)
     print(f"Saved plot to {plot_path}")
 
-    split_halves_per_level_fig = plot_per_level_split_halves_strip_plot(
+    split_halves_per_level_fig = plot_per_level_split_halves_stripplot(
         split_halves_df, **shared
     )
     plot_name = f"per-level_split-halves_internal-agreement_strip-plot_min-instances={min_instances}_num-trials={num_trials}"
@@ -582,7 +588,7 @@ def main(
     plt.close(bootstrap_all_nodes_fig)
     print(f"Saved plot to {plot_path}")
 
-    bootstrap_per_level_fig = plot_per_level_bootstrap_strip_plot(
+    bootstrap_per_level_fig = plot_per_level_bootstrap_stripplot(
         bootstrap_df, **shared
     )
     plot_name = f"per-level_bootstrap_internal-agreement_strip-plot_min-instances={min_instances}_num-trials={num_trials}"
@@ -606,7 +612,7 @@ def main(
     plt.close(minibatch_w_all_nodes_fig)
     print(f"Saved plot to {plot_path}")
 
-    minibatch_w_per_level_fig = plot_per_level_minibatch_w_strip_plot(
+    minibatch_w_per_level_fig = plot_per_level_minibatch_w_stripplot(
         minibatch_w_df, **shared
     )
     plot_name = f"per-level_mini-batch_internal-agreement_strip-plot_min-instances={min_instances}_num-trials={num_trials}_num-folds={num_folds}"

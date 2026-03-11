@@ -74,7 +74,7 @@ def plot_subset_external_agreement_histogram(
     Takes the output of subset_external_agreement_analysis and visualises how consistently
     each subset reproduces the benchmark-level model ranking. The x-axis shows
     Kendall's Tau (ranging from -1 to 1 or 0 to 1 depending on the data), and
-    the histogram is annotated with the mean and standard deviation across all subsets.
+    the histogram is annotated with the median and IQR across all subsets.
     """
     data = df["kendall_tau"]
     xlabel = r"Kendall's $\tau$"
@@ -84,9 +84,10 @@ def plot_subset_external_agreement_histogram(
         f"\n({num_models} models, {num_subsets} {dataset.plural})"
     )
     annotate = True
-    mean = data.mean()
-    mean_label = f"Mean {xlabel}"
-    std = data.std()
+    median = data.median()
+    median_label = f"Median {xlabel}"
+    q1 = data.quantile(0.25)
+    q3 = data.quantile(0.75)
     xlim = (-1, 1) if min(data) < 0 else (0, 1)
     ylim = {
         Dataset.DS_1000: (0, num_subsets),
@@ -100,9 +101,10 @@ def plot_subset_external_agreement_histogram(
         ylabel=ylabel,
         title=title,
         annotate=annotate,
-        mean=mean,
-        mean_label=mean_label,
-        std=std,
+        median=median,
+        median_label=median_label,
+        q1=q1,
+        q3=q3,
         xlim=xlim,
         ylim=ylim,
     )

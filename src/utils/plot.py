@@ -15,15 +15,16 @@ from matplotlib.path import Path
 from src.utils.enums import Dataset
 
 
-def _complementary_color(color: str) -> tuple:
-    """Return a color roughly 120° away on the HSV wheel (triadic offset).
+def _hue_shift(color: str, shift: float) -> tuple:
+    """Return a color rotated by ``shift`` (0–1) along the HSV hue wheel.
 
-    A 120° rotation mirrors the blue-red relationship — somewhat opposite but
-    not fully complementary (which would be 180°).
+    A shift of 1/3 (120°) and 2/3 (240°) together with the original hue
+    form a triadic colour scheme — three evenly spaced colours that are
+    perceptually distinct while remaining harmonious.
     """
     r, g, b = plt.matplotlib.colors.to_rgb(color)
     h, s, v = colorsys.rgb_to_hsv(r, g, b)
-    h = (h + 1 / 3) % 1.0
+    h = (h + shift) % 1.0
     return colorsys.hsv_to_rgb(h, s, v)
 
 
@@ -35,6 +36,10 @@ def plot_histogram(
     ax: Axes | None = None,
     figsize: tuple[int, int] = (8, 4),
     annotate: bool = False,
+    median: float | None = None,
+    median_label: str = "Median",
+    q1: float | None = None,
+    q3: float | None = None,
     mean: float | None = None,
     mean_label: str = "Mean",
     std: float | None = None,
@@ -52,16 +57,25 @@ def plot_histogram(
         ax (Axes | None): Axes to draw into. If None, a new figure is created.
         figsize: Figure size as (width, height). Only used when ax is None. Default is (8, 4).
         annotate (bool): If True, annotates each bar with its height in bold.
-        mean (float | None): If provided and not NaN, plots a vertical line at this value.
-        std (float | None): If provided and not NaN, plots a shaded region for mean ± std.
-            Requires mean to also be provided and not NaN.
+        median (float | None): If provided and not NaN, plots a dashed vertical line at
+            this value.
+        median_label (str): Legend label for the median line. Default is "Median".
+        q1 (float | None): First quartile. If both q1 and q3 are provided and not NaN,
+            plots a shaded region spanning [q1, q3] to visualise the IQR.
+        q3 (float | None): Third quartile. See q1.
+        mean (float | None): If provided and not NaN, plots a dotted vertical line at
+            this value.
+        mean_label (str): Legend label for the mean line. Default is "Mean".
+        std (float | None): If provided and not NaN, plots a shaded region for
+            mean ± std. Requires mean to also be provided and not NaN.
         xlim (tuple[float, float] | None): (min, max) range for the bins. If None,
             the range is inferred from the data.
         ylim (tuple[float, float] | None): (min, max) limits for the y-axis. If None,
             the limits are inferred from the data.
-        color (str | None): Bar color. If provided, the mean/std overlay uses the
-            complementary color (opposite on the color wheel). If None, uses seaborn's
-            default color for the bars and red for the mean/std overlay.
+        color (str | None): Bar color. If provided, the median/IQR overlay uses the
+            color 1/3 around the HSV wheel (120°) and the mean/std overlay uses the
+            color 2/3 around the wheel (240°), forming a triadic scheme with the bars.
+            If None, median/IQR defaults to red and mean/std defaults to green.
     """
     owns_figure = ax is None
     if owns_figure:
@@ -69,7 +83,8 @@ def plot_histogram(
     else:
         fig = ax.figure
 
-    mean_color = _complementary_color(color) if color is not None else "red"
+    median_color = _hue_shift(color, 1 / 3) if color is not None else "red"
+    mean_color = _hue_shift(color, 2 / 3) if color is not None else "green"
 
     data_min, data_max = xlim if xlim is not None else (data.min(), data.max())
     sns.histplot(data=data, ax=ax, bins=10, binrange=(data_min, data_max), color=color)
@@ -88,22 +103,39 @@ def plot_histogram(
                 fontweight="bold",
             )
 
-    # Optionally plot vertical line at mean and a shaded region for ±1 std
+    # Optionally plot reference lines and shaded regions for median/IQR and mean/std
+    has_overlay = False
+    if median is not None and not math.isnan(median):
+        ax.axvline(
+            median,
+            color=median_color,
+            linestyle="--",
+            label=f"{median_label}: {median:.3g}",
+        )
+        if (
+            q1 is not None
+            and q3 is not None
+            and not math.isnan(q1)
+            and not math.isnan(q3)
+        ):
+            ax.axvspan(
+                q1, q3, alpha=0.2, color=median_color, label=f"IQR: {q3 - q1:.3g}"
+            )
+        has_overlay = True
     if mean is not None and not math.isnan(mean):
         ax.axvline(
-            mean,
-            color=mean_color,
-            linestyle="--",
-            label=f"{mean_label}: {mean:.3g}",
+            mean, color=mean_color, linestyle=":", label=f"{mean_label}: {mean:.3g}"
         )
         if std is not None and not math.isnan(std):
             ax.axvspan(
                 mean - std,
                 mean + std,
-                alpha=0.2,
+                alpha=0.1,
                 color=mean_color,
                 label=f"±1 Std: {std:.3g}",
             )
+        has_overlay = True
+    if has_overlay:
         ax.legend()
 
     if ylim is not None:
@@ -133,6 +165,8 @@ def plot_stripplot(
     palette: str = "tab10",
     size: int = 6,
     jitter: bool = True,
+    median: float | None = None,
+    median_label: str = "Median",
     mean: float | None = None,
     mean_label: str = "Mean",
     x_means: dict[str, float] | None = None,
@@ -150,9 +184,10 @@ def plot_stripplot(
     Each category on the x-axis is represented by a column of dots, where
     every dot is a single observation. Dots are optionally jittered
     horizontally to reduce overplotting and color-coded by the ``hue``
-    column. Two kinds of reference lines are supported: a single horizontal
-    dashed line spanning the full width (``mean``), and short horizontal
-    tick-marks drawn at a per-category value (``x_means``).
+    column. Three kinds of reference lines are supported: a dashed horizontal
+    line at the median, a dotted horizontal line at the mean (both spanning
+    the full width), and short horizontal tick-marks at a per-category value
+    (``x_means``).
 
     Args:
         data: DataFrame in long format with at least the ``x`` and ``y``
@@ -179,9 +214,12 @@ def plot_stripplot(
         palette: Seaborn palette name used to color the dots.
         size: Marker radius in points for each dot.
         jitter: Whether to add horizontal jitter to separate overlapping dots.
-        mean: If provided and not NaN, draws a horizontal dashed reference
+        median: If provided and not NaN, draws a horizontal dashed reference
             line at this value spanning the full plot width.
-        mean_label: Legend label for the full-width reference line.
+        median_label: Legend label for the median reference line.
+        mean: If provided and not NaN, draws a horizontal dotted reference
+            line at this value spanning the full plot width.
+        mean_label: Legend label for the mean reference line.
         x_means: Mapping from each x-axis category name to a reference value.
             For each entry a short horizontal line is drawn across that
             category's column, making it easy to compare dots to a
@@ -201,7 +239,7 @@ def plot_stripplot(
     """
     owns_figure = ax is None
     if owns_figure:
-        
+
         fig, ax = plt.subplots(figsize=figsize)
     else:
         fig = ax.figure
@@ -244,10 +282,28 @@ def plot_stripplot(
                 )
             )
 
-    if mean is not None and not math.isnan(mean):
-        ax.axhline(mean, color="red", linestyle="--")
+    if median is not None and not math.isnan(median):
+        ax.axhline(median, color="black", linestyle="--")
         legend_handles.append(
-            Line2D([0], [0], color="red", linestyle="--", label=f"{mean_label}: {mean:.3g}")
+            Line2D(
+                [0],
+                [0],
+                color="black",
+                linestyle="--",
+                label=f"{median_label}: {median:.3g}",
+            )
+        )
+
+    if mean is not None and not math.isnan(mean):
+        ax.axhline(mean, color="grey", linestyle=":")
+        legend_handles.append(
+            Line2D(
+                [0],
+                [0],
+                color="grey",
+                linestyle=":",
+                label=f"{mean_label}: {mean:.3g}",
+            )
         )
 
     if x_means is not None:
@@ -302,6 +358,10 @@ def plot_barplot(
     ax: Axes | None = None,
     figsize: tuple[int, int] | None = None,
     annotate: bool = False,
+    median: float | None = None,
+    median_label: str = "Median",
+    q1: float | None = None,
+    q3: float | None = None,
     mean: float | None = None,
     mean_label: str = "Mean",
     std: float | None = None,
@@ -327,7 +387,14 @@ def plot_barplot(
         ax (Axes | None): Axes to draw into. If None, a new figure is created.
         figsize: Figure size as (width, height). Only used when ax is None. Default is (8, 5).
         annotate (bool): If True, annotates each bar with its value in bold.
-        mean (float | None): If provided and not NaN, plots a horizontal line at this value.
+        median (float | None): If provided and not NaN, plots a dashed horizontal line
+            at this value.
+        median_label (str): Label for the median line in the legend. Default is "Median".
+        q1 (float | None): First quartile. If both q1 and q3 are provided and not NaN,
+            plots a shaded region spanning [q1, q3] to visualise the IQR.
+        q3 (float | None): Third quartile. See q1.
+        mean (float | None): If provided and not NaN, plots a dotted horizontal line at
+            this value.
         mean_label (str): Label for the mean line in the legend. Default is "Mean".
         std (float | None): If provided and not NaN, plots a shaded region for mean ± std.
             Requires mean to also be provided and not NaN.
@@ -361,22 +428,34 @@ def plot_barplot(
             fontsize=annotation_fontsize,
         )
 
-    # Optionally plot horizontal line at mean and a shaded region for ±1 std
+    # Optionally plot reference lines and shaded regions for median/IQR and mean/std
+    has_overlay = False
+    if median is not None and not math.isnan(median):
+        ax.axhline(
+            median, color="red", linestyle="--", label=f"{median_label}: {int(median)}"
+        )
+        if (
+            q1 is not None
+            and q3 is not None
+            and not math.isnan(q1)
+            and not math.isnan(q3)
+        ):
+            ax.axhspan(q1, q3, alpha=0.2, color="red", label=f"IQR: {q3 - q1:.3g}")
+        has_overlay = True
     if mean is not None and not math.isnan(mean):
         ax.axhline(
-            mean,
-            color="red",
-            linestyle="--",
-            label=f"{mean_label}: {int(mean)}",
+            mean, color="green", linestyle=":", label=f"{mean_label}: {int(mean)}"
         )
         if std is not None and not math.isnan(std):
             ax.axhspan(
                 mean - std,
                 mean + std,
-                alpha=0.2,
-                color="red",
+                alpha=0.1,
+                color="green",
                 label=f"±1 Std: {std:.3g}",
             )
+        has_overlay = True
+    if has_overlay:
         ax.legend(fontsize=legend_fontsize)
 
     if ylim is not None:

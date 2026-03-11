@@ -117,8 +117,9 @@ def plot_split_halves_histogram(
         f"{dataset.pretty_name}: {dataset.subset_col.title()} Internal Agreement (Split-Halves {xlabel})"
         f"\n({num_models} models, {num_subsets} {dataset.plural}, {num_trials} trials)"
     )
-    mean = data.mean()
-    std = data.std()
+    median = data.median()
+    q1 = data.quantile(0.25)
+    q3 = data.quantile(0.75)
     xlim = (-1, 1) if min(data) < 0 else (0, 1)
     ylim = {
         Dataset.DS_1000: (0, num_subsets),
@@ -132,8 +133,9 @@ def plot_split_halves_histogram(
         ylabel=ylabel,
         title=title,
         annotate=True,
-        mean=mean,
-        std=std,
+        median=median,
+        q1=q1,
+        q3=q3,
         xlim=xlim,
         ylim=ylim,
     )
@@ -236,8 +238,9 @@ def plot_bootstrap_histogram(
         f"{dataset.pretty_name}: {dataset.subset_col.title()} Internal Agreement (Bootstrapped {xlabel})"
         f"\n({num_models} models, {num_subsets} {dataset.plural}, {num_trials} trials)"
     )
-    mean = data.mean()
-    std = data.std()
+    median = data.median()
+    q1 = data.quantile(0.25)
+    q3 = data.quantile(0.75)
     xlim = (-1, 1) if min(data) < 0 else (0, 1)
     ylim = {
         Dataset.DS_1000: (0, num_subsets),
@@ -251,8 +254,9 @@ def plot_bootstrap_histogram(
         ylabel=ylabel,
         title=title,
         annotate=True,
-        mean=mean,
-        std=std,
+        median=median,
+        q1=q1,
+        q3=q3,
         xlim=xlim,
         ylim=ylim,
     )
@@ -362,8 +366,9 @@ def plot_minibatch_w_histogram(
         f"{dataset.pretty_name}: {dataset.subset_col.title()} Internal Agreement (Mini-Batch Kendall's W)"
         f"\n({num_models} models, {num_subsets} {dataset.plural}, {num_instances} instances, {num_trials} trials, {num_folds} folds)"
     )
-    mean = data.mean()
-    std = data.std()
+    median = data.median()
+    q1 = data.quantile(0.25)
+    q3 = data.quantile(0.75)
     xlim = (0, 1)
     ylim = {
         Dataset.DS_1000: (0, num_subsets),
@@ -377,8 +382,9 @@ def plot_minibatch_w_histogram(
         ylabel=ylabel,
         title=title,
         annotate=True,
-        mean=mean,
-        std=std,
+        median=median,
+        q1=q1,
+        q3=q3,
         xlim=xlim,
         ylim=ylim,
     )

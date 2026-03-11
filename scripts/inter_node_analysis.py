@@ -78,8 +78,8 @@ def plot_all_nodes_external_agreement_histogram(
     Takes the output of :func:`all_nodes_external_agreement_analysis` and visualises how
     consistently each node reproduces the global model ranking. The x-axis
     spans either (0, 1) or (-1, 1) depending on whether any negative tau
-    values are present, and the histogram is annotated with the mean and
-    standard deviation.
+    values are present, and the histogram is annotated with the median and
+    IQR.
 
     Args:
         df: DataFrame returned by :func:`all_nodes_external_agreement_analysis`.
@@ -102,9 +102,10 @@ def plot_all_nodes_external_agreement_histogram(
         f"\n({num_models} models, {num_nodes} nodes, {min_instance_label}={min_instances})"
     )
     annotate = True
-    mean = data.mean()
-    mean_label = f"Mean {xlabel}"
-    std = data.std()
+    median = data.median()
+    median_label = f"Median {xlabel}"
+    q1 = data.quantile(0.25)
+    q3 = data.quantile(0.75)
 
     return plot_histogram(
         data,
@@ -112,14 +113,15 @@ def plot_all_nodes_external_agreement_histogram(
         ylabel=ylabel,
         title=title,
         annotate=annotate,
-        mean=mean,
-        mean_label=mean_label,
-        std=std,
+        median=median,
+        median_label=median_label,
+        q1=q1,
+        q3=q3,
         xlim=xlim,
     )
 
 
-def plot_per_level_external_agreement_strip_plot(
+def plot_per_level_external_agreement_stripplot(
     df: pd.DataFrame,
     dataset: Dataset,
     num_models: int,
@@ -214,7 +216,7 @@ def all_nodes_performance_analysis(
     return df
 
 
-def plot_all_nodes_performance_strip_plot(
+def plot_all_nodes_performance_stripplot(
     df: pd.DataFrame,
     dataset: Dataset,
     global_ranking: dict[str, float],
@@ -291,7 +293,7 @@ def plot_all_nodes_performance_strip_plot(
     )
 
 
-def plot_per_level_performance_strip_plot(
+def plot_per_level_performance_stripplot(
     all_nodes_performance_df: pd.DataFrame,
     dataset: Dataset,
     global_ranking: dict[str, float],
@@ -364,8 +366,8 @@ def plot_per_level_performance_strip_plot(
         hue = "level"
         order = level_order
         palette = "tab10"
-        mean = global_score
-        mean_label = f"Full Benchmark {dataset.metric.title()}"
+        median = global_score
+        median_label = f"Full Benchmark {dataset.metric.title()}"
         rotation = 30
 
         plot_stripplot(
@@ -379,8 +381,8 @@ def plot_per_level_performance_strip_plot(
             order=order,
             palette=palette,
             ax=axes[i, 0],
-            mean=mean,
-            mean_label=mean_label,
+            median=median,
+            median_label=median_label,
             ylim=ylim,
             rotation=rotation,
         )
@@ -431,7 +433,7 @@ def main(dataset: Dataset, min_instances: int, experiment: str) -> None:
     plt.close(all_nodes_external_agreement_fig)
     print(f"Saved plot to {plot_path}")
 
-    per_level_external_agreement_fig = plot_per_level_external_agreement_strip_plot(
+    per_level_external_agreement_fig = plot_per_level_external_agreement_stripplot(
         all_nodes_external_agreement_df,
         **shared,
     )
@@ -447,7 +449,7 @@ def main(dataset: Dataset, min_instances: int, experiment: str) -> None:
     all_nodes_performance_df.to_csv(data_path)
     print(f"Saved data to {data_path}")
 
-    all_nodes_performance_fig = plot_all_nodes_performance_strip_plot(
+    all_nodes_performance_fig = plot_all_nodes_performance_stripplot(
         all_nodes_performance_df,
         **shared,
     )
@@ -457,7 +459,7 @@ def main(dataset: Dataset, min_instances: int, experiment: str) -> None:
     plt.close(all_nodes_performance_fig)
     print(f"Saved plot to {plot_path}")
 
-    per_level_performance_fig = plot_per_level_performance_strip_plot(
+    per_level_performance_fig = plot_per_level_performance_stripplot(
         all_nodes_performance_df,
         **shared,
     )
