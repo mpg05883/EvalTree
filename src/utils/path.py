@@ -41,26 +41,50 @@ def resolve_eval_results_dir(dataset: Dataset) -> Path:
     return resolve_dataset_dir(dataset) / "eval_results"
 
 
-def resolve_results_dir() -> Path:
-    """Resolve the absolute file path to the results directory."""
-    return resolve_root_dir() / "results"
+def resolve_results_dir(experiment: str) -> Path:
+    """Resolve the absolute file path to the results directory for a given
+    experiment."""
+    return resolve_root_dir() / "results" / experiment
 
 
-def resolve_plots_dir() -> Path:
-    """Resolve the absolute file path to the plots directory."""
-    return resolve_results_dir() / "plots"
+def resolve_plots_dir(experiment: str) -> Path:
+    """Resolve the absolute file path to the plots directory for a given
+    experiment."""
+    return resolve_results_dir(experiment) / "plots"
+
+
+def resolve_data_dir(experiment: str) -> Path:
+    """Resolve the absolute file path to the data directory for a given
+    experiment."""
+    return resolve_results_dir(experiment) / "data"
 
 
 def build_plot_path(
     dataset: Dataset,
-    analysis: str,
+    experiment: str,
     plot_name: str,
     sub_dirs: list[str] | None = None,
     extension: str = "png",
 ) -> Path:
     """Build the absolute file path to the plot file and create the directory
     if it doesn't exist."""
-    path = resolve_plots_dir() / analysis / dataset / f"{plot_name}.{extension}"
+    path = resolve_plots_dir(experiment) / dataset / f"{plot_name}.{extension}"
+    if sub_dirs:
+        path = path.parent.joinpath(*sub_dirs) / path.name
+    path.parent.mkdir(parents=True, exist_ok=True)
+    return path
+
+
+def build_data_path(
+    dataset: Dataset,
+    experiment: str,
+    data_name: str,
+    sub_dirs: list[str] | None = None,
+    extension: str = "csv",
+) -> Path:
+    """Build the absolute file path to the data file and create the directory
+    if it doesn't exist."""
+    path = resolve_data_dir(experiment) / dataset / f"{data_name}.{extension}"
     if sub_dirs:
         path = path.parent.joinpath(*sub_dirs) / path.name
     path.parent.mkdir(parents=True, exist_ok=True)

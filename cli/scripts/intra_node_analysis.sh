@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source ./cli/utils.sh
+source ./cli/utils/utils.sh
 activate_conda_env
 
 python scripts/intra_node_analysis.py 
