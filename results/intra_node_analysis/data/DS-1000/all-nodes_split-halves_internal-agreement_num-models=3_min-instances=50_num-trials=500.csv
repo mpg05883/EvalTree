@@ -1,0 +1,14 @@
+node,depth,mean_kendall_tau,std_kendall_tau,num_instances
+Mastering advanced tensor manipulation and optimization techniques in deep learning frameworks.,2,0.9613938769133982,0.14510391713099685,114
+"Implementing comprehensive data processing, transformation, and analysis techniques for machine learning and data science tasks.",2,0.7239357110621795,0.3028115982367161,189
+Performing comprehensive statistical analysis and data manipulation using Python libraries and mathematical techniques.,3,0.8638683640525572,0.28059125002244595,51
+"Performing comprehensive data manipulation, transformation, and analysis using advanced pandas and numpy techniques",2,1.0,0.0,306
+"Aggregating, transforming, and analyzing grouped data using pandas techniques",3,0.9503836717690617,0.14867484578128787,57
+Manipulating and transforming data using advanced pandas techniques,3,0.992696938456699,0.056740241851469836,89
+Performing comprehensive data manipulation and analysis using pandas and numpy techniques,3,0.5293333333333332,0.30372794844509554,54
+Customizing and creating data visualizations using Python libraries,2,0.9877306119615102,0.0813047379699524,155
+Customizing and creating complex data visualizations using Python libraries like Matplotlib and Seaborn.,3,0.9619190461312623,0.12841155114591604,107
+Optimizing and leveraging advanced techniques for multidimensional data manipulation and numerical analysis,2,0.816511562358749,0.2780447239824465,236
+Manipulating and optimizing multidimensional arrays and matrices for efficient data processing and numerical analysis,3,0.6504033947717808,0.27904177636732463,54
+"Leveraging advanced numerical and data manipulation techniques using NumPy, SciPy, and pandas",3,0.7765721059388139,0.2906739063509337,182
+"Mastering advanced array manipulation and data transformation techniques using NumPy, SciPy, and pandas.",4,0.46282108368863056,0.21400150582012642,138

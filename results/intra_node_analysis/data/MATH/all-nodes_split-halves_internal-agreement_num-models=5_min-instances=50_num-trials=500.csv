@@ -1,0 +1,75 @@
+node,depth,mean_kendall_tau,std_kendall_tau,num_instances
+"Analyzing and optimizing geometric and algebraic relationships using matrix operations, transformations, and trigonometric principles across various mathematical contexts.",2,0.8663540232052286,0.09491303521588673,1325
+Analyzing and manipulating vector operations and relationships in multi-dimensional spaces using geometric and algebraic methods.,3,0.5047358713007685,0.23848756997701487,105
+"Analyzing and solving geometric and algebraic problems using coordinate geometry, complex numbers, and conic sections",3,0.7464120227800289,0.16278579700396373,119
+Analyzing and transforming geometric and algebraic structures using matrix operations and transformations,3,0.8241289553223212,0.16646053737142916,62
+"Applying geometric, trigonometric, and algebraic principles to solve and optimize problems involving areas, angles, lengths, and coordinates in various geometric figures.",3,0.7427420125520873,0.14446489282594135,215
+"Calculating and analyzing geometric properties and dimensions using algebraic, geometric, trigonometric, vector, and combinatorial methods",3,0.7492146116980958,0.13597542965522716,215
+"Calculating and analyzing areas, perimeters, and geometric properties using decomposition, algebraic reasoning, integration, and proportional reasoning",4,0.634392030857875,0.20620253361704396,135
+"Calculating and reasoning about areas, perimeters, and geometric relationships using decomposition, algebraic reasoning, and probabilistic principles",5,0.5828825363969928,0.20779820230289364,80
+"Converting, analyzing, and optimizing geometric and spatial relationships using coordinate systems, angular calculations, and algebraic principles",3,0.8300053647598565,0.1492060739197596,105
+"Analyzing and optimizing geometric properties using algebraic, trigonometric, and complex number principles in circles and coordinate systems",4,0.5448246632569739,0.13443310286693225,67
+Calculating and applying proportional relationships and conversions across mathematical and geometric contexts,3,0.8014807833275566,0.17335800645222843,62
+"Optimizing and analyzing mathematical relationships and structures using inequalities, calculus, and transformations",3,0.8565023114366804,0.14280948456264586,168
+"Analyzing and solving geometric and algebraic problems involving sequences, properties, relationships, dimensions, and measurements across various contexts and structures using calculus and transformations",4,0.8630976554007169,0.15467735045710726,158
+"Analyzing and optimizing geometric properties and relationships using calculus, algebra, and transformations across various dimensions and contexts",5,0.7150177884357701,0.19572936800808252,87
+"Applying and solving geometric and algebraic problems involving properties, relationships, dimensions, and measurements of shapes and spaces.",5,0.753256148612403,0.18166884608908024,51
+"Analyzing and applying trigonometric principles, identities, and functions to solve and understand geometric and algebraic problems.",3,0.6840541138374076,0.15188639015711247,171
+"Applying and analyzing the Pythagorean theorem, geometric theorems, and trigonometric concepts to calculate distances, areas, and solve for unknowns in geometric figures and right triangles.",3,0.8838682468740064,0.12383691606246987,103
+"Analyzing and manipulating numerical properties, patterns, and expressions using arithmetic, algebraic, geometric, and number theory techniques across various mathematical contexts and systems.",2,0.823215091936908,0.06757071330241465,990
+"Performing and analyzing arithmetic operations and manipulations across various numeral systems and formats, including conversions, estimations, and advanced calculations with precision and understanding.",3,0.7351016225970344,0.1653083150452763,130
+"Analyzing and manipulating prime factorizations and numerical properties through combinatorial, algebraic, and modular techniques",3,0.7841930946538936,0.1543323499716325,166
+"Applying and analyzing modular arithmetic to solve congruences, simplify expressions, and explore patterns and sequences.",3,0.8697076690511605,0.10682477875736598,174
+Analyzing and manipulating numerical properties and integer values across various mathematical operations and constraints,3,0.7811092744258112,0.1595940998741011,72
+Analyzing and applying prime factorizations and the Euclidean algorithm to determine and utilize greatest common divisors and least common multiples in various mathematical contexts.,3,0.6031738239784554,0.23911424838660894,79
+"Analyzing and applying divisibility, integer properties, and number theory for logical reasoning and solving equations",3,0.6135269373675656,0.16678156499576105,90
+Analyzing and applying divisibility and integer properties for logical reasoning and optimization,4,0.6262804709872098,0.21170422751867807,56
+"Manipulating and simplifying numerical expressions and fractions using arithmetic, algebraic, and geometric techniques",3,0.8973431518140783,0.11694657951508135,142
+"Analyzing and manipulating numerical patterns, sequences, and transformations through systematic reasoning and advanced mathematical techniques",3,0.7237889358503239,0.1604521267625668,137
+"Analyzing and optimizing numerical patterns, sequences, and properties through systematic reasoning and manipulation across various numeral systems.",4,0.6280022430512873,0.15911048263868433,80
+"Optimizing, manipulating, and analyzing mathematical expressions and functions using advanced algebraic, trigonometric, and solving techniques",2,0.890807830863536,0.10010698513191722,2004
+Optimizing and analyzing mathematical expressions and functions through advanced manipulation and solving techniques,3,0.8704954877078822,0.10231916154116899,581
+"Optimizing expressions and functions using algebraic manipulation, inequalities, and advanced mathematical techniques",4,0.7715708066026987,0.18898556842304703,104
+"Analyzing and manipulating mathematical functions, expressions, and systems through evaluation, transformation, and solving techniques across various contexts and types.",4,0.8180750210882592,0.054507225660657306,477
+"Analyzing and manipulating mathematical functions and expressions through recursive, exponential, logarithmic, trigonometric, and algebraic techniques and transformations.",5,0.7253040825286421,0.1854171193538278,63
+Analyzing and manipulating algebraic inequalities and equations to solve problems and determine properties,5,0.8339108588421241,0.15219168549832318,111
+Analyzing and manipulating inequalities and expressions to solve algebraic problems and determine function properties,6,0.7448337324567567,0.16536196806724504,64
+Analyzing and solving complex mathematical systems and transformations,5,0.7686366679766797,0.166103813545962,54
+"Analyzing and solving quadratic functions and equations through transformation, optimization, and discriminant analysis within various mathematical contexts",5,0.5283783592354568,0.13410522259112195,72
+"Manipulating and analyzing mathematical expressions and equations using algebraic, trigonometric, and advanced mathematical techniques",3,0.9354835604382812,0.09756739741637854,1423
+"Manipulating and simplifying polynomial expressions and equations through interpolation, expansion, factorization, and algebraic identities.",4,0.895347493531483,0.13559480906968352,213
+"Analyzing and manipulating polynomial expressions and equations using algebraic identities, factorization, and division techniques",5,0.7483877112513116,0.16846960107844233,64
+"Manipulating and evaluating polynomial expressions and functions through interpolation, simplification, and systematic methods",5,0.7983316201719332,0.13465146032645786,51
+Factoring and manipulating algebraic expressions and polynomials for solving equations and optimizing mathematical expressions.,5,0.5253399389066874,0.13372598830273258,53
+Manipulating and analyzing quadratic equations and expressions for optimization and determination of zeros.,4,0.8413954491811262,0.0792487524441717,180
+"Manipulating, solving, and analyzing quadratic equations and algebraic expressions across various forms and contexts",5,0.8199412104289766,0.07684595193732463,117
+"Completing the square and manipulating quadratic expressions and equations for analysis, transformation, and optimization.",5,0.7933084564717637,0.1560040579043611,62
+"Applying Vieta's formulas and manipulating algebraic, polynomial, and trigonometric expressions to analyze and transform equations and polynomial roots and coefficients",4,0.7809916048718956,0.1489751475955041,68
+Solving and manipulating equations and systems using algebraic techniques and reasoning across various mathematical contexts,4,0.7284944650549159,0.13981473478630335,245
+Solving and optimizing systems of linear equations through algebraic manipulation and vector operations,5,0.5871379611804225,0.18469728913812092,57
+"Simplifying and manipulating mathematical expressions and equations using algebraic, combinatorial, and trigonometric techniques",4,0.7313648930088211,0.17707558737602977,267
+"Simplifying and manipulating algebraic, rational, and radical expressions and equations using properties of exponents, trigonometric identities, and rationalization techniques.",5,0.7380085809652487,0.15466611143556339,81
+"Manipulating and solving expressions and equations using properties of exponents, roots, and inverse functions",5,0.7979026246633737,0.128680830167721,81
+"Simplifying and solving expressions and equations using properties of exponents, roots, and inverse functions",6,0.8310938323914526,0.11899212754200372,54
+Applying and analyzing algebraic techniques for solving and manipulating polynomial equations and expressions,4,0.8300940458901598,0.14551300185160082,84
+"Manipulating and analyzing algebraic, functional, and trigonometric expressions and sequences using advanced mathematical techniques and transformations.",4,0.6106956322775198,0.1559676455087894,275
+"Applying and manipulating algebraic expressions and equations to solve and analyze problems involving complex relationships, variables, averages, and ratios.",5,0.7086126296282067,0.17799473874822913,67
+"Applying and manipulating algebraic expressions and equations to simplify, solve, and analyze complex mathematical problems involving various operations and relationships.",6,0.7740153232096705,0.1896011707548783,60
+"Analyzing and optimizing mathematical structures and interactions using combinatorial, probabilistic, and statistical techniques",2,0.9912394317103235,0.03852776949934485,681
+Analyzing and optimizing mathematical interactions and structures,3,0.572793504297028,0.1777838293301328,80
+"Analyzing, transforming, and optimizing mathematical structures, patterns, and relationships under constraints",4,0.5820574774646035,0.17628628156676304,75
+"Calculating, analyzing, and optimizing numerical and financial values through arithmetic, proportional reasoning, and data interpretation techniques",3,0.7594578491693059,0.1595892026633898,100
+Utilizing probabilistic reasoning and combinatorial techniques in diverse mathematical contexts,3,0.8965669442834341,0.10783531499006441,166
+Applying and analyzing probabilistic and combinatorial techniques across diverse mathematical contexts,4,0.8650453220428311,0.09707727962413278,151
+"Calculating and applying probabilistic techniques involving integer properties and combinatorial, geometric, and analytical methods",5,0.8788977194865109,0.11837024427951985,72
+"Applying combinatorial, geometric, and analytical probability techniques",6,0.8697147855358198,0.11666039863855318,69
+"Calculating probabilities using combinatorial, geometric, and analytical methods",7,0.7976528015121948,0.1296982977968005,61
+"Calculating probabilities using combinatorial methods, complementary counting, binomial distributions, and analyzing distinct outcomes, parity, and factors.",8,0.7873901337907835,0.13894483113027625,59
+"Analyzing and manipulating mathematical structures, distributions, and statistical measures",3,0.7136786348498843,0.17208735677960496,86
+"Calculating and analyzing combinatorial structures and constraints with permutations, combinations, and symmetries",3,0.6911251264697783,0.1551769529364037,135
+Calculating and analyzing permutations and combinations with constraints and symmetries across various contexts and categories,4,0.6434172492046871,0.17348058469795266,57
+Calculating combinatorial structures and constraints within sets,4,0.6477399540612816,0.15898400823872688,78
+"Calculating combinations, permutations, and subsets with constraints and composite elements",5,0.7160550644804723,0.1532252725174253,71
+Calculating combinations and permutations with various constraints and principles,6,0.716082828383338,0.15946577536199688,70
+"Employing combinatorial reasoning and set theory to solve problems involving counting, exclusions, constraints, symmetries, and permutations in discrete structures.",3,0.7577134320570588,0.13636093831298252,79
+"Applying combinatorial reasoning to analyze and solve problems involving constraints, symmetries, and permutations in discrete structures",4,0.7448581277186723,0.1662441816992672,59

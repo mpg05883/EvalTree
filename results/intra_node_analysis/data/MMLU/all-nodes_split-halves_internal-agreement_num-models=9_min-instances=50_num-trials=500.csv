@@ -1,0 +1,252 @@
+node,depth,mean_kendall_tau,std_kendall_tau,num_instances
+Developing quantitative reasoning and analytical problem-solving skills,2,0.6889768057318046,0.07361390843338625,1247
+Enhancing statistical and probabilistic reasoning and analysis skills,3,0.6708250454013658,0.11355947885812687,223
+Analyzing and applying probabilistic and statistical reasoning and techniques,4,0.5884741735942225,0.1261790916888904,76
+Utilizing mathematical reasoning and problem-solving principles,3,0.693829762494753,0.08624317002053876,566
+Analyzing and applying mathematical and algebraic principles and structures,4,0.6488400379559183,0.10264419736024531,296
+Utilizing analytical reasoning and mathematical interpretation skills,5,0.632299333553701,0.12061482857224286,75
+Analyzing and interpreting numerical and mathematical systems and operations,6,0.6591517366149438,0.12801395995780257,64
+Applying mathematical reasoning and problem-solving techniques,4,0.7193023397108966,0.09853604278915591,270
+Performing mathematical manipulations and problem-solving through algebraic and arithmetic techniques,5,0.3789075443244661,0.16233518509020992,105
+Utilizing mathematical reasoning to solve complex problems,5,0.7484360137640677,0.0899451014020354,165
+Analyzing and solving mathematical and logical problems and relationships across various contexts,6,0.6824162980548283,0.09687317912364854,103
+"Applying mathematical reasoning and principles to solve diverse quantitative, functional, and scientific problems",6,0.5458091687821355,0.12857487764856027,62
+Conducting comprehensive quantitative reasoning and analysis,3,0.7251290454508748,0.107835208264137,458
+Analyzing and calculating financial and quantitative metrics,4,0.665357824408634,0.11578204548811702,123
+Performing advanced mathematical and quantitative reasoning,4,0.593965973924207,0.09861793697557301,162
+Performing quantitative analysis and numerical reasoning,4,0.6777910230715523,0.11548757733445066,173
+Conducting quantitative analysis and interpretation,5,0.644757850186629,0.12302681301790154,55
+Performing comprehensive numerical calculations and reasoning,5,0.5185832394679201,0.16660228206871663,55
+"Analyzing and synthesizing complex biological, physiological, and ecological systems and interactions",2,0.8951962090199952,0.05000550572467241,1220
+"Analyzing and synthesizing complex biological, biochemical, and physiological systems and processes to evaluate health impacts and functional interrelationships",3,0.8151483232916786,0.0731266393110236,485
+"Analyzing and synthesizing biochemical and metabolic pathways to assess conditions, evaluate energy production, and interpret processes and conversions",4,0.6535689183197505,0.11741071648577325,126
+"Analyzing and synthesizing metabolic and biochemical pathways to assess conditions, interpret deficiencies, evaluate functions, and identify disorders and treatments",5,0.5967211417283956,0.1369031005185231,80
+"Analyzing and synthesizing biochemical and metabolic pathways to evaluate functions, regulatory mechanisms, and health implications",6,0.6077681959835058,0.1486260001385152,72
+"Analyzing, synthesizing, and evaluating biological concepts, processes, structures, and systems to understand functions, interrelationships, and protective mechanisms.",4,0.4085322234822705,0.18283356029600542,105
+Synthesizing and analyzing complex biological systems and processes,4,0.6015501231180187,0.16496747740000997,73
+"Synthesizing and evaluating complex biological, ecological, biochemical, and pharmacological systems and processes",5,0.5424793609734115,0.1703895332192604,60
+Analyzing and synthesizing biochemical and chemical processes and structures,4,0.6474635723555665,0.1283379390856164,68
+Analyzing and synthesizing biochemical and molecular processes and interactions,5,0.6660245748690525,0.11938901032123095,58
+Analyzing and synthesizing complex biological and physiological information across diverse contexts,3,0.6724931676794856,0.11711067718303597,194
+Analyzing and synthesizing neurophysiological and physiological information,4,0.4807621689262228,0.18497296867500038,74
+Analyzing and synthesizing neuroanatomical and neurophysiological information for comprehensive functional understanding,5,0.29295733622201725,0.19747157279770086,51
+Analyzing and synthesizing biological and anatomical structures and functions across diverse applications and species,4,0.5970987744707962,0.15322217335128294,120
+"Analyzing and understanding anatomical structures, functions, and relationships across species and within the human body",5,0.5863925023900642,0.14093659773169037,73
+Analyzing and synthesizing complex biological and environmental interactions and data,3,0.7915234600324292,0.09442053406600219,266
+"Analyzing and synthesizing biological, immunological, and pathogenic mechanisms and interactions",4,0.027428071635068278,0.23737066147700886,64
+"Analyzing and synthesizing genetic, molecular, and environmental data to understand biological processes and outcomes",4,0.7676595855449634,0.08076281906890655,202
+Analyzing and synthesizing genetic and environmental data for probabilistic evaluation of phenotypic and health outcomes,5,0.5821586177977267,0.1635691393778729,65
+Analyzing and synthesizing biological and ecological knowledge and interactions,3,0.6384457081068258,0.11163233944324187,275
+Analyzing and synthesizing biological and taxonomic knowledge and data patterns,4,,,61
+"Analyzing and synthesizing biological, genetic, and evolutionary factors and evidence to understand processes, traits, relationships, and behaviors across species and mythologies",4,0.6377783703134468,0.13486898118608395,149
+"Analyzing and synthesizing evolutionary and biological factors affecting behavior, traits, and dynamics",5,0.5620178548513648,0.16493932392949812,70
+"Analyzing and synthesizing evolutionary, genetic, and biological evidence to understand relationships, timelines, and classifications across species and mythologies",5,0.4836030218377326,0.16759243077412458,55
+Analyzing and interpreting ecological and biological systems and interactions,4,0.4100088189399801,0.1915973060819689,65
+Analyzing and synthesizing complex concepts and structures,2,0.8497479871499977,0.06865962020395945,941
+Analyzing and synthesizing philosophical and theoretical concepts and arguments,3,0.7597430046033713,0.10035873406524702,407
+"Analyzing and synthesizing philosophical, theoretical, and theological concepts and principles",4,0.5739412124709296,0.15146872494973107,143
+Analyzing and synthesizing philosophical and theoretical concepts and principles,5,0.59485814880333,0.14627060349066925,116
+Analyzing and evaluating philosophical concepts and theories to synthesize and interpret foundational principles and existential relationships,6,0.5310815138166197,0.17363366065541722,78
+"Analyzing and synthesizing philosophical arguments and theories on ethics, justice, and human rights to evaluate principles and perspectives",4,0.630745780844396,0.11317710076544252,264
+"Analyzing and evaluating philosophical arguments and reasoning on ethics, justice, and human rights",5,0.6695779541673907,0.11555329738205472,198
+Analyzing and synthesizing philosophical arguments and reasoning,6,0.6411754347303333,0.1210091774918835,162
+Analyzing and synthesizing philosophical and ethical reasoning,7,0.6066782112833082,0.12652017334105822,59
+"Analyzing and synthesizing arguments and theories to evaluate principles, implications, and perspectives.",5,0.5026500027075838,0.16903249430768974,66
+Analyzing and evaluating complex logical and informational structures,3,0.8355632785252786,0.08518581602954592,534
+Evaluating and analyzing complex information for validity and logical consistency,4,0.6416422279141798,0.12136326871967966,103
+"Evaluating and analyzing statements for accuracy, coherence, and logical consistency based on empirical, scientific, and contextual principles",5,0.6318690406212378,0.12847088431519163,71
+Analyzing and evaluating complex arguments and reasoning,4,0.451089544102009,0.15657437541134178,190
+Analyzing and interpreting complex arguments and evaluating their logical coherence and implications,5,0.4285225266373031,0.1751797340921077,72
+"Analyzing and evaluating arguments for logical coherence, evidence sufficiency, and underlying implications",6,0.37412737081539627,0.18469612149853043,64
+Analyzing and evaluating logical fallacies and reasoning in arguments,5,0.3033519568803685,0.14002314367143862,118
+"Analyzing and evaluating logical, mathematical, and linguistic structures and relationships across various domains",4,0.7488086156171416,0.08493884227943357,241
+Analyzing and evaluating logical reasoning and relationships across various contexts,5,0.624621502817675,0.12410419051412167,67
+Analyzing and synthesizing complex scientific principles and systems across various domains,2,0.900031635205562,0.049177316284973405,1073
+Analyzing and synthesizing electromagnetic and electrical principles,3,0.7147367792902823,0.11971693593446577,131
+Analyzing and synthesizing electrical systems and principles,4,0.6701010415234679,0.11726704098340075,83
+Analyzing and optimizing complex scientific and thermodynamic systems,3,0.7324023735036096,0.11734062679813048,112
+Analyzing and optimizing thermodynamic systems and gas behavior,4,0.6717407513606579,0.10817131951738168,91
+Analyzing and evaluating thermodynamic and energy systems to optimize physical and material properties across various contexts,5,0.5035977045657388,0.13549973846642505,68
+Analyzing and synthesizing scientific and wave-related phenomena and principles,3,0.6448877641667683,0.13124188455377608,151
+Analyzing and applying scientific principles to evaluate and interpret diverse phenomena and characteristics,4,0.49590578966269944,0.17517282726353872,67
+Analyzing and synthesizing wave-related phenomena and principles,4,0.4711715680675882,0.17890342181598293,84
+Analyzing and applying principles of wave behavior and interactions,5,0.5915235969433338,0.16741427651149843,56
+"Analyzing and evaluating chemical reactions, interactions, and properties using scientific principles and reasoning",3,0.6240534815776916,0.10433836765275147,139
+"Analyzing and synthesizing scientific data and principles across geoscientific, geometric, astronomical, environmental, and physical systems",3,0.7393623597015906,0.10952500904020028,171
+Analyzing and interpreting astronomical and celestial phenomena through data synthesis and classification,4,0.6511008794335101,0.14240178087533534,58
+Analyzing and synthesizing chemical and physical properties and interactions using scientific principles and data,3,0.756284312528611,0.0881756057007829,192
+"Analyzing and applying advanced scientific and mathematical principles to solve complex problems involving motion, forces, and physical systems.",3,0.680541642660185,0.11095218238336893,177
+"Analyzing and evaluating ethical, moral, and societal implications across diverse contexts and frameworks",2,0.9217256772012561,0.05405136008400926,1281
+Analyzing and evaluating moral and ethical implications across diverse contexts and frameworks,3,0.5931555744107908,0.14652516969627144,108
+Evaluating and analyzing ethical standards across diverse contexts,3,0.6127829347818092,0.12324296821164601,113
+Evaluating and analyzing ethical standards and implications across diverse contexts,4,0.5653351635692727,0.16005971382499243,81
+Evaluating and analyzing ethical standards and considerations across diverse professional contexts and scenarios,5,0.2856567898476181,0.22510238818740663,57
+"Analyzing and evaluating ethical, justice, and societal implications across diverse contexts and frameworks",3,0.5208544193450299,0.12633378564285963,83
+Analyzing and evaluating ethical and justice frameworks,4,0.5186878466540832,0.143821646992132,56
+Analyzing and evaluating ethical frameworks in diverse contexts,5,0.5433885133826579,0.14404647216355315,52
+Analyzing and evaluating ethical frameworks to prioritize diverse moral considerations,6,0.550697957837186,0.14603744307006988,51
+Analyzing and synthesizing ethical considerations and reasoning for informed decision-making,3,0.7097109252618884,0.10953710221634624,114
+"Analyzing and evaluating moral, ethical, social, and legal implications in diverse and complex scenarios",3,0.8803117001046669,0.05419991204988677,408
+Analyzing and evaluating moral and ethical implications and standards in various scenarios and contexts,4,0.8045065962749873,0.0640799200807422,185
+Analyzing and evaluating moral and ethical implications and responsibilities,5,0.8228173079262336,0.06253077132204923,102
+Analyzing moral implications and ethical standards,6,0.8067450086765887,0.06270318814695706,98
+Analyzing moral implications and ethical standards,7,0.79000142316762,0.06214335823391436,94
+"Evaluating moral implications based on ethical, societal, legal, and contextual standards and norms",3,0.8735867694534304,0.0528444527701214,455
+Evaluating moral implications within societal contexts,4,0.7952314827332156,0.08245004608523536,71
+Evaluating moral implications based on societal standards,5,0.8339419959094104,0.0943654460902696,60
+Evaluating moral implications based on societal standards,6,0.8318419489548557,0.09999106816695989,58
+"Evaluating moral implications based on societal norms and ethical, legal, and environmental standards.",4,0.7427478429694754,0.08962450533349683,129
+Evaluating moral implications based on societal norms and ethical standards.,5,0.7412090259602041,0.13457090147100706,63
+Evaluating moral implications based on societal norms and ethical standards.,6,0.7236574993747772,0.1313531862265739,62
+Analyzing and synthesizing complex economic and financial systems for strategic decision-making and evaluation,2,0.9250190839708373,0.04764758136907714,1017
+Analyzing and interpreting financial data and systems for strategic decision-making and compliance,3,0.7822565765850734,0.0971497435057398,169
+Analyzing and synthesizing complex economic systems and market dynamics for informed decision-making,3,0.7260643148492648,0.08687102501386965,279
+Analyzing and evaluating complex systems and economic factors for informed decision-making,4,0.7002173166979083,0.1262424954099978,88
+Analyzing and interpreting economic factors for optimal decision-making,5,0.6579103518584938,0.12917353563144457,60
+"Analyzing and synthesizing economic and market dynamics to evaluate growth, efficiency, and consumer behavior.",4,0.7655109938777532,0.08996596302461275,191
+"Analyzing and synthesizing economic data, principles, and policies for comprehensive evaluation and decision-making across global systems and impacts.",3,0.8779062479925821,0.07542013919952362,569
+"Analyzing and evaluating economic, social, and environmental data and policies to assess impacts, trends, and disparities",4,0.5516258766254052,0.1454382202871282,108
+"Analyzing and interpreting economic data and indicators to assess impacts on economic metrics, currency value, and trade dynamics.",4,0.6936264860244664,0.11660876546603187,125
+"Analyzing and interpreting economic indicators to evaluate and understand economic dynamics, trends, and impacts",5,0.6305550780320142,0.12299449718382031,90
+Analyzing and evaluating economic and policy impacts and relationships,4,0.7773394143367006,0.09885665444857675,125
+Analyzing and synthesizing economic principles and systems for comprehensive evaluation and decision-making,4,0.7749690703041444,0.08257423579518389,148
+Analyzing and synthesizing economic concepts and systems for comprehensive evaluation and strategic decision-making,5,0.7342028695606924,0.09588147599972462,116
+"Analyzing and synthesizing complex historical, cultural, and contextual information across diverse domains and systems",2,0.8365422185766322,0.07130968580641805,1546
+Analyzing and synthesizing diverse information across domains and trends,3,0.6802266971221054,0.10910941354155389,250
+Analyzing and synthesizing historical and contextual information across various domains,4,0.6872831163965013,0.11230179524780108,249
+Analyzing and synthesizing historical contexts and information for accurate insights and conclusions,5,0.42383116374292645,0.16438667481811556,78
+"Analyzing and synthesizing historical, political, and social contexts and dynamics",3,0.5904621654640089,0.10718184603186344,308
+"Analyzing and evaluating historical, political, and social contexts and systems",4,0.6532695414100347,0.10604461370902989,186
+"Analyzing and synthesizing historical, political, and social contexts and documents to evaluate developments and implications",5,0.5535710797387341,0.1371721517477439,121
+"Analyzing and evaluating historical, political, and social contexts and documents to understand and synthesize developments and contributions",6,0.5556490486995087,0.1614399904826675,69
+Analyzing and evaluating historical and political systems and influences,5,0.7587157489475718,0.09007855373441961,65
+Analyzing and synthesizing historical and geopolitical contexts and dynamics,4,0.7160943273671685,0.11881828660500258,122
+"Analyzing and synthesizing historical, socio-economic, demographic, cultural, and media trends and impacts",3,0.4139886706439035,0.188197873688294,120
+Analyzing and interpreting demographic and cultural influences,4,0.12526263286172346,0.2151399202154676,54
+Analyzing and interpreting demographic trends and representations,5,0.12080237418862745,0.20391166965927957,53
+"Analyzing and interpreting demographic, historical, and statistical data trends",6,0.1040538303115197,0.2155629015349866,52
+"Analyzing and synthesizing historical, cultural, geographical, and scientific data to understand patterns, impacts, and developments across human and ecological systems.",3,0.7046827235838367,0.11462803767945329,199
+"Analyzing and synthesizing historical, archaeological, and cultural evidence to understand technological and societal developments",4,0.5836749355543831,0.17148950146508765,58
+"Analyzing and interpreting religious, historical, cultural, and linguistic contexts and texts",3,0.6024566014469344,0.1032850297865783,239
+"Analyzing and synthesizing religious, historical, and cultural contexts and texts",4,0.5336864814393826,0.1682113738961076,91
+"Analyzing and interpreting cultural, historical, and linguistic contexts and influences",4,0.5564276604189106,0.1315524481469254,148
+Analyzing and interpreting cultural and historical contexts and influences,5,0.586465552034522,0.12470469365712998,100
+"Analyzing and synthesizing historical, philosophical, and contextual insights for thematic and societal interpretation",3,0.667452282146329,0.12016337176502638,238
+"Analyzing historical and philosophical texts for thematic, contextual, and ideological insights",4,0.6067308625561999,0.1509528759672556,152
+"Analyzing historical texts for thematic, contextual, and ideological insights into political, societal, economic, and policy implications",5,0.5595317542055962,0.17395369661929475,127
+"Analyzing historical texts and narratives for thematic, contextual, and ideological insights into societal, economic, and policy implications",6,0.15910792512525582,0.23002512207760614,91
+"Analyzing and synthesizing contextual, textual, and historical insights to interpret societal and thematic implications",4,0.6355295181753968,0.1266758577699037,86
+Analyzing and synthesizing societal and cultural narratives and influences,3,0.6653768586138497,0.11059291103281234,192
+"Analyzing and evaluating societal, cultural, political, economic, and historical influences and contexts",4,0.6250254030265331,0.11103246377437266,176
+"Analyzing and evaluating societal, cultural, political, and economic influences and structures",5,0.6242254490375976,0.14798702212292034,99
+"Analyzing and evaluating socio-political, economic, and cultural dynamics and structures",6,0.4399709372570652,0.17190541203170606,66
+"Analyzing historical, socio-political, and cultural contexts to evaluate impacts on society, identity, and reform movements",5,0.47691980922102684,0.14675993979635357,77
+Synthesizing and integrating complex health and scientific data for informed decision-making,2,0.8130833464227426,0.07416863522546932,931
+"Synthesizing and analyzing complex medical, clinical, and psychological data for comprehensive healthcare management and decision-making",3,0.7781519482034509,0.08273473077657845,569
+Analyzing and synthesizing clinical and diagnostic data to identify and differentiate medical conditions and disease mechanisms,4,0.634195367952963,0.13062088265620342,122
+Analyzing and synthesizing clinical data to diagnose and differentiate medical conditions,5,0.593091988312013,0.16712355705060009,51
+Enhancing patient care through comprehensive healthcare management,4,0.3422595049340438,0.19834462796714686,81
+Analyzing and prioritizing clinical data and interventions for effective medical management,4,0.5424565378940269,0.1460110059073054,70
+Evaluating and synthesizing psychological scenarios and research findings,4,0.299000722845754,0.15165370535278505,70
+"Synthesizing and analyzing complex medical, legal, and microbial information for informed decision-making",4,0.6087881179437244,0.15587038554231064,96
+Integrating and synthesizing medical and microbial knowledge through comparative analysis,5,0.4912196328478403,0.189050720639304,58
+Analyzing and integrating health and scientific data across diverse contexts,3,0.7952663593129402,0.07260059784818206,362
+Integrating and evaluating health-related information and guidelines,4,0.6504217094503485,0.10486634444463393,80
+Integrating and assessing physiological and nutritional information for health management,5,0.6244598636578076,0.11553390022116751,60
+Synthesizing and evaluating nutritional and physiological information for health and performance management,6,0.6503781500643645,0.11877010589155151,58
+Evaluating nutritional influences and strategies for health and behavior,7,0.6465800317463547,0.11487239073133454,51
+Evaluating vaccine data and development methodologies for disease control and historical context,4,0.2652564943578004,0.20520116204642233,82
+Analyzing and interpreting health and vaccination data for disease control and risk assessment,5,0.3012447180050292,0.20430571110582904,80
+Analyzing and interpreting health data for disease control and population risk assessment,6,0.2943223202930837,0.20306056076695517,79
+Analyzing and integrating physiological and performance data across diverse contexts,4,0.7453602577431573,0.1233722629863369,79
+Analyzing and integrating physiological data and responses across various systems and conditions,5,0.6479311060512019,0.12931745866274846,62
+Analyzing and evaluating health and safety data across medical and scientific contexts,4,0.6187193049488624,0.1524981396337417,121
+Analyzing and evaluating health-related data and strategies across diverse contexts,5,0.5457819345091288,0.14914652666599826,101
+"Analyzing and synthesizing legal, governmental, and ethical principles across diverse contexts",2,0.839677351085395,0.065344209280577,1863
+Analyzing and evaluating legal evidence and testimony,3,0.6182207318781264,0.11114234569058966,232
+Analyzing and evaluating legal evidence and standards,4,0.6353125824086991,0.12795654821556873,167
+Analyzing and evaluating evidence admissibility in legal contexts,5,0.501403076995887,0.15194241894377297,75
+"Evaluating and analyzing the credibility, relevance, and sufficiency of evidence and testimony in legal contexts",4,0.5448912623502934,0.13093796392789125,65
+Analyzing and evaluating legal and contractual complexities,3,0.722197937693961,0.09215409886749812,286
+Analyzing and evaluating legal principles in contract law and commercial contexts,4,0.47474547233355774,0.17242818180122021,65
+Analyzing and evaluating compliance and obligations in financial and contractual contexts,4,0.6571121033248496,0.1278892823992702,115
+Analyzing and interpreting contractual obligations and frameworks,5,0.6875619485891533,0.13355376085439047,104
+Analyzing and interpreting contractual and legal language and complexities,4,0.6284329313742515,0.1088245593621,106
+"Analyzing and interpreting contractual language, components, and modifications for relevance, intent, and compliance",5,0.5511894377548828,0.13894349803395725,75
+Analyzing and evaluating legal principles and concepts across diverse contexts,3,0.743381972118209,0.0986899133215097,379
+Analyzing and evaluating legal principles across diverse contexts,4,0.6840330750422708,0.12765235851003723,64
+Conducting thorough legal analysis and interpretation of principles and contexts,4,0.21898350769885488,0.20421311369365244,66
+Analyzing and applying legal concepts to diverse scenarios,4,0.5242095912045813,0.1770210712201139,82
+Analyzing and evaluating legal concepts and terminology,4,0.5820471471862152,0.13764169164674322,65
+Analyzing and evaluating legal principles and implications in criminal contexts,4,0.4938316804267005,0.18565380492398642,61
+Analyzing and evaluating legal intent and implications in criminal contexts,5,0.3161308305403907,0.19149688921650793,52
+Analyzing and evaluating governmental structures and legislative processes,3,0.5539783101538263,0.1377040513470941,99
+Analyzing constitutional and governmental power dynamics,4,0.54716025676316,0.14421203424900647,57
+Analyzing and evaluating legal principles and liabilities in diverse contexts,3,0.6957554662910416,0.1019478319882604,222
+Analyzing and evaluating legal principles and liabilities in complex scenarios,4,0.4678395188129127,0.16721324647411717,69
+Analyzing and applying legal principles to evaluate complex consumer transaction scenarios,5,0.42679672900300547,0.15485253236396235,59
+Analyzing and evaluating legal principles to assess negligence and liability,4,0.40232029305655403,0.18713858975810524,67
+Analyzing and evaluating legal principles and liability in negligence and related cases,5,0.03703676027391184,0.22522397793411897,52
+Analyzing and applying legal principles related to property rights and transactions,3,0.7117943910278596,0.1021333527165868,224
+"Analyzing and synthesizing legal, ethical, and regulatory frameworks and principles",3,0.44887277093847805,0.10985031972318672,223
+Analyzing and synthesizing legal and ethical frameworks,4,-0.06088121693780196,0.20427197445175843,60
+Analyzing and synthesizing international legal and historical principles,4,0.5559996235493911,0.16682796749367793,52
+Analyzing and synthesizing constitutional and legal principles to interpret political implications and evaluate issues related to rights and representation,3,0.745799509528191,0.09089463955272903,198
+"Analyzing and applying constitutional and legal principles to interpret political implications and evaluate residency, treaty, representation, and citizenship issues",4,0.7078744023533415,0.09660415262157582,168
+"Analyzing and interpreting constitutional, legal, and political implications",5,0.7233144498197587,0.09977569050726046,158
+Analyzing and interpreting legal and constitutional principles and implications,6,0.7317903166553574,0.09742699719474013,154
+Analyzing and interpreting constitutional and legal contexts and principles,7,0.7497218692397186,0.10550061704872866,105
+Analyzing and interpreting legal and constitutional principles and frameworks,8,0.600661143692246,0.13755193910925978,75
+Analyzing and synthesizing complex and diverse information and systems across contexts and domains for strategic insights and optimization,2,0.9117223988156641,0.06881707419896335,2923
+Analyzing and synthesizing complex patterns and influences across diverse domains and contexts,3,0.6512364331942648,0.09828913406293463,709
+"Analyzing and synthesizing psychological constructs, methodologies, and theories to evaluate behavior, social dynamics, and personality characteristics",4,0.49662100069470744,0.18468963362957808,112
+"Analyzing and synthesizing psychological constructs, methodologies, and principles to evaluate and enhance behavior and social dynamics",5,0.34786400417289365,0.17343920156416603,98
+"Analyzing and synthesizing psychological principles and theories to evaluate and enhance behavior, decision-making, and social dynamics",6,0.27861782667760515,0.1802600276220446,65
+"Analyzing and synthesizing psychological concepts and theories to evaluate behavior, decision-making, and self-perception.",7,0.32718135330075127,0.17373822872433495,63
+Analyzing and evaluating interpersonal and communication dynamics,4,0.492910671987832,0.18702669040874237,54
+Synthesizing cognitive and neurological analysis and patterns,4,0.5946426202822783,0.12435674243364858,64
+Analyzing and synthesizing emotional and psychological dynamics across contexts and relationships,4,0.5389226954209978,0.1554514359230334,56
+"Analyzing and integrating developmental, psychological, and social influences across diverse environments and the lifespan",4,0.7142750875810026,0.12840776981271593,90
+"Analyzing and synthesizing developmental, psychological, and social influences across the lifespan",5,0.6055850642319608,0.15040543968964243,72
+Analyzing and interpreting behavioral patterns and responses,4,0.49274311460229014,0.14624659280123242,81
+Conducting comprehensive analyses and evaluations of diverse patterns and influences across contexts,4,0.6992783704757939,0.11276873284894963,149
+Analyzing and evaluating influences on behavior and perception across various contexts,5,0.7441669695676763,0.11334038231099881,122
+"Evaluating and synthesizing data and methodologies for validity, accuracy, and insights across diverse domains",3,0.8923704163112197,0.07057741255186684,514
+"Evaluating and synthesizing research methodologies and data for validity, bias, and effectiveness",4,0.7536940232149687,0.10679666223137449,188
+"Analyzing and evaluating data and methodologies for accuracy, validity, and insights across diverse domains",4,0.8623676537782028,0.08505679465593172,326
+Analyzing and evaluating statistical methodologies and implications for validity and accuracy,5,0.7485591322298781,0.10099917813772,92
+Analyzing and interpreting statistical and diverse data for insights and understanding relationships,5,0.6036038267814574,0.14000203256820865,94
+"Analyzing and interpreting statistical data to evaluate relationships, trends, and informed conclusions",6,0.5062129782482422,0.1634913980740705,73
+Analyzing and interpreting relationships and interactions to assess consistency and determine valid outcomes,5,0.4655093928885832,0.18595216050209684,59
+Analyzing and synthesizing complex and diverse information across contexts and disciplines,3,0.6611595401640227,0.10430422507253019,769
+Analyzing and synthesizing complex and diverse information across disciplines,4,0.5718068711487135,0.11073136907918986,360
+Analyzing and interpreting diverse characteristics and contexts for accurate classification and evaluation,5,0.19837081062715597,0.21275492389167938,82
+Interpreting and analyzing complex and diverse information and contexts,5,0.46556581371072797,0.19521897465698515,57
+Analyzing and synthesizing diverse concepts and information across contexts and disciplines,4,0.5564222765086131,0.11238133430968385,409
+Analyzing and synthesizing diverse concepts and relationships across contexts,5,0.59162738239478,0.14207859271205553,206
+Analyzing and interpreting diverse terminology and concepts across contexts,6,0.40853481299601213,0.20940387600467922,104
+Analyzing and synthesizing contextual and conceptual relationships across diverse domains,6,0.5165738595987754,0.16339218146098364,102
+Analyzing and synthesizing definitions and relationships across diverse contexts and domains,7,0.32947139462058783,0.16116313970877533,67
+Analyzing and synthesizing definitions and relationships across contexts and domains,8,0.3246321376229898,0.18891653487645813,64
+Analyzing and synthesizing information to evaluate and solve problems across diverse contexts and disciplines,5,0.6346375504386047,0.12970068885478203,203
+"Analyzing, synthesizing, and evaluating information to draw conclusions and apply principles across diverse contexts.",6,0.6552382772788125,0.15791496609542854,75
+Analyzing and synthesizing complex information and concepts to evaluate implications and solve problems across diverse contexts and disciplines,6,0.3895684147691992,0.180660516051223,128
+"Analyzing and synthesizing complex information to identify key concepts, relationships, and implications across diverse contexts and disciplines",7,0.3347765268567589,0.17886541108160314,103
+Analyzing and synthesizing complex information to identify relationships and implications across diverse contexts and disciplines.,8,0.047566581226770585,0.2187079160047189,52
+Analyzing and synthesizing complex systems and information for strategic evaluation and optimization across diverse contexts,3,0.7419896185742572,0.10138735508932444,931
+Analyzing and optimizing strategic engagement and synthesis,4,0.6109132253445957,0.15543523455278832,129
+Analyzing and optimizing communication strategies for effective engagement,5,0.3679801513720549,0.16533160054579907,51
+Analyzing and synthesizing market and consumer strategies,5,0.3893476712534986,0.19961369689014052,78
+Analyzing and synthesizing complex theoretical frameworks to evaluate foundational principles and assumptions across diverse contexts,4,0.536338798946061,0.13301766669768222,126
+"Analyzing and synthesizing theoretical frameworks to evaluate principles, concepts, and applications across diverse contexts",5,0.5528274962962518,0.1401340250645962,113
+"Analyzing and synthesizing complex organizational, structural, social, and contextual dynamics",4,0.6115031627953779,0.11149097334801548,205
+Analyzing and synthesizing organizational and structural frameworks across diverse contexts,5,0.36217658990468143,0.18029194238898405,73
+Analyzing and synthesizing complex social and contextual dynamics,5,0.5877300856362393,0.127660442123509,132
+"Analyzing and synthesizing complex and diverse influences, contexts, and dynamics",6,0.39470118861274567,0.1701348494850795,92
+Analyzing and optimizing complex systems and strategies for effective decision-making and application,4,0.6992495920073875,0.1314747175671537,156
+Analyzing and optimizing complex systems and processes for strategic decision-making and practical application,5,0.6017468124331496,0.12997738279321244,89
+"Analyzing and evaluating systems for security, compatibility, and vulnerabilities",4,0.535662071321701,0.177279582156549,100
+Analyzing and evaluating security systems and measures for vulnerabilities and implications,5,0.4833269941391966,0.166453510383654,76
+Analyzing and synthesizing complex information and perspectives for strategic evaluation and insight development,4,0.40871341302778574,0.1871974393500056,144
+Analyzing and synthesizing complex information to evaluate and develop comprehensive insights and strategies,5,0.07525013944108021,0.22843473170146905,68
+Evaluating and managing diverse information and risk factors across domains,4,0.6149873071861016,0.14156683287953822,71
