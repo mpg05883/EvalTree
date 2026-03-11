@@ -8,7 +8,7 @@ from tqdm import tqdm
 from src.utils.capability_tree import (
     Level,
     Node,
-    collect_nodes_bfs,
+    collect_levels,
     load_capability_tree,
 )
 from src.utils.enums import Dataset
@@ -432,11 +432,9 @@ def main(dataset: Dataset) -> None:
     models = model_scores_df.columns.tolist()
 
     root = load_capability_tree(dataset)
-    tree_levels: list[Level] = collect_nodes_bfs(root)
+    tree_levels: list[Level] = collect_levels(root)
     levels = [lv.depth for lv in tree_levels]
-    nodes_with_levels = [
-        (node, lv.depth) for lv in tree_levels for node in lv.nodes
-    ]
+    nodes_with_levels = [(node, lv.depth) for lv in tree_levels for node in lv.nodes]
 
     colors = sns.color_palette("tab10")
 

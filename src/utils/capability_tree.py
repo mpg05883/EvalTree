@@ -132,7 +132,7 @@ def load_capability_tree(dataset: Dataset) -> dict[str, Any]:
         return json.load(f)
 
 
-def collect_nodes_dfs(root: dict, min_instances: int = 50) -> "list[Node]":
+def collect_nodes(root: dict, min_instances: int = 50) -> "list[Node]":
     """Collect all non-root nodes depth-first, returning a flat list of Node objects.
 
     Uses an explicit stack to traverse the tree in depth-first order. Nodes
@@ -164,9 +164,7 @@ def collect_nodes_dfs(root: dict, min_instances: int = 50) -> "list[Node]":
     return nodes
 
 
-def collect_nodes_bfs(
-    root: dict, min_instances: int = 50
-) -> "list[Level]":
+def collect_levels(root: dict, min_instances: int = 50) -> "list[Level]":
     """Collect all non-root nodes breadth-first, returning one Level per depth.
 
     Uses a queue to traverse the tree in breadth-first order so that all
@@ -245,4 +243,6 @@ def align_rankings(
         one entry per model that appears in both rankings.
     """
     models = [m for m in global_ranking if m in local_ranking]
-    return [global_ranking[m] for m in models], [local_ranking[m] for m in models]
+    aligned_global = [global_ranking[m] for m in models]
+    aligned_local = [local_ranking[m] for m in models]
+    return aligned_global, aligned_local

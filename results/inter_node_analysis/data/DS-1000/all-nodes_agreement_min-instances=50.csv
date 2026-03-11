@@ -1,0 +1,14 @@
+,size,depth,capability,distinction,kendall_tau
+0,114,2,Mastering advanced tensor manipulation and optimization techniques in deep learning frameworks.,Tensor manipulation in deep learning,1.0
+1,189,2,"Implementing comprehensive data processing, transformation, and analysis techniques for machine learning and data science tasks.",Data processing for machine learning,1.0
+2,51,3,Performing comprehensive statistical analysis and data manipulation using Python libraries and mathematical techniques.,Statistical analysis with Python,1.0
+3,306,2,"Performing comprehensive data manipulation, transformation, and analysis using advanced pandas and numpy techniques",Advanced pandas and numpy techniques,1.0
+4,57,3,"Aggregating, transforming, and analyzing grouped data using pandas techniques",Grouped data aggregation and analysis with pandas,1.0
+5,89,3,Manipulating and transforming data using advanced pandas techniques,Advanced pandas data manipulation,1.0
+6,54,3,Performing comprehensive data manipulation and analysis using pandas and numpy techniques,Comprehensive data manipulation with pandas and numpy,0.816496580927726
+7,155,2,Customizing and creating data visualizations using Python libraries,Custom Python data visualizations,1.0
+8,107,3,Customizing and creating complex data visualizations using Python libraries like Matplotlib and Seaborn.,Creating complex visualizations with Python libraries,1.0
+9,236,2,Optimizing and leveraging advanced techniques for multidimensional data manipulation and numerical analysis,Multidimensional data optimization,1.0
+10,54,3,Manipulating and optimizing multidimensional arrays and matrices for efficient data processing and numerical analysis,Efficient multidimensional array optimization,1.0
+11,182,3,"Leveraging advanced numerical and data manipulation techniques using NumPy, SciPy, and pandas","Advanced data manipulation with NumPy, SciPy, pandas",1.0
+12,138,4,"Mastering advanced array manipulation and data transformation techniques using NumPy, SciPy, and pandas.","Array manipulation and data transformation with NumPy, SciPy, and pandas",0.33333333333333337

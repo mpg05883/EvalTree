@@ -8,6 +8,7 @@ import pandas as pd
 import seaborn as sns
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
+from matplotlib.lines import Line2D
 from matplotlib.patches import FancyBboxPatch, PathPatch
 from matplotlib.path import Path
 
@@ -111,6 +112,181 @@ def plot_histogram(
     ax.set_title(title)
     ax.set_xlabel(xlabel)
     ax.set_ylabel(ylabel)
+    if owns_figure:
+        fig.tight_layout()
+    return fig
+
+
+def plot_stripplot(
+    data: pd.DataFrame,
+    x: str,
+    y: str,
+    xlabel: str,
+    ylabel: str,
+    title: str,
+    hue: str | None = None,
+    order: list | None = None,
+    hue_order: list | None = None,
+    hue_legend: bool = False,
+    ax: Axes | None = None,
+    figsize: tuple[int, int] = (8, 5),
+    palette: str = "tab10",
+    size: int = 6,
+    jitter: bool = True,
+    mean: float | None = None,
+    mean_label: str = "Mean",
+    x_means: dict[str, float] | None = None,
+    x_means_label: str = "Mean",
+    x_means_linewidth: float = 3,
+    x_means_color: str = "black",
+    ylim: tuple[float, float] | None = None,
+    rotation: float = 0,
+    tick_fontsize: int = 11,
+    label_fontsize: int = 13,
+    title_fontsize: int = 14,
+) -> Figure:
+    """Plot a categorical strip plot using seaborn.
+
+    Each category on the x-axis is represented by a column of dots, where
+    every dot is a single observation. Dots are optionally jittered
+    horizontally to reduce overplotting and color-coded by the ``hue``
+    column. Two kinds of reference lines are supported: a single horizontal
+    dashed line spanning the full width (``mean``), and short horizontal
+    tick-marks drawn at a per-category value (``x_means``).
+
+    Args:
+        data: DataFrame in long format with at least the ``x`` and ``y``
+            columns present.
+        x: Column name for the categorical x-axis groups.
+        y: Column name for the numeric y-axis values.
+        xlabel: Label for the x-axis.
+        ylabel: Label for the y-axis.
+        title: Title of the plot.
+        hue: Column name used to color-code dots. Defaults to ``x`` if None,
+            so each category gets a distinct color.
+        order: Display order of x-axis categories. Inferred from the data
+            if None.
+        hue_order: Display order of hue categories, used to match palette
+            colors to levels. When ``hue`` equals ``x`` this defaults to
+            ``order``; otherwise it is inferred by sorting the unique values
+            of the hue column.
+        hue_legend: If True, adds one dot handle per hue category to the
+            legend so the color mapping is visible. Useful when ``hue``
+            differs from ``x``.
+        ax: Axes to draw into. If None, a new figure and axes are created.
+        figsize: Figure size as ``(width, height)``. Only used when ``ax``
+            is None. Default is ``(8, 5)``.
+        palette: Seaborn palette name used to color the dots.
+        size: Marker radius in points for each dot.
+        jitter: Whether to add horizontal jitter to separate overlapping dots.
+        mean: If provided and not NaN, draws a horizontal dashed reference
+            line at this value spanning the full plot width.
+        mean_label: Legend label for the full-width reference line.
+        x_means: Mapping from each x-axis category name to a reference value.
+            For each entry a short horizontal line is drawn across that
+            category's column, making it easy to compare dots to a
+            per-category baseline.
+        x_means_label: Legend label for the per-category reference lines.
+        x_means_linewidth: Line width of the per-category reference lines.
+        x_means_color: Color of the per-category reference lines.
+        ylim: ``(min, max)`` limits for the y-axis. Inferred from data
+            if None.
+        rotation: Rotation angle in degrees for x-axis tick labels.
+        tick_fontsize: Font size for axis tick labels.
+        label_fontsize: Font size for axis labels.
+        title_fontsize: Font size for the plot title.
+
+    Returns:
+        The matplotlib Figure containing the strip plot.
+    """
+    owns_figure = ax is None
+    if owns_figure:
+        sns.set_style("whitegrid")
+        fig, ax = plt.subplots(figsize=figsize)
+    else:
+        fig = ax.figure
+
+    hue_col = hue if hue is not None else x
+    resolved_order = order if order is not None else sorted(data[x].unique())
+    resolved_hue_order = (
+        hue_order
+        if hue_order is not None
+        else (resolved_order if hue_col == x else sorted(data[hue_col].unique()))
+    )
+    sns.stripplot(
+        data=data,
+        x=x,
+        y=y,
+        hue=hue_col,
+        order=resolved_order,
+        hue_order=resolved_hue_order,
+        ax=ax,
+        palette=palette,
+        size=size,
+        jitter=jitter,
+        legend=False,
+    )
+
+    legend_handles = []
+
+    if hue_legend:
+        palette_colors = sns.color_palette(palette, n_colors=len(resolved_hue_order))
+        for color, label in zip(palette_colors, resolved_hue_order):
+            legend_handles.append(
+                Line2D(
+                    [0],
+                    [0],
+                    marker="o",
+                    color="w",
+                    markerfacecolor=color,
+                    markersize=size,
+                    label=label,
+                )
+            )
+
+    if mean is not None and not math.isnan(mean):
+        ax.axhline(mean, color="red", linestyle="--")
+        legend_handles.append(
+            Line2D([0], [0], color="red", linestyle="--", label=f"{mean_label}: {mean:.3g}")
+        )
+
+    if x_means is not None:
+        for i, category in enumerate(resolved_order):
+            if category in x_means:
+                ax.hlines(
+                    x_means[category],
+                    xmin=i - 0.3,
+                    xmax=i + 0.3,
+                    colors=x_means_color,
+                    linewidth=x_means_linewidth,
+                )
+        legend_handles.append(
+            Line2D(
+                [0],
+                [0],
+                color=x_means_color,
+                linewidth=x_means_linewidth * 0.75,
+                label=x_means_label,
+            )
+        )
+
+    if legend_handles:
+        ax.legend(handles=legend_handles, fontsize=tick_fontsize)
+
+    if ylim is not None:
+        ax.set_ylim(*ylim)
+
+    ax.set_title(title, fontsize=title_fontsize)
+    ax.set_xlabel(xlabel, fontsize=label_fontsize)
+    ax.set_ylabel(ylabel, fontsize=label_fontsize)
+    plt.setp(
+        ax.get_xticklabels(),
+        rotation=rotation,
+        ha="right" if rotation > 0 else "center",
+        fontsize=tick_fontsize,
+    )
+    plt.setp(ax.get_yticklabels(), fontsize=tick_fontsize)
+
     if owns_figure:
         fig.tight_layout()
     return fig
