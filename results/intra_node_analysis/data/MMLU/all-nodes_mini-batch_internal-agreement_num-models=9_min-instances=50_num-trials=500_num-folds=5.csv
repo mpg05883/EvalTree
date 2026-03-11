@@ -1,4 +1,4 @@
-node,depth,mean_kendallw,std_kendallw,num_instances
+node,depth,mean_kendall_w,std_kendall_w,num_instances
 Developing quantitative reasoning and analytical problem-solving skills,2,0.851061772679196,0.030215131430439246,1247
 Enhancing statistical and probabilistic reasoning and analysis skills,3,0.7690591190477671,0.036303079252156895,223
 Analyzing and applying probabilistic and statistical reasoning and techniques,4,0.6440598293138068,0.06479306089776736,76

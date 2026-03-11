@@ -108,8 +108,8 @@ def plot_all_nodes_split_halves_histogram(
     min_instance_label = r"$n_{\mathrm{min}}$"
     ylabel = "Number of Nodes"
     title = (
-        f"{dataset.pretty_name}: Internal Node Agreement (Split-Halves {xlabel}, All Nodes)"
-        f"\n({num_models} models, {num_nodes} nodes, {min_instance_label}={min_instances}, {num_trials} trials)"
+        f"{dataset.pretty_name}: Internal Node Agreement (Split-Halves {xlabel})"
+        f"\n({num_models} models, {num_nodes} nodes, {num_trials} trials, {min_instance_label}={min_instances})"
     )
     mean = data.mean()
     std = data.std()
@@ -163,8 +163,8 @@ def plot_per_level_split_halves_strip_plot(
     ylabel = r"Kendall's $\tau$"
     min_instance_label = r"$n_{\mathrm{min}}$"
     title = (
-        f"{dataset.pretty_name}: Internal Node Agreement (Split-Halves {ylabel}, Per Level)"
-        f"\n({num_models} models, {min_instance_label}={min_instances}, {num_trials} trials)"
+        f"{dataset.pretty_name}: Internal Node Agreement (Split-Halves {ylabel})"
+        f"\n({num_models} models, {num_trials} trials, {min_instance_label}={min_instances})"
     )
     ylim = (-1, 1) if df["mean_kendall_tau"].min() < 0 else (0, 1)
 
@@ -271,8 +271,8 @@ def plot_all_nodes_bootstrap_histogram(
     min_instance_label = r"$n_{\mathrm{min}}$"
     ylabel = "Number of Nodes"
     title = (
-        f"{dataset.pretty_name}: Internal Node Agreement (Bootstrapped {xlabel}, All Nodes)"
-        f"\n({num_models} models, {num_nodes} nodes, {min_instance_label}={min_instances}, {num_trials} trials)"
+        f"{dataset.pretty_name}: Internal Node Agreement (Bootstrapped {xlabel})"
+        f"\n({num_models} models, {num_nodes} nodes, {num_trials} trials, {min_instance_label}={min_instances})"
     )
     mean = data.mean()
     std = data.std()
@@ -326,8 +326,8 @@ def plot_per_level_bootstrap_strip_plot(
     ylabel = r"Kendall's $\tau$"
     min_instance_label = r"$n_{\mathrm{min}}$"
     title = (
-        f"{dataset.pretty_name}: Internal Node Agreement (Bootstrapped {ylabel}, Per Level)"
-        f"\n({num_models} models, {min_instance_label}={min_instances}, {num_trials} trials)"
+        f"{dataset.pretty_name}: Internal Node Agreement (Bootstrapped {ylabel})"
+        f"\n({num_models} models, {num_trials} trials, {min_instance_label}={min_instances})"
     )
     ylim = (-1, 1) if df["mean_kendall_tau"].min() < 0 else (0, 1)
 
@@ -369,7 +369,7 @@ def minibatch_w_analysis(
 
     Returns:
         A DataFrame with one row per node and columns
-        ``["node", "depth", "mean_kendallw", "std_kendallw", "num_instances"]``.
+        ``["node", "depth", "mean_kendall_w", "std_kendall_w", "num_instances"]``.
     """
     tqdm_kwargs = {
         "desc": "Computing mini-batch Kendall's Ws",
@@ -399,8 +399,8 @@ def minibatch_w_analysis(
             {
                 "node": node.capability,
                 "depth": node.depth,
-                "mean_kendallw": np.mean(kendallw_values),
-                "std_kendallw": np.std(kendallw_values),
+                "mean_kendall_w": np.mean(kendallw_values),
+                "std_kendall_w": np.std(kendallw_values),
                 "num_instances": node_size,
             }
         )
@@ -436,13 +436,13 @@ def plot_all_nodes_minibatch_w_histogram(
     Returns:
         The matplotlib Figure containing the histogram.
     """
-    data = df["mean_kendallw"]
+    data = df["mean_kendall_w"]
     xlabel = "Kendall's W"
     min_instance_label = r"$n_{\mathrm{min}}$"
     ylabel = "Number of Nodes"
     title = (
-        f"{dataset.pretty_name}: Internal Node Agreement (Mini-Batch Kendall's W, All Nodes)"
-        f"\n({num_models} models, {num_nodes} nodes, {min_instance_label}={min_instances}, {num_trials} trials, {num_folds} folds)"
+        f"{dataset.pretty_name}: Internal Node Agreement (Mini-Batch Kendall's W)"
+        f"\n({num_models} models, {num_nodes} nodes, {num_trials} trials, {num_folds} folds, {min_instance_label}={min_instances})"
     )
     mean = data.mean()
     std = data.std()
@@ -498,14 +498,14 @@ def plot_per_level_minibatch_w_strip_plot(
     ylabel = "Kendall's W"
     min_instance_label = r"$n_{\mathrm{min}}$"
     title = (
-        f"{dataset.pretty_name}: Internal Node Agreement (Mini-Batch Kendall's W, Per Level)"
-        f"\n({num_models} models, {min_instance_label}={min_instances}, {num_trials} trials, {num_folds} folds)"
+        f"{dataset.pretty_name}: Internal Node Agreement (Mini-Batch Kendall's W)"
+        f"\n({num_models} models, {num_trials} trials, {num_folds} folds, {min_instance_label}={min_instances})"
     )
 
     return plot_stripplot(
         data=plot_df,
         x="level",
-        y="mean_kendallw",
+        y="mean_kendall_w",
         xlabel=xlabel,
         ylabel=ylabel,
         title=title,

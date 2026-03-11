@@ -1,4 +1,4 @@
-node,depth,mean_kendallw,std_kendallw,num_instances
+node,depth,mean_kendall_w,std_kendall_w,num_instances
 Mastering advanced tensor manipulation and optimization techniques in deep learning frameworks.,2,0.8926236945304438,0.08153243691120095,114
 "Implementing comprehensive data processing, transformation, and analysis techniques for machine learning and data science tasks.",2,0.7824739800481596,0.0904086786639634,189
 Performing comprehensive statistical analysis and data manipulation using Python libraries and mathematical techniques.,3,0.5612546735084661,0.17915433160120603,51

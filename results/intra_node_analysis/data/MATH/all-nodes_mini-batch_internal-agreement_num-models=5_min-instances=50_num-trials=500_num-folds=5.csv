@@ -1,4 +1,4 @@
-node,depth,mean_kendallw,std_kendallw,num_instances
+node,depth,mean_kendall_w,std_kendall_w,num_instances
 "Analyzing and optimizing geometric and algebraic relationships using matrix operations, transformations, and trigonometric principles across various mathematical contexts.",2,0.9182935921300103,0.03581400819029838,1325
 Analyzing and manipulating vector operations and relationships in multi-dimensional spaces using geometric and algebraic methods.,3,0.5460012067654414,0.10249963170668534,105
 "Analyzing and solving geometric and algebraic problems using coordinate geometry, complex numbers, and conic sections",3,0.7780172982490068,0.06769475182881457,119
