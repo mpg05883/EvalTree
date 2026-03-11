@@ -1,0 +1,9 @@
+,size,depth,capability,distinction,kendall_tau
+0,114,2,Mastering advanced tensor manipulation and optimization techniques in deep learning frameworks.,Tensor manipulation in deep learning,1.0
+1,189,2,"Implementing comprehensive data processing, transformation, and analysis techniques for machine learning and data science tasks.",Data processing for machine learning,1.0
+2,306,2,"Performing comprehensive data manipulation, transformation, and analysis using advanced pandas and numpy techniques",Advanced pandas and numpy techniques,1.0
+3,155,2,Customizing and creating data visualizations using Python libraries,Custom Python data visualizations,1.0
+4,107,3,Customizing and creating complex data visualizations using Python libraries like Matplotlib and Seaborn.,Creating complex visualizations with Python libraries,1.0
+5,236,2,Optimizing and leveraging advanced techniques for multidimensional data manipulation and numerical analysis,Multidimensional data optimization,1.0
+6,182,3,"Leveraging advanced numerical and data manipulation techniques using NumPy, SciPy, and pandas","Advanced data manipulation with NumPy, SciPy, pandas",1.0
+7,138,4,"Mastering advanced array manipulation and data transformation techniques using NumPy, SciPy, and pandas.","Array manipulation and data transformation with NumPy, SciPy, and pandas",0.33333333333333337

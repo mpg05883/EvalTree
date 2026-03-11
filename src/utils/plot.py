@@ -1,4 +1,3 @@
-import colorsys
 import math
 import textwrap
 
@@ -15,33 +14,30 @@ from matplotlib.path import Path
 from src.utils.enums import Dataset
 
 
-def _hue_shift(color: str, shift: float) -> tuple:
-    """Return a color rotated by ``shift`` (0–1) along the HSV hue wheel.
-
-    A shift of 1/3 (120°) and 2/3 (240°) together with the original hue
-    form a triadic colour scheme — three evenly spaced colours that are
-    perceptually distinct while remaining harmonious.
-    """
-    r, g, b = plt.matplotlib.colors.to_rgb(color)
-    h, s, v = colorsys.rgb_to_hsv(r, g, b)
-    h = (h + shift) % 1.0
-    return colorsys.hsv_to_rgb(h, s, v)
-
-
 def plot_histogram(
     data: pd.Series | np.ndarray,
     xlabel: str,
     ylabel: str,
     title: str,
+    tick_fontsize: int = 10,
+    annotation_fontsize: int = 10,
+    legend_fontsize: int = 12,
+    label_fontsize: int = 12,
+    title_fontsize: int = 14,
+    bins: int = 10,
     ax: Axes | None = None,
     figsize: tuple[int, int] = (8, 4),
     annotate: bool = False,
     median: float | None = None,
     median_label: str = "Median",
+    median_color: str = "red",
+    median_linestyle: str = "--",
     q1: float | None = None,
     q3: float | None = None,
     mean: float | None = None,
     mean_label: str = "Mean",
+    mean_color: str = "green",
+    mean_linestyle: str = ":",
     std: float | None = None,
     xlim: tuple[float, float] | None = None,
     ylim: tuple[float, float] | None = None,
@@ -77,18 +73,36 @@ def plot_histogram(
             color 2/3 around the wheel (240°), forming a triadic scheme with the bars.
             If None, median/IQR defaults to red and mean/std defaults to green.
     """
-    owns_figure = ax is None
-    if owns_figure:
+    if owns_figure := (ax is None):
         fig, ax = plt.subplots(figsize=figsize)
     else:
         fig = ax.figure
 
-    median_color = _hue_shift(color, 1 / 3) if color is not None else "red"
-    mean_color = _hue_shift(color, 2 / 3) if color is not None else "green"
+    # Automatically set x-axis limits
+    x_min, x_max = xlim if xlim is not None else (data.min(), data.max())
+    sns.histplot(
+        data=data,
+        ax=ax,
+        bins=bins,
+        binrange=(x_min, x_max),
+        color=color,
+    )
 
-    data_min, data_max = xlim if xlim is not None else (data.min(), data.max())
-    sns.histplot(data=data, ax=ax, bins=10, binrange=(data_min, data_max), color=color)
-    ax.set_xlim(data_min, data_max)
+    # Set x-axis limits
+    ax.set_xlim(x_min, x_max)
+
+    # Set y-axis limits if provided
+    if ylim is not None:
+        ax.set_ylim(*ylim)
+
+    # Set title, x-axis label, y-axis label, and font sizes
+    ax.set_title(title, fontsize=title_fontsize)
+    ax.set_xlabel(xlabel, fontsize=label_fontsize)
+    ax.set_ylabel(ylabel, fontsize=label_fontsize)
+
+    # Set font sizes for tick labels
+    plt.setp(ax.get_xticklabels(), fontsize=tick_fontsize)
+    plt.setp(ax.get_yticklabels(), fontsize=tick_fontsize)
 
     # Optionally annotate bars with their heights
     if annotate:
@@ -101,32 +115,46 @@ def plot_histogram(
                 ha="center",
                 va="bottom",
                 fontweight="bold",
+                fontsize=annotation_fontsize,
             )
 
-    # Optionally plot reference lines and shaded regions for median/IQR and mean/std
+    # Optionally plot reference lines and shaded regions for median ± IQR
     has_overlay = False
-    if median is not None and not math.isnan(median):
+
+    valid_median = median is not None and not math.isnan(median)
+    if valid_median:
         ax.axvline(
             median,
             color=median_color,
-            linestyle="--",
+            linestyle=median_linestyle,
             label=f"{median_label}: {median:.3g}",
         )
-        if (
-            q1 is not None
-            and q3 is not None
-            and not math.isnan(q1)
-            and not math.isnan(q3)
-        ):
-            ax.axvspan(
-                q1, q3, alpha=0.2, color=median_color, label=f"IQR: {q3 - q1:.3g}"
-            )
         has_overlay = True
-    if mean is not None and not math.isnan(mean):
+
+        valid_q1 = q1 is not None and not math.isnan(q1)
+        valid_q3 = q3 is not None and not math.isnan(q3)
+        if valid_q1 and valid_q3:
+            ax.axvspan(
+                q1,
+                q3,
+                alpha=0.2,
+                color=median_color,
+                label=f"IQR: {q3 - q1:.3g}",
+            )
+
+    # Optionally plot reference lines and shaded regions for mean ± std
+    valid_mean = mean is not None and not math.isnan(mean)
+    if valid_mean:
         ax.axvline(
-            mean, color=mean_color, linestyle=":", label=f"{mean_label}: {mean:.3g}"
+            mean,
+            color=mean_color,
+            linestyle=mean_linestyle,
+            label=f"{mean_label}: {mean:.3g}",
         )
-        if std is not None and not math.isnan(std):
+        has_overlay = True
+
+        valid_std = std is not None and not math.isnan(std)
+        if valid_std:
             ax.axvspan(
                 mean - std,
                 mean + std,
@@ -134,18 +162,15 @@ def plot_histogram(
                 color=mean_color,
                 label=f"±1 Std: {std:.3g}",
             )
-        has_overlay = True
+
+    # Add legend if any reference lines or shaded regions are present
     if has_overlay:
-        ax.legend()
+        ax.legend(fontsize=legend_fontsize)
 
-    if ylim is not None:
-        ax.set_ylim(*ylim)
-
-    ax.set_title(title)
-    ax.set_xlabel(xlabel)
-    ax.set_ylabel(ylabel)
+    # Perform layout adjustment if the figure was created by this function
     if owns_figure:
         fig.tight_layout()
+
     return fig
 
 
@@ -167,17 +192,25 @@ def plot_stripplot(
     jitter: bool = True,
     median: float | None = None,
     median_label: str = "Median",
+    median_color: str = "black",
+    median_linestyle: str = "--",
+    median_linewidth: float = 1.5,
     mean: float | None = None,
     mean_label: str = "Mean",
+    mean_color: str = "grey",
+    mean_linestyle: str = ":",
+    mean_linewidth: float = 1.5,
     x_means: dict[str, float] | None = None,
     x_means_label: str = "Mean",
     x_means_linewidth: float = 3,
     x_means_color: str = "black",
     ylim: tuple[float, float] | None = None,
     rotation: float = 0,
-    tick_fontsize: int = 11,
-    label_fontsize: int = 13,
+    tick_fontsize: int = 10,
+    legend_fontsize: int = 12,
+    label_fontsize: int = 12,
     title_fontsize: int = 14,
+    legend_line_factor: float = 0.75,
 ) -> Figure:
     """Plot a categorical strip plot using seaborn.
 
@@ -217,9 +250,11 @@ def plot_stripplot(
         median: If provided and not NaN, draws a horizontal dashed reference
             line at this value spanning the full plot width.
         median_label: Legend label for the median reference line.
+        median_linewidth: Line width of the median reference line.
         mean: If provided and not NaN, draws a horizontal dotted reference
             line at this value spanning the full plot width.
         mean_label: Legend label for the mean reference line.
+        mean_linewidth: Line width of the mean reference line.
         x_means: Mapping from each x-axis category name to a reference value.
             For each entry a short horizontal line is drawn across that
             category's column, making it easy to compare dots to a
@@ -237,27 +272,30 @@ def plot_stripplot(
     Returns:
         The matplotlib Figure containing the strip plot.
     """
-    owns_figure = ax is None
-    if owns_figure:
-
+    if owns_figure := (ax is None):
         fig, ax = plt.subplots(figsize=figsize)
     else:
         fig = ax.figure
 
+    # Determines which column is used to color-code the dots
     hue_col = hue if hue is not None else x
-    resolved_order = order if order is not None else sorted(data[x].unique())
-    resolved_hue_order = (
-        hue_order
-        if hue_order is not None
-        else (resolved_order if hue_col == x else sorted(data[hue_col].unique()))
+
+    # Controls the left-to-right order of categories on the x-axis
+    display_order = order if order is not None else sorted(data[x].unique())
+
+    # Controls which color from the palette is used for each strip in the plot
+    default_hue_order = (
+        display_order if hue_col == x else sorted(data[hue_col].unique())
     )
+    display_hue_order = hue_order if hue_order is not None else default_hue_order
+
     sns.stripplot(
         data=data,
         x=x,
         y=y,
         hue=hue_col,
-        order=resolved_order,
-        hue_order=resolved_hue_order,
+        order=display_order,
+        hue_order=display_hue_order,
         ax=ax,
         palette=palette,
         size=size,
@@ -265,11 +303,38 @@ def plot_stripplot(
         legend=False,
     )
 
+    # Set y-axis limits if provided
+    if ylim is not None:
+        ax.set_ylim(*ylim)
+
+    # Set title, x-axis label, y-axis label, and font sizes
+    ax.set_title(title, fontsize=title_fontsize)
+    ax.set_xlabel(xlabel, fontsize=label_fontsize)
+    ax.set_ylabel(ylabel, fontsize=label_fontsize)
+
+    # Set font size and rotation for ticks
+    plt.setp(
+        ax.get_xticklabels(),
+        rotation=rotation,
+        ha="right" if rotation > 0 else "center",
+        fontsize=tick_fontsize,
+    )
+    plt.setp(
+        ax.get_yticklabels(),
+        fontsize=tick_fontsize,
+    )
+
     legend_handles = []
 
+    # Manually add legend handles for each hue category if requested
+    # NOTE: We do this because Seaborn's automatic legends can be inconsistent
+    # or include unwanted entries
     if hue_legend:
-        palette_colors = sns.color_palette(palette, n_colors=len(resolved_hue_order))
-        for color, label in zip(palette_colors, resolved_hue_order):
+        palette_colors = sns.color_palette(
+            palette,
+            n_colors=len(display_hue_order),
+        )
+        for color, label in zip(palette_colors, display_hue_order):
             legend_handles.append(
                 Line2D(
                     [0],
@@ -282,32 +347,52 @@ def plot_stripplot(
                 )
             )
 
-    if median is not None and not math.isnan(median):
-        ax.axhline(median, color="black", linestyle="--")
+    # Optionally plot reference line for global median
+    valid_median = median is not None and not math.isnan(median)
+    if valid_median:
+        ax.axhline(
+            median,
+            color=median_color,
+            linestyle=median_linestyle,
+            linewidth=median_linewidth,
+        )
         legend_handles.append(
             Line2D(
                 [0],
                 [0],
-                color="black",
-                linestyle="--",
+                color=median_color,
+                linestyle=median_linestyle,
+                linewidth=median_linewidth * legend_line_factor,
                 label=f"{median_label}: {median:.3g}",
             )
         )
 
-    if mean is not None and not math.isnan(mean):
-        ax.axhline(mean, color="grey", linestyle=":")
+    # Optionally plot reference line for global mean
+    valid_mean = mean is not None and not math.isnan(mean)
+    if valid_mean:
+        ax.axhline(
+            mean,
+            color=mean_color,
+            linestyle=mean_linestyle,
+            linewidth=mean_linewidth,
+        )
         legend_handles.append(
             Line2D(
                 [0],
                 [0],
-                color="grey",
-                linestyle=":",
+                color=mean_color,
+                linestyle=mean_linestyle,
+                linewidth=mean_linewidth * legend_line_factor,
                 label=f"{mean_label}: {mean:.3g}",
             )
         )
 
-    if x_means is not None:
-        for i, category in enumerate(resolved_order):
+    # Optionally plot reference lines for per-category means
+    valid_x_means = x_means is not None and all(
+        not math.isnan(x) for x in x_means.values()
+    )
+    if valid_x_means:
+        for i, category in enumerate(display_order):
             if category in x_means:
                 ax.hlines(
                     x_means[category],
@@ -321,151 +406,14 @@ def plot_stripplot(
                 [0],
                 [0],
                 color=x_means_color,
-                linewidth=x_means_linewidth * 0.75,
+                linewidth=x_means_linewidth * legend_line_factor,
                 label=x_means_label,
             )
         )
 
     if legend_handles:
-        ax.legend(handles=legend_handles, fontsize=tick_fontsize)
+        ax.legend(handles=legend_handles, fontsize=legend_fontsize)
 
-    if ylim is not None:
-        ax.set_ylim(*ylim)
-
-    ax.set_title(title, fontsize=title_fontsize)
-    ax.set_xlabel(xlabel, fontsize=label_fontsize)
-    ax.set_ylabel(ylabel, fontsize=label_fontsize)
-    plt.setp(
-        ax.get_xticklabels(),
-        rotation=rotation,
-        ha="right" if rotation > 0 else "center",
-        fontsize=tick_fontsize,
-    )
-    plt.setp(ax.get_yticklabels(), fontsize=tick_fontsize)
-
-    if owns_figure:
-        fig.tight_layout()
-    return fig
-
-
-def plot_barplot(
-    data: pd.DataFrame,
-    x: str,
-    y: str,
-    xlabel: str,
-    ylabel: str,
-    title: str,
-    ax: Axes | None = None,
-    figsize: tuple[int, int] | None = None,
-    annotate: bool = False,
-    median: float | None = None,
-    median_label: str = "Median",
-    q1: float | None = None,
-    q3: float | None = None,
-    mean: float | None = None,
-    mean_label: str = "Mean",
-    std: float | None = None,
-    edgecolor: str = "black",
-    linewidth: float = 1,
-    rotation: int = 0,
-    tick_fontsize: int = 12,
-    annotation_fontsize: int = 12,
-    legend_fontsize: int = 14,
-    label_fontsize: int = 14,
-    title_fontsize: int = 16,
-    ylim: tuple[float, float] | None = None,
-) -> Figure:
-    """Plot a bar chart using seaborn.
-
-    Args:
-        data (pd.DataFrame): DataFrame containing the data to plot.
-        x (str): Column name to use for the x-axis categories.
-        y (str): Column name to use for the y-axis values.
-        xlabel (str): Label for the x-axis.
-        ylabel (str): Label for the y-axis.
-        title (str): Title of the plot.
-        ax (Axes | None): Axes to draw into. If None, a new figure is created.
-        figsize: Figure size as (width, height). Only used when ax is None. Default is (8, 5).
-        annotate (bool): If True, annotates each bar with its value in bold.
-        median (float | None): If provided and not NaN, plots a dashed horizontal line
-            at this value.
-        median_label (str): Label for the median line in the legend. Default is "Median".
-        q1 (float | None): First quartile. If both q1 and q3 are provided and not NaN,
-            plots a shaded region spanning [q1, q3] to visualise the IQR.
-        q3 (float | None): Third quartile. See q1.
-        mean (float | None): If provided and not NaN, plots a dotted horizontal line at
-            this value.
-        mean_label (str): Label for the mean line in the legend. Default is "Mean".
-        std (float | None): If provided and not NaN, plots a shaded region for mean ± std.
-            Requires mean to also be provided and not NaN.
-        edgecolor (str): Bar edge color. Default is "black".
-        linewidth (float): Bar edge line width. Default is 1.
-        rotation (int): Rotation angle for x-axis tick labels. Default is 0.
-        ylim (tuple[float, float] | None): (min, max) limits for the y-axis. If None,
-            the limits are inferred from the data.
-    """
-    owns_figure = ax is None
-    xsize = len(data[x].unique())
-    figsize = figsize if figsize is not None else (max(6, xsize * 1.5), 6)
-    if owns_figure:
-        fig, ax = plt.subplots(figsize=figsize)
-    else:
-        fig = ax.figure
-
-    sns.barplot(
-        data=data,
-        x=x,
-        y=y,
-        ax=ax,
-        edgecolor=edgecolor,
-        linewidth=linewidth,
-    )
-
-    if annotate:
-        ax.bar_label(
-            ax.containers[0],
-            fontweight="bold",
-            fontsize=annotation_fontsize,
-        )
-
-    # Optionally plot reference lines and shaded regions for median/IQR and mean/std
-    has_overlay = False
-    if median is not None and not math.isnan(median):
-        ax.axhline(
-            median, color="red", linestyle="--", label=f"{median_label}: {int(median)}"
-        )
-        if (
-            q1 is not None
-            and q3 is not None
-            and not math.isnan(q1)
-            and not math.isnan(q3)
-        ):
-            ax.axhspan(q1, q3, alpha=0.2, color="red", label=f"IQR: {q3 - q1:.3g}")
-        has_overlay = True
-    if mean is not None and not math.isnan(mean):
-        ax.axhline(
-            mean, color="green", linestyle=":", label=f"{mean_label}: {int(mean)}"
-        )
-        if std is not None and not math.isnan(std):
-            ax.axhspan(
-                mean - std,
-                mean + std,
-                alpha=0.1,
-                color="green",
-                label=f"±1 Std: {std:.3g}",
-            )
-        has_overlay = True
-    if has_overlay:
-        ax.legend(fontsize=legend_fontsize)
-
-    if ylim is not None:
-        ax.set_ylim(*ylim)
-
-    ax.set_title(title, fontsize=title_fontsize)
-    ax.set_xlabel(xlabel, fontsize=label_fontsize)
-    ax.set_ylabel(ylabel, fontsize=label_fontsize)
-    ax.tick_params(axis="x", rotation=rotation, labelsize=tick_fontsize)
-    ax.tick_params(axis="y", labelsize=tick_fontsize)
     if owns_figure:
         fig.tight_layout()
     return fig

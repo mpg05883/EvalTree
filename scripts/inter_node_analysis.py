@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -8,13 +9,19 @@ from tqdm import tqdm
 from src.utils.capability_tree import (
     Node,
     align_rankings,
-    collect_levels,
     collect_nodes,
     load_capability_tree,
 )
 from src.utils.enums import Dataset
 from src.utils.path import build_data_path, build_plot_path
 from src.utils.plot import plot_histogram, plot_stripplot
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(levelname)s: %(message)s",
+    force=True,
+)
+logger = logging.getLogger(__name__)
 
 
 def all_nodes_external_agreement_analysis(
@@ -41,7 +48,7 @@ def all_nodes_external_agreement_analysis(
         ``["size", "depth", "capability", "distinction", "kendall_tau"]``.
     """
     tqdm_kwargs = {
-        "desc": "Computing external Kendall's taus",
+        "desc": "Computing agreement with full benchmark",
         "total": len(nodes),
         "unit": "nodes",
     }
@@ -98,7 +105,7 @@ def plot_all_nodes_external_agreement_histogram(
     min_instance_label = r"$n_{\mathrm{min}}$"
     ylabel = "Number of Nodes"
     title = (
-        f"{dataset.pretty_name}: Node Agreement with Full Benchmark (All Nodes)"
+        f"{dataset.pretty_name}: Node Agreement with Full Benchmark"
         f"\n({num_models} models, {num_nodes} nodes, {min_instance_label}={min_instances})"
     )
     annotate = True
@@ -164,6 +171,7 @@ def plot_per_level_external_agreement_stripplot(
     palette = "tab10"
     ylim = (-1, 1) if df["kendall_tau"].min() < 0 else (0, 1)
     rotation = 30
+    median_tau = df["kendall_tau"].median()
 
     return plot_stripplot(
         data=plot_df,
@@ -177,6 +185,8 @@ def plot_per_level_external_agreement_stripplot(
         palette=palette,
         ylim=ylim,
         rotation=rotation,
+        median=median_tau,
+        median_label=r"Full Benchmark Kendall's $\tau$",
     )
 
 
@@ -264,7 +274,7 @@ def plot_all_nodes_performance_stripplot(
     ylabel = dataset.metric.title()
     min_instance_label = r"$n_{\mathrm{min}}$"
     title = (
-        f"{dataset.pretty_name}: Node {dataset.metric.title()} vs Full Benchmark (All Nodes)"
+        f"{dataset.pretty_name}: Node {dataset.metric.title()} vs Full Benchmark"
         f"\n({num_nodes} nodes, {min_instance_label}={min_instances})"
     )
     hue = "model"
@@ -299,6 +309,12 @@ def plot_per_level_performance_stripplot(
     global_ranking: dict[str, float],
     num_models: int,
     min_instances: int,
+    size: int = 10,
+    tick_fontsize: int = 12,
+    legend_fontsize: int = 14,
+    label_fontsize: int = 14,
+    title_fontsize: int = 16,
+    suptitle_fontsize: int = 18,
     **kwargs,
 ) -> plt.Figure:
     """Plot per-node model scores for each model, faceted by model.
@@ -366,12 +382,16 @@ def plot_per_level_performance_stripplot(
         hue = "level"
         order = level_order
         palette = "tab10"
-        median = global_score
-        median_label = f"Full Benchmark {dataset.metric.title()}"
+        mean = global_score
+        mean_label = f"Full Benchmark {dataset.metric.title()}"
+        mean_color = "black"
+        mean_linestyle = "--"
+        mean_linewidth = 2
         rotation = 30
 
         plot_stripplot(
             data=model_data,
+            size=size,
             x=x,
             y=y,
             xlabel=xlabel,
@@ -381,16 +401,24 @@ def plot_per_level_performance_stripplot(
             order=order,
             palette=palette,
             ax=axes[i, 0],
-            median=median,
-            median_label=median_label,
+            mean=mean,
+            mean_label=mean_label,
+            mean_color=mean_color,
+            mean_linestyle=mean_linestyle,
+            mean_linewidth=mean_linewidth,
             ylim=ylim,
             rotation=rotation,
+            tick_fontsize=tick_fontsize,
+            legend_fontsize=legend_fontsize,
+            label_fontsize=label_fontsize,
+            title_fontsize=title_fontsize,
         )
 
     plt.suptitle(
         f"{dataset.pretty_name}: Node {dataset.metric.title()} vs Full Benchmark (Per Level)"
         f"\n({min_instance_label}={min_instances})",
         y=1.0,
+        fontsize=suptitle_fontsize,
     )
     plt.tight_layout()
     return fig
@@ -400,19 +428,14 @@ def main(dataset: Dataset, min_instances: int, experiment: str) -> None:
     root = load_capability_tree(dataset)
     global_ranking = {model: score for model, score in root["ranking"]}
     nodes = collect_nodes(root, min_instances)
-    levels = collect_levels(root, min_instances)
-    num_models = len(global_ranking)
-    num_nodes = len(nodes)
-    num_levels = len(levels)
+    num_models, num_nodes = len(global_ranking), len(nodes)
 
     shared = dict(
         dataset=dataset,
         global_ranking=global_ranking,
         nodes=nodes,
-        levels=levels,
         num_models=num_models,
         num_nodes=num_nodes,
-        num_levels=num_levels,
         min_instances=min_instances,
         experiment=experiment,
     )
@@ -421,7 +444,7 @@ def main(dataset: Dataset, min_instances: int, experiment: str) -> None:
     data_name = f"all-nodes_external-agreement_min-instances={min_instances}"
     data_path = build_data_path(dataset, experiment, data_name)
     all_nodes_external_agreement_df.to_csv(data_path)
-    print(f"Saved data to {data_path}")
+    logger.info(f"Saved data to {data_path}")
 
     all_nodes_external_agreement_fig = plot_all_nodes_external_agreement_histogram(
         all_nodes_external_agreement_df,
@@ -431,51 +454,55 @@ def main(dataset: Dataset, min_instances: int, experiment: str) -> None:
     plot_path = build_plot_path(dataset, experiment, plot_name)
     all_nodes_external_agreement_fig.savefig(plot_path)
     plt.close(all_nodes_external_agreement_fig)
-    print(f"Saved plot to {plot_path}")
+    logger.info(f"Saved plot to {plot_path}")
 
     per_level_external_agreement_fig = plot_per_level_external_agreement_stripplot(
         all_nodes_external_agreement_df,
         **shared,
     )
-    plot_name = f"per-level_external-agreement_strip-plot_min-instances={min_instances}"
+    plot_name = f"per-level_external-agreement_stripplot_min-instances={min_instances}"
     plot_path = build_plot_path(dataset, experiment, plot_name)
     per_level_external_agreement_fig.savefig(plot_path)
     plt.close(per_level_external_agreement_fig)
-    print(f"Saved plot to {plot_path}")
+    logger.info(f"Saved plot to {plot_path}")
 
     all_nodes_performance_df = all_nodes_performance_analysis(**shared)
     data_name = f"all-nodes_performance_min-instances={min_instances}"
     data_path = build_data_path(dataset, experiment, data_name)
     all_nodes_performance_df.to_csv(data_path)
-    print(f"Saved data to {data_path}")
+    logger.info(f"Saved data to {data_path}")
 
     all_nodes_performance_fig = plot_all_nodes_performance_stripplot(
         all_nodes_performance_df,
         **shared,
     )
-    plot_name = f"all-nodes_performance_strip-plot_min-instances={min_instances}"
+    plot_name = f"all-nodes_performance_stripplot_min-instances={min_instances}"
     plot_path = build_plot_path(dataset, experiment, plot_name)
     all_nodes_performance_fig.savefig(plot_path)
     plt.close(all_nodes_performance_fig)
-    print(f"Saved plot to {plot_path}")
+    logger.info(f"Saved plot to {plot_path}")
 
     per_level_performance_fig = plot_per_level_performance_stripplot(
         all_nodes_performance_df,
         **shared,
     )
-    plot_name = f"per-level_performance_strip-plot_min-instances={min_instances}"
+    plot_name = f"per-level_performance_stripplot_min-instances={min_instances}"
     plot_path = build_plot_path(dataset, experiment, plot_name)
     per_level_performance_fig.savefig(plot_path)
     plt.close(per_level_performance_fig)
-    print(f"Saved plot to {plot_path}")
+    logger.info(f"Saved plot to {plot_path}")
 
 
 if __name__ == "__main__":
-    min_instance_values = [50]
     datasets = [Dataset(d.value) for d in Dataset]
     experiment = Path(__file__).stem
 
-    for dataset in datasets:
+    for i, dataset in enumerate(datasets):
+        one_tenth = dataset.num_instances // 10
+        min_instance_values = [0, 50, one_tenth]
         for min_instances in min_instance_values:
+            print(
+                f"{'-'*80} Dataset {i+1}/{len(datasets)}: {dataset.pretty_name}, "
+                f"{min_instances=} {'-'*80}"
+            )
             main(dataset, min_instances, experiment)
-        print(f"{'-'*200}")

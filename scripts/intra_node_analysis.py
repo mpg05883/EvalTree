@@ -191,7 +191,7 @@ def bootstrap_analysis(
     num_trials: int,
     **kwargs,
 ) -> pd.DataFrame:
-    """Measure intra-node ranking stability using bootstrapped Kendall's Tau.
+    """Measure intra-node ranking stability using bootstrap Kendall's Tau.
 
     For each node, computes the reference model ranking from all of the node's
     instances, then draws ``num_trials`` bootstrap samples and measures
@@ -209,7 +209,7 @@ def bootstrap_analysis(
         ``["node", "depth", "mean_kendall_tau", "std_kendall_tau", "num_instances"]``.
     """
     tqdm_kwargs = {
-        "desc": "Computing bootstrapped Kendall's taus",
+        "desc": "Computing bootstrap Kendall's taus",
         "total": len(nodes),
         "unit": "nodes",
     }
@@ -251,7 +251,7 @@ def plot_all_nodes_bootstrap_histogram(
     num_trials: int,
     **kwargs,
 ) -> plt.Figure:
-    """Plot the distribution of bootstrapped Kendall's Tau values across all nodes.
+    """Plot the distribution of bootstrap Kendall's Tau values across all nodes.
 
     Takes the output of :func:`bootstrap_analysis` and visualises how stably
     each node's model ranking is estimated under resampling. The x-axis spans
@@ -273,7 +273,7 @@ def plot_all_nodes_bootstrap_histogram(
     min_instance_label = r"$n_{\mathrm{min}}$"
     ylabel = "Number of Nodes"
     title = (
-        f"{dataset.pretty_name}: Internal Node Agreement (Bootstrapped {xlabel})"
+        f"{dataset.pretty_name}: Internal Node Agreement (Bootstrap {xlabel})"
         f"\n({num_models} models, {num_nodes} nodes, {num_trials} trials, {min_instance_label}={min_instances})"
     )
     median = data.median()
@@ -304,7 +304,7 @@ def plot_per_level_bootstrap_stripplot(
     num_trials: int,
     **kwargs,
 ) -> plt.Figure:
-    """Plot bootstrapped Kendall's Tau values per capability tree level as a strip plot.
+    """Plot bootstrap Kendall's Tau values per capability tree level as a strip plot.
 
     Takes the output of :func:`bootstrap_analysis` and produces a single strip
     plot where each x-axis tick corresponds to a capability tree level and
@@ -330,7 +330,7 @@ def plot_per_level_bootstrap_stripplot(
     ylabel = r"Kendall's $\tau$"
     min_instance_label = r"$n_{\mathrm{min}}$"
     title = (
-        f"{dataset.pretty_name}: Internal Node Agreement (Bootstrapped {ylabel})"
+        f"{dataset.pretty_name}: Internal Node Agreement (Bootstrap {ylabel})"
         f"\n({num_models} models, {num_trials} trials, {min_instance_label}={min_instances})"
     )
     ylim = (-1, 1) if df["mean_kendall_tau"].min() < 0 else (0, 1)

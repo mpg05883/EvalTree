@@ -1,3 +1,4 @@
+import logging
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -14,6 +15,13 @@ from src.utils.enums import Dataset
 from src.utils.model import load_model_scores
 from src.utils.path import build_data_path, build_plot_path
 from src.utils.plot import plot_histogram, plot_stripplot
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(levelname)s: %(message)s",
+    force=True,
+)
+logger = logging.getLogger(__name__)
 
 
 def subset_external_agreement_analysis(
@@ -35,7 +43,7 @@ def subset_external_agreement_analysis(
     global_scores = model_scores_df.mean()
 
     kwargs = {
-        "desc": "Computing Kendall's taus",
+        "desc": "Computing agreement with full benchmark",
         "total": len(subsets),
         "unit": dataset.plural,
     }
@@ -241,39 +249,41 @@ def main(dataset: Dataset, experiment: str) -> None:
     data_name = f"subset_external-agreement_num-models={num_models}"
     data_path = build_data_path(dataset, experiment, data_name)
     subset_external_agreement_df.to_csv(data_path, index=False)
-    print(f"Saved data to {data_path}")
+    logger.info(f"Saved data to {data_path}")
 
     subset_external_agreement_fig = plot_subset_external_agreement_histogram(
-        subset_external_agreement_df, **shared
+        subset_external_agreement_df,
+        **shared,
     )
     plot_name = f"subset_external-agreement_histogram_num-models={num_models}"
     plot_path = build_plot_path(dataset, experiment, plot_name)
     subset_external_agreement_fig.savefig(plot_path)
     plt.close(subset_external_agreement_fig)
-    print(f"Saved plot to {plot_path}")
+    logger.info(f"Saved plot to {plot_path}")
 
     subset_scores_df = subset_performance_analysis(**shared)
     data_name = "subset_performance"
     data_path = build_data_path(dataset, experiment, data_name)
     subset_scores_df.to_csv(data_path, index=False)
-    print(f"Saved data to {data_path}")
+    logger.info(f"Saved data to {data_path}")
 
     subset_performance_fig = plot_subset_performance_stripplot(
         subset_scores_df=subset_scores_df,
         **shared,
     )
-    plot_name = "subset_performance_strip-plot"
+    plot_name = "subset_performance_stripplot"
     plot_path = build_plot_path(dataset, experiment, plot_name)
     subset_performance_fig.savefig(plot_path)
     plt.close(subset_performance_fig)
-    print(f"Saved plot to {plot_path}")
+    logger.info(f"Saved plot to {plot_path}")
 
 
 if __name__ == "__main__":
     # Only MATH, MMLU, and DS-1000 have pre-defined subsets
     datasets = [Dataset.MATH, Dataset.MMLU, Dataset.DS_1000]
     experiment = Path(__file__).stem
+    num_datasets = len(datasets)
 
-    for dataset in datasets:
+    for i, dataset in enumerate(datasets):
+        print(f"{'-'*80} Dataset {i+1}/{num_datasets}: {dataset.pretty_name} {'-'*80}")
         main(dataset, experiment)
-        print(f"{'-'*200}")
