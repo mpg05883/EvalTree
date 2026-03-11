@@ -533,10 +533,10 @@ def plot_per_level_minibatch_w_stripplot(
 
 def main(
     dataset: Dataset,
-    min_instances: int,
     experiment: str,
-    num_trials: int,
-    num_folds: int,
+    min_instances: int = 50,
+    num_trials: int = 500,
+    num_folds: int = 5,
 ) -> None:
     model_scores_df = load_model_scores(dataset)
     num_instances = len(model_scores_df)
@@ -659,9 +659,9 @@ if __name__ == "__main__":
                         f"{min_instances=}, {num_trials=}, {num_folds=} {'-'*80}"
                     )
                     main(
-                        dataset,
-                        min_instances,
-                        experiment,
-                        num_trials,
-                        num_folds,
+                        dataset=dataset,
+                        experiment=experiment,
+                        min_instances=min_instances,
+                        num_trials=num_trials,
+                        num_folds=num_folds,
                     )
