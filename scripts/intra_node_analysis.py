@@ -6,8 +6,9 @@ from scipy.stats import kendalltau
 from tqdm import tqdm
 
 from src.utils.capability_tree import (
-    collect_nodes_by_level,
-    get_node_indices,
+    Level,
+    Node,
+    collect_nodes_bfs,
     load_capability_tree,
 )
 from src.utils.enums import Dataset
@@ -19,7 +20,7 @@ from src.utils.plot import plot_histogram
 
 def split_halves_kendall_tau(
     dataset: Dataset,
-    nodes_with_levels: list[tuple[dict, int]],
+    nodes_with_levels: list[tuple[Node, int]],
     levels: list[int],
     model_scores_df: pd.DataFrame,
     num_trials: int,
@@ -56,7 +57,7 @@ def split_halves_kendall_tau(
     results = []
 
     for node, level in tqdm(nodes_with_levels, **kwargs):
-        indices = get_node_indices(node)
+        indices = node.get_indices()
         node_scores = model_scores_df.iloc[indices]
         node_size = len(node_scores)
 
@@ -72,7 +73,7 @@ def split_halves_kendall_tau(
 
         results.append(
             {
-                "node": node["capability"],
+                "node": node.capability,
                 "level": level,
                 "mean_kendall_tau": np.mean(taus),
                 "std_kendall_tau": np.std(taus),
@@ -156,7 +157,7 @@ def split_halves_kendall_tau(
 
 def bootstrapped_kendall_tau(
     dataset: Dataset,
-    nodes_with_levels: list[tuple[dict, int]],
+    nodes_with_levels: list[tuple[Node, int]],
     levels: list[int],
     model_scores_df: pd.DataFrame,
     num_trials: int,
@@ -193,7 +194,7 @@ def bootstrapped_kendall_tau(
     results = []
 
     for node, level in tqdm(nodes_with_levels, **kwargs):
-        indices = get_node_indices(node)
+        indices = node.get_indices()
         node_scores = model_scores_df.iloc[indices]
         n = len(node_scores)
 
@@ -210,7 +211,7 @@ def bootstrapped_kendall_tau(
 
         results.append(
             {
-                "node": node["capability"],
+                "node": node.capability,
                 "level": level,
                 "mean_kendall_tau": np.mean(taus),
                 "std_kendall_tau": np.std(taus),
@@ -294,7 +295,7 @@ def bootstrapped_kendall_tau(
 
 def minibatch_kendall_w(
     dataset: Dataset,
-    nodes_with_levels: list[tuple[dict, int]],
+    nodes_with_levels: list[tuple[Node, int]],
     levels: list[int],
     model_scores_df: pd.DataFrame,
     num_trials: int,
@@ -333,7 +334,7 @@ def minibatch_kendall_w(
     results = []
 
     for node, level in tqdm(nodes_with_levels, **kwargs):
-        indices = get_node_indices(node)
+        indices = node.get_indices()
         node_scores = model_scores_df.iloc[indices]
         node_size = len(node_scores)
 
@@ -352,7 +353,7 @@ def minibatch_kendall_w(
 
         results.append(
             {
-                "node": node["capability"],
+                "node": node.capability,
                 "level": level,
                 "mean_kendallw": np.mean(kendallw_values),
                 "std_kendallw": np.std(kendallw_values),
@@ -431,15 +432,10 @@ def main(dataset: Dataset) -> None:
     models = model_scores_df.columns.tolist()
 
     root = load_capability_tree(dataset)
-    nodes_by_level = collect_nodes_by_level(root)
-    levels = sorted(nodes_by_level.keys())
+    tree_levels: list[Level] = collect_nodes_bfs(root)
+    levels = [lv.depth for lv in tree_levels]
     nodes_with_levels = [
-        (
-            node,
-            level,
-        )
-        for level in levels
-        for node in nodes_by_level[level]
+        (node, lv.depth) for lv in tree_levels for node in lv.nodes
     ]
 
     colors = sns.color_palette("tab10")

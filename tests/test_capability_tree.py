@@ -1,193 +1,295 @@
-from src.utils.capability_tree import collect_nodes, collect_nodes_by_level, get_node_indices
+from src.utils.capability_tree import Level, Node, collect_nodes_bfs, collect_nodes_dfs, get_node_indices
 
 
-def test_root_excluded():
-    """The root node is never included in results, even if its size exceeds
-    the threshold and it has no children."""
-    root = {"size": 100, "subtrees": []}
-    assert collect_nodes(root) == []
+# ---------------------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------------------
 
 
-def test_single_qualifying_child():
-    """A child whose size exceeds the default threshold (50) is collected."""
-    child = {"size": 100, "subtrees": 5}
-    root = {"size": 200, "subtrees": [child]}
-    assert collect_nodes(root) == [child]
-
-
-def test_min_instances_boundary():
-    """The threshold check is strictly greater-than, so a node whose size
-    equals min_instances exactly is excluded."""
-    root = {"size": 200, "subtrees": [{"size": 50, "subtrees": 3}]}
-    assert collect_nodes(root) == []
-
-
-def test_all_non_root_nodes_collected():
-    """In a two-level tree where every non-root node exceeds the threshold,
-    all four non-root nodes are returned."""
-    grandchildren = [
-        {"size": 80, "subtrees": 3},
-        {"size": 60, "subtrees": 2},
-    ]
-    child_a = {"size": 150, "subtrees": grandchildren}
-    child_b = {"size": 100, "subtrees": 5}
-    root = {"size": 200, "subtrees": [child_a, child_b]}
-    result = collect_nodes(root)
-    assert len(result) == 4
-    assert set(id(n) for n in result) == {
-        id(child_a),
-        id(child_b),
-        *[id(gc) for gc in grandchildren],
+def make_node(size: int, subtrees, depth: int = 2, capability: str = "") -> dict:
+    """Return a minimal capability-tree node dict with all fields required by
+    Node.from_dict()."""
+    return {
+        "capability": capability or f"cap_{size}",
+        "size": size,
+        "depth": depth,
+        "subtrees": subtrees,
+        "ranking": None,
     }
 
 
-def test_partial_qualification():
-    """Among sibling nodes, only those that exceed the threshold are collected;
-    siblings that fall below it are excluded."""
-    qualifying = {"size": 100, "subtrees": 3}
-    disqualified = {"size": 30, "subtrees": 2}
-    root = {"size": 200, "subtrees": [qualifying, disqualified]}
-    assert collect_nodes(root) == [qualifying]
-
-
-def test_custom_min_instances():
-    """A lower min_instances value allows nodes that would otherwise be
-    excluded to pass the threshold."""
-    node_a = {"size": 100, "subtrees": 3}
-    node_b = {"size": 30, "subtrees": 2}
-    root = {"size": 200, "subtrees": [node_a, node_b]}
-    result = collect_nodes(root, min_instances=20)
-    assert len(result) == 2
-    assert set(id(n) for n in result) == {id(node_a), id(node_b)}
-
-
-def test_pruning_on_disqualified_node():
-    """When a node fails the threshold, its entire subtree is pruned: children
-    and deeper descendants are never visited, even if they would qualify."""
-    large_child = {"size": 100, "subtrees": 2}
-    small_parent = {"size": 30, "subtrees": [large_child]}
-    root = {"size": 200, "subtrees": [small_parent]}
-    assert collect_nodes(root) == []
-
-
-def test_leaf_root_returns_empty():
-    """When the root's subtrees field is an int rather than a list, there are
-    no children to traverse and the result is empty."""
-    root = {"size": 200, "subtrees": 10}
-    assert collect_nodes(root) == []
-
-
 # =============================================================================
-# collect_nodes_by_level
+# collect_nodes_dfs
 # =============================================================================
 
 
-def test_cnbl_root_excluded():
+def test_dfs_root_excluded():
     """The root node is never included in results, even if its size exceeds
     the threshold and it has no children."""
-    root = {"size": 100, "subtrees": []}
-    assert collect_nodes_by_level(root) == {}
+    root = make_node(100, [], depth=1)
+    assert collect_nodes_dfs(root) == []
 
 
-def test_cnbl_single_qualifying_child():
-    """A single qualifying child of the root is placed at level 1."""
-    child = {"size": 100, "subtrees": 5}
-    root = {"size": 200, "subtrees": [child]}
-    result = collect_nodes_by_level(root)
-    assert list(result.keys()) == [1]
-    assert result[1] == [child]
+def test_dfs_single_qualifying_child():
+    """A child whose size exceeds the default threshold (50) is collected and
+    returned as a Node instance."""
+    child = make_node(100, 5)
+    root = make_node(200, [child], depth=1)
+    result = collect_nodes_dfs(root)
+    assert len(result) == 1
+    assert isinstance(result[0], Node)
+    assert result[0].size == 100
 
 
-def test_cnbl_min_instances_boundary():
+def test_dfs_min_instances_boundary():
+    """The threshold check is strictly greater-than, so a node whose size
+    equals min_instances exactly is excluded."""
+    root = make_node(200, [make_node(50, 3)], depth=1)
+    assert collect_nodes_dfs(root) == []
+
+
+def test_dfs_all_non_root_nodes_collected():
+    """In a two-level tree where every non-root node exceeds the threshold,
+    all four non-root nodes are returned."""
+    grandchildren = [
+        make_node(80, 3, depth=3),
+        make_node(60, 2, depth=3),
+    ]
+    child_a = make_node(150, grandchildren, depth=2)
+    child_b = make_node(100, 5, depth=2)
+    root = make_node(200, [child_a, child_b], depth=1)
+    result = collect_nodes_dfs(root)
+    assert len(result) == 4
+    assert {n.size for n in result} == {150, 100, 80, 60}
+
+
+def test_dfs_partial_qualification():
+    """Among sibling nodes, only those that exceed the threshold are collected;
+    siblings that fall below it are excluded."""
+    qualifying = make_node(100, 3)
+    disqualified = make_node(30, 2)
+    root = make_node(200, [qualifying, disqualified], depth=1)
+    result = collect_nodes_dfs(root)
+    assert len(result) == 1
+    assert result[0].size == 100
+
+
+def test_dfs_custom_min_instances():
+    """A lower min_instances value allows nodes that would otherwise be
+    excluded to pass the threshold."""
+    node_a = make_node(100, 3)
+    node_b = make_node(30, 2)
+    root = make_node(200, [node_a, node_b], depth=1)
+    result = collect_nodes_dfs(root, min_instances=20)
+    assert len(result) == 2
+    assert {n.size for n in result} == {100, 30}
+
+
+def test_dfs_pruning_on_disqualified_node():
+    """When a node fails the threshold, its entire subtree is pruned: children
+    and deeper descendants are never visited, even if they would qualify."""
+    large_child = make_node(100, 2, depth=3)
+    small_parent = make_node(30, [large_child], depth=2)
+    root = make_node(200, [small_parent], depth=1)
+    assert collect_nodes_dfs(root) == []
+
+
+def test_dfs_leaf_root_returns_empty():
+    """When the root's subtrees field is an int rather than a list, there are
+    no children to traverse and the result is empty."""
+    root = make_node(200, 10, depth=1)
+    assert collect_nodes_dfs(root) == []
+
+
+def test_dfs_returns_node_instances():
+    """All items in the returned list are Node dataclass instances."""
+    child = make_node(100, 5)
+    root = make_node(200, [child], depth=1)
+    result = collect_nodes_dfs(root)
+    assert all(isinstance(n, Node) for n in result)
+
+
+# =============================================================================
+# collect_nodes_bfs
+# =============================================================================
+
+
+def test_bfs_root_excluded():
+    """The root node is never included in results, even if its size exceeds
+    the threshold and it has no children."""
+    root = make_node(100, [], depth=1)
+    assert collect_nodes_bfs(root) == []
+
+
+def test_bfs_single_qualifying_child():
+    """A single qualifying child of the root is returned as a Level at depth 1
+    whose nodes list contains one Node instance."""
+    child = make_node(100, 5)
+    root = make_node(200, [child], depth=1)
+    result = collect_nodes_bfs(root)
+    assert len(result) == 1
+    assert isinstance(result[0], Level)
+    assert result[0].depth == 1
+    assert len(result[0].nodes) == 1
+    assert isinstance(result[0].nodes[0], Node)
+    assert result[0].nodes[0].size == 100
+
+
+def test_bfs_min_instances_boundary():
     """The threshold check is strictly greater-than, so a node whose size
     equals min_instances exactly is excluded and the result is empty."""
-    root = {"size": 200, "subtrees": [{"size": 50, "subtrees": 3}]}
-    assert collect_nodes_by_level(root) == {}
+    root = make_node(200, [make_node(50, 3)], depth=1)
+    assert collect_nodes_bfs(root) == []
 
 
-def test_cnbl_correct_levels():
-    """Nodes are assigned to the correct level: root's children at level 1,
-    grandchildren at level 2."""
+def test_bfs_correct_levels():
+    """Nodes are assigned to the correct Level: root's children at depth 1,
+    grandchildren at depth 2."""
     grandchildren = [
-        {"size": 80, "subtrees": 3},
-        {"size": 60, "subtrees": 2},
+        make_node(80, 3, depth=3),
+        make_node(60, 2, depth=3),
     ]
-    child = {"size": 150, "subtrees": grandchildren}
-    root = {"size": 200, "subtrees": [child]}
-    result = collect_nodes_by_level(root)
-    assert set(result.keys()) == {1, 2}
-    assert result[1] == [child]
-    assert set(id(n) for n in result[2]) == {id(gc) for gc in grandchildren}
+    child = make_node(150, grandchildren, depth=2)
+    root = make_node(200, [child], depth=1)
+    result = collect_nodes_bfs(root)
+    assert len(result) == 2
+    assert result[0].depth == 1
+    assert result[0].num_nodes == 1
+    assert result[0].nodes[0].size == 150
+    assert result[1].depth == 2
+    assert {n.size for n in result[1].nodes} == {80, 60}
 
 
-def test_cnbl_multiple_children_same_level():
-    """Sibling nodes that both qualify are both placed at level 1."""
-    child_a = {"size": 100, "subtrees": 3}
-    child_b = {"size": 80, "subtrees": 2}
-    root = {"size": 200, "subtrees": [child_a, child_b]}
-    result = collect_nodes_by_level(root)
-    assert set(result.keys()) == {1}
-    assert set(id(n) for n in result[1]) == {id(child_a), id(child_b)}
+def test_bfs_multiple_children_same_level():
+    """Sibling nodes that both qualify are both placed in the same Level."""
+    child_a = make_node(100, 3)
+    child_b = make_node(80, 2)
+    root = make_node(200, [child_a, child_b], depth=1)
+    result = collect_nodes_bfs(root)
+    assert len(result) == 1
+    assert result[0].depth == 1
+    assert {n.size for n in result[0].nodes} == {100, 80}
 
 
-def test_cnbl_partial_qualification():
+def test_bfs_partial_qualification():
     """Among sibling nodes only the qualifying one is collected; the
-    disqualified sibling is excluded from the level."""
-    qualifying = {"size": 100, "subtrees": 3}
-    disqualified = {"size": 30, "subtrees": 2}
-    root = {"size": 200, "subtrees": [qualifying, disqualified]}
-    result = collect_nodes_by_level(root)
-    assert result == {1: [qualifying]}
+    disqualified sibling is excluded from the Level."""
+    qualifying = make_node(100, 3)
+    disqualified = make_node(30, 2)
+    root = make_node(200, [qualifying, disqualified], depth=1)
+    result = collect_nodes_bfs(root)
+    assert len(result) == 1
+    assert result[0].num_nodes == 1
+    assert result[0].nodes[0].size == 100
 
 
-def test_cnbl_custom_min_instances():
+def test_bfs_custom_min_instances():
     """A lower min_instances value allows nodes that would otherwise be
-    excluded to pass the threshold and appear in the result."""
-    node_a = {"size": 100, "subtrees": 3}
-    node_b = {"size": 30, "subtrees": 2}
-    root = {"size": 200, "subtrees": [node_a, node_b]}
-    result = collect_nodes_by_level(root, min_instances=20)
-    assert set(result.keys()) == {1}
-    assert set(id(n) for n in result[1]) == {id(node_a), id(node_b)}
+    excluded to pass the threshold and appear in the Level."""
+    node_a = make_node(100, 3)
+    node_b = make_node(30, 2)
+    root = make_node(200, [node_a, node_b], depth=1)
+    result = collect_nodes_bfs(root, min_instances=20)
+    assert len(result) == 1
+    assert {n.size for n in result[0].nodes} == {100, 30}
 
 
-def test_cnbl_pruning_on_disqualified_node():
+def test_bfs_pruning_on_disqualified_node():
     """When a node fails the threshold, its entire subtree is pruned:
     children are never visited even if they would qualify."""
-    large_child = {"size": 100, "subtrees": 2}
-    small_parent = {"size": 30, "subtrees": [large_child]}
-    root = {"size": 200, "subtrees": [small_parent]}
-    assert collect_nodes_by_level(root) == {}
+    large_child = make_node(100, 2, depth=3)
+    small_parent = make_node(30, [large_child], depth=2)
+    root = make_node(200, [small_parent], depth=1)
+    assert collect_nodes_bfs(root) == []
 
 
-def test_cnbl_leaf_root_returns_empty():
+def test_bfs_leaf_root_returns_empty():
     """When the root's subtrees field is an int rather than a list, there are
-    no children to traverse and the result is an empty dict."""
-    root = {"size": 200, "subtrees": 10}
-    assert collect_nodes_by_level(root) == {}
+    no children to traverse and the result is an empty list."""
+    root = make_node(200, 10, depth=1)
+    assert collect_nodes_bfs(root) == []
 
 
-def test_cnbl_three_levels():
-    """A three-level tree assigns nodes at levels 1, 2, and 3 respectively."""
-    grandchild = {"size": 60, "subtrees": 1}
-    child = {"size": 120, "subtrees": [grandchild]}
-    root = {"size": 200, "subtrees": [child]}
-    result = collect_nodes_by_level(root)
-    assert set(result.keys()) == {1, 2}
-    assert result[1] == [child]
-    assert result[2] == [grandchild]
+def test_bfs_three_levels():
+    """A three-level tree produces two Level objects at depths 1 and 2."""
+    grandchild = make_node(60, 1, depth=3)
+    child = make_node(120, [grandchild], depth=2)
+    root = make_node(200, [child], depth=1)
+    result = collect_nodes_bfs(root)
+    assert len(result) == 2
+    assert result[0].depth == 1
+    assert result[0].nodes[0].size == 120
+    assert result[1].depth == 2
+    assert result[1].nodes[0].size == 60
 
 
-def test_cnbl_deep_level_skipped_when_parent_pruned():
-    """A qualifying node at level 3 is never reached when its level-2 parent
+def test_bfs_deep_level_skipped_when_parent_pruned():
+    """A qualifying node at depth 3 is never reached when its depth-2 parent
     fails the threshold, because pruning stops traversal at the parent."""
-    deep_node = {"size": 100, "subtrees": 1}
-    pruned_mid = {"size": 20, "subtrees": [deep_node]}
-    qualifying_top = {"size": 150, "subtrees": [pruned_mid]}
-    root = {"size": 200, "subtrees": [qualifying_top]}
-    result = collect_nodes_by_level(root)
-    assert set(result.keys()) == {1}
-    assert result[1] == [qualifying_top]
+    deep_node = make_node(100, 1, depth=4)
+    pruned_mid = make_node(20, [deep_node], depth=3)
+    qualifying_top = make_node(150, [pruned_mid], depth=2)
+    root = make_node(200, [qualifying_top], depth=1)
+    result = collect_nodes_bfs(root)
+    assert len(result) == 1
+    assert result[0].depth == 1
+    assert result[0].nodes[0].size == 150
+
+
+def test_bfs_returns_level_instances():
+    """All items in the returned list are Level dataclass instances."""
+    child = make_node(100, 5)
+    root = make_node(200, [child], depth=1)
+    result = collect_nodes_bfs(root)
+    assert all(isinstance(lv, Level) for lv in result)
+
+
+def test_bfs_level_order():
+    """BFS visits all depth-1 nodes before any depth-2 node, so the returned
+    list is ordered by ascending depth."""
+    grandchild = make_node(70, 1, depth=3)
+    child_a = make_node(120, [grandchild], depth=2)
+    child_b = make_node(110, 2, depth=2)
+    root = make_node(200, [child_a, child_b], depth=1)
+    result = collect_nodes_bfs(root)
+    assert [lv.depth for lv in result] == [1, 2]
+
+
+# =============================================================================
+# Level properties
+# =============================================================================
+
+
+def test_level_num_nodes():
+    """num_nodes returns the count of nodes stored in the Level."""
+    child_a = make_node(100, 3)
+    child_b = make_node(80, 2)
+    root = make_node(200, [child_a, child_b], depth=1)
+    result = collect_nodes_bfs(root)
+    assert result[0].num_nodes == 2
+
+
+def test_level_num_instances_leaf_nodes():
+    """num_instances counts the unique leaf indices across all nodes in the Level.
+    Each leaf node contributes a single integer index via get_indices()."""
+    child_a = make_node(100, 3)  # subtrees=3 → one leaf at index 3
+    child_b = make_node(80, 7)   # subtrees=7 → one leaf at index 7
+    root = make_node(200, [child_a, child_b], depth=1)
+    result = collect_nodes_bfs(root)
+    assert result[0].num_instances == 2
+
+
+def test_level_indices_deduplication():
+    """indices deduplicates row indices that appear in more than one node
+    at the same level."""
+    shared_leaf = {"size": 10, "subtrees": 42, "capability": "leaf", "depth": 3, "ranking": None}
+    node_a = make_node(100, [shared_leaf])
+    node_b = make_node(80, [shared_leaf])
+    root = make_node(200, [node_a, node_b], depth=1)
+    result = collect_nodes_bfs(root)
+    # index 42 appears in both nodes but should be counted only once
+    assert result[0].indices.count(42) == 1
+    assert result[0].num_instances == 1
 
 
 # =============================================================================

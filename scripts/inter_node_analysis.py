@@ -6,7 +6,7 @@ from tqdm import tqdm
 
 from src.utils.capability_tree import (
     align_rankings,
-    collect_nodes,
+    collect_nodes_dfs,
     load_capability_tree,
 )
 from src.utils.enums import Dataset
@@ -16,14 +16,14 @@ from src.utils.plot import plot_histogram
 
 def main(dataset: Dataset, min_instances: int) -> None:
     root = load_capability_tree(dataset)
-    global_ranking = root["ranking"]
-    nodes = collect_nodes(root, min_instances)
+    global_ranking = {model: score for model, score in root["ranking"]}
+    nodes = collect_nodes_dfs(root, min_instances)
 
     num_models, num_nodes = len(global_ranking), len(nodes)
 
     # -------------------------------------------------------------------------
     # 1. Compute distribution of Kendall's Tau across nodes
-    # -------------------------------------------------------------------------\
+    # -------------------------------------------------------------------------
     taus = np.zeros(len(nodes))
 
     kwargs = {
@@ -33,11 +33,11 @@ def main(dataset: Dataset, min_instances: int) -> None:
     }
 
     for i, node in tqdm(enumerate(nodes), **kwargs):
-        if node["ranking"] is None:
+        if node.ranking is None:
             continue
         aligned_global, aligned_local = align_rankings(
             global_ranking,
-            node["ranking"],
+            node.ranking,
         )
         tau, _ = kendalltau(aligned_global, aligned_local)
         taus[i] = tau
@@ -75,13 +75,13 @@ def main(dataset: Dataset, min_instances: int) -> None:
     # -------------------------------------------------------------------------
     # 2. Model Performance Analysis
     # -------------------------------------------------------------------------
-    global_scores_dict = {model: score for model, score in global_ranking}
+    global_scores_dict = global_ranking
 
     node_to_scores = {}
     for i, node in enumerate(nodes):
-        if node["ranking"] is None:
+        if node.ranking is None:
             continue
-        node_to_scores[i] = {model: score for model, score in node["ranking"]}
+        node_to_scores[i] = node.ranking
 
     node_scores_df = pd.DataFrame(node_to_scores).T
     node_scores_df.index.name = "node"

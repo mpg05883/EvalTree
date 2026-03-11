@@ -454,8 +454,16 @@ def plot_capability_tree(
         # Score + CI combined into one full-width pill, just below instance pill
         if node["score"] is not None or node["ci"] is not None:
             perf_y = inst_y - INST_H / 2 - PILL_H / 2 - 0.04
-            score_str = f"{node['score']:.3f} {metric.capitalize()}" if node["score"] is not None else ""
-            ci_str = f"95% CI: [{node['ci'][0]:.3f}, {node['ci'][1]:.3f}]" if node["ci"] is not None else ""
+            score_str = (
+                f"{node['score']:.3f} {metric.capitalize()}"
+                if node["score"] is not None
+                else ""
+            )
+            ci_str = (
+                f"95% CI: [{node['ci'][0]:.3f}, {node['ci'][1]:.3f}]"
+                if node["ci"] is not None
+                else ""
+            )
             perf_label = "   ".join(filter(None, [score_str, ci_str]))
             ax.add_patch(
                 FancyBboxPatch(
@@ -481,9 +489,9 @@ def plot_capability_tree(
             )
 
     title = (
-        f"{dataset.value} Capability Tree: {model}"
+        f"{dataset.pretty_name} Capability Tree: {model}"
         if show_model
-        else f"{dataset.value} Capability Tree"
+        else f"{dataset.pretty_name} Capability Tree"
     )
     fig.suptitle(title, fontsize=12, color="#333333", y=0.99)
     plt.tight_layout()

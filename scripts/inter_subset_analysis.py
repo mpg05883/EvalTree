@@ -222,7 +222,7 @@ def plot_subset_model_performance_strip_plot(
         [0],
         color="black",
         linewidth=linewidth * 0.75,
-        label=f"Benchmark-Level {dataset.metric}",
+        label=f"Full Benchmark {dataset.metric}",
     )
     ax.legend(
         handles=[legend_handle],
