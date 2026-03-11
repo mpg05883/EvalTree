@@ -16,7 +16,7 @@ from src.utils.path import build_data_path, build_plot_path
 from src.utils.plot import plot_histogram, plot_stripplot
 
 
-def subset_agreement_analysis(
+def subset_external_agreement_analysis(
     dataset: Dataset,
     dataset_df: pd.DataFrame,
     model_scores_df: pd.DataFrame,
@@ -62,7 +62,7 @@ def subset_agreement_analysis(
     return pd.DataFrame(results)
 
 
-def plot_subset_agreement_histogram(
+def plot_subset_external_agreement_histogram(
     df: pd.DataFrame,
     dataset: Dataset,
     num_models: int,
@@ -71,7 +71,7 @@ def plot_subset_agreement_histogram(
 ) -> plt.Figure:
     """Plot the distribution of Kendall's Tau values across subsets as a histogram.
 
-    Takes the output of subset_agreement_analysis and visualises how consistently
+    Takes the output of subset_external_agreement_analysis and visualises how consistently
     each subset reproduces the benchmark-level model ranking. The x-axis shows
     Kendall's Tau (ranging from -1 to 1 or 0 to 1 depending on the data), and
     the histogram is annotated with the mean and standard deviation across all subsets.
@@ -235,19 +235,19 @@ def main(dataset: Dataset, experiment: str) -> None:
         experiment=experiment,
     )
 
-    subset_agreement_df = subset_agreement_analysis(**shared)
-    data_name = f"subset_agreement_num-models={num_models}"
+    subset_external_agreement_df = subset_external_agreement_analysis(**shared)
+    data_name = f"subset_external-agreement_num-models={num_models}"
     data_path = build_data_path(dataset, experiment, data_name)
-    subset_agreement_df.to_csv(data_path, index=False)
+    subset_external_agreement_df.to_csv(data_path, index=False)
     print(f"Saved data to {data_path}")
 
-    subset_agreement_fig = plot_subset_agreement_histogram(
-        subset_agreement_df, **shared
+    subset_external_agreement_fig = plot_subset_external_agreement_histogram(
+        subset_external_agreement_df, **shared
     )
-    plot_name = f"subset_agreement_histogram_num-models={num_models}"
+    plot_name = f"subset_external-agreement_histogram_num-models={num_models}"
     plot_path = build_plot_path(dataset, experiment, plot_name)
-    subset_agreement_fig.savefig(plot_path)
-    plt.close(subset_agreement_fig)
+    subset_external_agreement_fig.savefig(plot_path)
+    plt.close(subset_external_agreement_fig)
     print(f"Saved plot to {plot_path}")
 
     subset_scores_df = subset_performance_analysis(**shared)
@@ -260,7 +260,7 @@ def main(dataset: Dataset, experiment: str) -> None:
         subset_scores_df=subset_scores_df,
         **shared,
     )
-    plot_name = "subset-performance_strip-plot"
+    plot_name = "subset_performance_strip-plot"
     plot_path = build_plot_path(dataset, experiment, plot_name)
     subset_performance_fig.savefig(plot_path)
     plt.close(subset_performance_fig)

@@ -17,7 +17,7 @@ from src.utils.path import build_data_path, build_plot_path
 from src.utils.plot import plot_histogram, plot_stripplot
 
 
-def all_nodes_agreement_analysis(
+def all_nodes_external_agreement_analysis(
     nodes: list[Node],
     global_ranking: dict[str, float],
     **kwargs,
@@ -41,7 +41,7 @@ def all_nodes_agreement_analysis(
         ``["size", "depth", "capability", "distinction", "kendall_tau"]``.
     """
     tqdm_kwargs = {
-        "desc": "Computing Kendall's taus",
+        "desc": "Computing external Kendall's taus",
         "total": len(nodes),
         "unit": "nodes",
     }
@@ -65,7 +65,7 @@ def all_nodes_agreement_analysis(
     return pd.DataFrame(results)
 
 
-def plot_all_nodes_agreement_histogram(
+def plot_all_nodes_external_agreement_histogram(
     df: pd.DataFrame,
     dataset: Dataset,
     num_models: int,
@@ -73,16 +73,16 @@ def plot_all_nodes_agreement_histogram(
     min_instances: int,
     **kwargs,
 ) -> plt.Figure:
-    """Plot the distribution of Kendall's Tau values across nodes as a histogram.
+    """Plot the distribution of external Kendall's Tau values across nodes as a histogram.
 
-    Takes the output of :func:`all_nodes_agreement_analysis` and visualises how
+    Takes the output of :func:`all_nodes_external_agreement_analysis` and visualises how
     consistently each node reproduces the global model ranking. The x-axis
     spans either (0, 1) or (-1, 1) depending on whether any negative tau
     values are present, and the histogram is annotated with the mean and
     standard deviation.
 
     Args:
-        df: DataFrame returned by :func:`all_nodes_agreement_analysis`.
+        df: DataFrame returned by :func:`all_nodes_external_agreement_analysis`.
         dataset: The dataset being analysed, used for the plot title.
         num_models: Number of models in the benchmark.
         num_nodes: Total number of qualifying nodes analysed.
@@ -98,7 +98,7 @@ def plot_all_nodes_agreement_histogram(
     min_instance_label = r"$n_{\mathrm{min}}$"
     ylabel = "Number of Nodes"
     title = (
-        f"{dataset.pretty_name}: Node Agreement with Full Benchmark (All Nodes)"
+        f"{dataset.pretty_name}: Node Agreement with Full Benchmark"
         f"\n({num_models} models, {num_nodes} nodes, {min_instance_label}={min_instances})"
     )
     annotate = True
@@ -119,7 +119,7 @@ def plot_all_nodes_agreement_histogram(
     )
 
 
-def plot_per_level_agreement_strip_plot(
+def plot_per_level_external_agreement_strip_plot(
     df: pd.DataFrame,
     dataset: Dataset,
     num_models: int,
@@ -128,14 +128,14 @@ def plot_per_level_agreement_strip_plot(
 ) -> plt.Figure:
     """Plot per-node Kendall's Tau values for each capability tree level as a strip plot.
 
-    Takes the output of :func:`all_nodes_agreement_analysis` and produces a
+    Takes the output of :func:`all_nodes_external_agreement_analysis` and produces a
     single strip plot where each x-axis tick corresponds to a capability tree
     level and every dot represents one node. Dots are color-coded by level
     using the tab10 palette. A horizontal dashed line marks the overall mean
     Kendall's Tau across all nodes and levels.
 
     Args:
-        df: DataFrame returned by :func:`all_nodes_agreement_analysis`,
+        df: DataFrame returned by :func:`all_nodes_external_agreement_analysis`,
             which includes a ``depth`` column used to assign nodes to levels.
         dataset: The dataset being analysed, used for the plot title.
         num_models: Number of models in the benchmark.
@@ -198,7 +198,7 @@ def all_nodes_performance_analysis(
         and one column per model containing each node's mean score.
     """
     tqdm_kwargs = {
-        "desc": "Collecting node scores",
+        "desc": "Collecting node model scores",
         "total": len(nodes),
         "unit": "nodes",
     }
@@ -262,7 +262,7 @@ def plot_all_nodes_performance_strip_plot(
     ylabel = dataset.metric.title()
     min_instance_label = r"$n_{\mathrm{min}}$"
     title = (
-        f"{dataset.pretty_name}: Node {dataset.metric.title()} vs Full Benchmark (All Nodes)"
+        f"{dataset.pretty_name}: Node {dataset.metric.title()} vs Full Benchmark"
         f"\n({num_nodes} nodes, {min_instance_label}={min_instances})"
     )
     hue = "model"
@@ -299,11 +299,11 @@ def plot_per_level_performance_strip_plot(
     min_instances: int,
     **kwargs,
 ) -> plt.Figure:
-    """Plot per-node accuracy for each model, faceted by model.
+    """Plot per-node model scores for each model, faceted by model.
 
     Produces one strip plot panel per model, arranged in a single column.
     Within each panel the x-axis shows capability tree levels and the y-axis
-    shows mean node accuracy, with one jittered dot per node. A horizontal
+    shows mean node model scores, with one jittered dot per node. A horizontal
     dashed line marks the benchmark-level mean accuracy for that model.
     Each panel title reports the model name and its global benchmark score.
     Nodes are grouped by the ``depth`` column of ``all_nodes_performance_df``.
@@ -323,7 +323,6 @@ def plot_per_level_performance_strip_plot(
         The matplotlib Figure containing one strip plot panel per model.
     """
     df = all_nodes_performance_df
-    metric = dataset.metric
     ylim = {
         Dataset.DS_1000: (0, 1),
         Dataset.MATH: (0, 1),
@@ -340,7 +339,7 @@ def plot_per_level_performance_strip_plot(
         id_vars=["node", "depth"],
         value_vars=models,
         var_name="model",
-        value_name=metric,
+        value_name=dataset.metric,
     )
     long_df["level"] = long_df["depth"].apply(lambda d: f"Level {int(d)}")
 
@@ -358,15 +357,15 @@ def plot_per_level_performance_strip_plot(
         global_score = global_ranking.get(model)
 
         x = "level"
-        y = metric
+        y = dataset.metric
         xlabel = ""
-        ylabel = metric.title()
+        ylabel = dataset.metric.title()
         title = model
         hue = "level"
         order = level_order
         palette = "tab10"
         mean = global_score
-        mean_label = f"Full Benchmark {metric.title()}"
+        mean_label = f"Full Benchmark {dataset.metric.title()}"
         rotation = 30
 
         plot_stripplot(
@@ -387,7 +386,7 @@ def plot_per_level_performance_strip_plot(
         )
 
     plt.suptitle(
-        f"{dataset.pretty_name}: Node {metric.title()} vs Full Benchmark"
+        f"{dataset.pretty_name}: Node {dataset.metric.title()} vs Full Benchmark"
         f"\n({min_instance_label}={min_instances})",
         y=1.0,
     )
@@ -416,30 +415,30 @@ def main(dataset: Dataset, min_instances: int, experiment: str) -> None:
         experiment=experiment,
     )
 
-    all_nodes_agreement_df = all_nodes_agreement_analysis(**shared)
-    data_name = f"all-nodes_agreement_min-instances={min_instances}"
+    all_nodes_external_agreement_df = all_nodes_external_agreement_analysis(**shared)
+    data_name = f"all-nodes_external-agreement_min-instances={min_instances}"
     data_path = build_data_path(dataset, experiment, data_name)
-    all_nodes_agreement_df.to_csv(data_path)
+    all_nodes_external_agreement_df.to_csv(data_path)
     print(f"Saved data to {data_path}")
 
-    all_nodes_agreement_fig = plot_all_nodes_agreement_histogram(
-        all_nodes_agreement_df,
+    all_nodes_external_agreement_fig = plot_all_nodes_external_agreement_histogram(
+        all_nodes_external_agreement_df,
         **shared,
     )
-    plot_name = f"all-nodes_agreement_histogram_min-instances={min_instances}"
+    plot_name = f"all-nodes_external-agreement_histogram_min-instances={min_instances}"
     plot_path = build_plot_path(dataset, experiment, plot_name)
-    all_nodes_agreement_fig.savefig(plot_path)
-    plt.close(all_nodes_agreement_fig)
+    all_nodes_external_agreement_fig.savefig(plot_path)
+    plt.close(all_nodes_external_agreement_fig)
     print(f"Saved plot to {plot_path}")
 
-    per_level_agreement_fig = plot_per_level_agreement_strip_plot(
-        all_nodes_agreement_df,
+    per_level_external_agreement_fig = plot_per_level_external_agreement_strip_plot(
+        all_nodes_external_agreement_df,
         **shared,
     )
-    plot_name = f"per-level_agreement_strip-plot_min-instances={min_instances}"
+    plot_name = f"per-level_external-agreement_strip-plot_min-instances={min_instances}"
     plot_path = build_plot_path(dataset, experiment, plot_name)
-    per_level_agreement_fig.savefig(plot_path)
-    plt.close(per_level_agreement_fig)
+    per_level_external_agreement_fig.savefig(plot_path)
+    plt.close(per_level_external_agreement_fig)
     print(f"Saved plot to {plot_path}")
 
     all_nodes_performance_df = all_nodes_performance_analysis(**shared)
