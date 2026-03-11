@@ -201,7 +201,7 @@ def plot_stripplot(
     """
     owns_figure = ax is None
     if owns_figure:
-        sns.set_style("whitegrid")
+        
         fig, ax = plt.subplots(figsize=figsize)
     else:
         fig = ax.figure

@@ -6,7 +6,6 @@ from scipy.stats import kendalltau
 from tqdm import tqdm
 
 from src.utils.capability_tree import (
-    Level,
     Node,
     align_rankings,
     collect_levels,
@@ -94,14 +93,7 @@ def plot_all_nodes_agreement_histogram(
     """
     data = df["kendall_tau"]
     xlim = (-1, 1) if min(data) < 0 else (0, 1)
-    ylim = {
-        Dataset.CHATBOT_ARENA: (0, num_nodes),
-        Dataset.CHATBOT_ARENA_NEW: (0, num_nodes),
-        Dataset.DS_1000: (0, num_nodes),
-        Dataset.MATH: (0, num_nodes),
-        Dataset.MMLU: (0, num_nodes),
-        Dataset.WILDCHAT_10K: (0, num_nodes),
-    }.get(dataset)
+
     xlabel = r"Kendall's $\tau$"
     min_instance_label = r"$n_{\mathrm{min}}$"
     ylabel = "Number of Nodes"
@@ -124,7 +116,6 @@ def plot_all_nodes_agreement_histogram(
         mean_label=mean_label,
         std=std,
         xlim=xlim,
-        ylim=ylim,
     )
 
 
@@ -154,16 +145,16 @@ def plot_per_level_agreement_strip_plot(
         The matplotlib Figure containing the strip plot.
     """
     plot_df = df.copy()
-    plot_df["level"] = plot_df["depth"].apply(lambda d: f"Level {d}")
-    order = [f"Level {d}" for d in sorted(df["depth"].unique())]
+    plot_df["level"] = plot_df["depth"].apply(lambda d: f"Level {int(d)}")
+    order = [f"Level {int(d)}" for d in sorted(df["depth"].unique())]
 
     x = "level"
     y = "kendall_tau"
-    xlabel = "Level"
+    xlabel = "Capability Tree Level"
     ylabel = r"Kendall's $\tau$"
     min_instance_label = r"$n_{\mathrm{min}}$"
     title = (
-        f"{dataset.pretty_name}: Node Agreement with Full Benchmark (Per Level)"
+        f"{dataset.pretty_name}: Node Agreement with Full Benchmark"
         f"\n({num_models} models, {min_instance_label}={min_instances})"
     )
     hue = "level"
@@ -193,24 +184,30 @@ def all_nodes_performance_analysis(
 ) -> pd.DataFrame:
     """Collect per-node mean model scores into a node × model DataFrame.
 
-    For each node with a non-null ranking, stores its dict of model scores as
-    a row in the output DataFrame. Nodes without a ranking are skipped. The
-    resulting DataFrame has one row per ranked node and one column per model,
-    making it straightforward to examine how each model's accuracy varies
-    across nodes.
+    For each node with a non-null ranking, stores its depth and dict of model
+    scores as a row in the output DataFrame. Nodes without a ranking are
+    skipped. The resulting DataFrame has one row per ranked node, a ``depth``
+    column, and one additional column per model, making it straightforward to
+    examine how each model's accuracy varies across nodes and levels.
 
     Args:
         nodes: Qualifying nodes collected from the capability tree.
 
     Returns:
-        A DataFrame indexed by node (int position) with one column per model,
-        containing each node's mean score for that model.
+        A DataFrame indexed by node (int position) with a ``depth`` column
+        and one column per model containing each node's mean score.
     """
+    tqdm_kwargs = {
+        "desc": "Collecting node scores",
+        "total": len(nodes),
+        "unit": "nodes",
+    }
+
     node_to_scores = {}
-    for i, node in enumerate(nodes):
+    for i, node in tqdm(enumerate(nodes), **tqdm_kwargs):
         if node.ranking is None:
             continue
-        node_to_scores[i] = node.ranking
+        node_to_scores[i] = {"depth": node.depth, **node.ranking}
 
     df = pd.DataFrame(node_to_scores).T
     df.index.name = "node"
@@ -251,7 +248,7 @@ def plot_all_nodes_performance_strip_plot(
         Dataset.WILDCHAT_10K: (0, 1),
     }.get(dataset)
 
-    models = list(df.columns)
+    models = [col for col in df.columns if col != "depth"]
     long_df = df.reset_index().melt(
         id_vars=["node"],
         value_vars=models,
@@ -274,7 +271,6 @@ def plot_all_nodes_performance_strip_plot(
     x_means = global_ranking
     x_means_label = f"Full Benchmark {dataset.metric.title()}"
     figsize = (max(8, num_models * 1.5), 5)
-    ylim = ylim
     rotation = 30
 
     return plot_stripplot(
@@ -295,71 +291,38 @@ def plot_all_nodes_performance_strip_plot(
     )
 
 
-def per_level_performance_analysis(
-    levels: list[Level],
-    **kwargs,
-) -> pd.DataFrame:
-    """Collect per-node mean model scores into a node × model DataFrame, with
-    each row tagged by the capability tree level the node belongs to.
-
-    For each node with a non-null ranking in each level, stores its dict of
-    model scores and its level depth as a row in the output DataFrame. Nodes
-    without a ranking are skipped. The ``depth`` column allows the per-level
-    plotting function to group rows into one subplot column per level.
-
-    Args:
-        levels: Qualifying levels collected from the capability tree, each
-            holding the nodes at a single depth.
-
-    Returns:
-        A DataFrame with one row per ranked node, a ``depth`` column
-        indicating the level, and one additional column per model containing
-        each node's mean score for that model.
-    """
-    rows = []
-    for level in levels:
-        for node in level.nodes:
-            if node.ranking is None:
-                continue
-            rows.append({"depth": level.depth, **node.ranking})
-
-    df = pd.DataFrame(rows)
-    df.index.name = "node"
-    return df
-
-
 def plot_per_level_performance_strip_plot(
-    df: pd.DataFrame,
-    levels: list[Level],
+    all_nodes_performance_df: pd.DataFrame,
     dataset: Dataset,
     global_ranking: dict[str, float],
     num_models: int,
     min_instances: int,
     **kwargs,
 ) -> plt.Figure:
-    """Plot per-node accuracy for each model, faceted by capability tree level.
+    """Plot per-node accuracy for each model, faceted by model.
 
-    Produces one strip plot panel per capability tree level, arranged in a
-    single column. Within each panel the x-axis shows models and the y-axis
-    shows mean node accuracy, with one jittered dot per node. A short
-    horizontal black line marks the benchmark-level mean for each model.
-    Each panel title reports the number of nodes and the number of unique
-    dataset instances at that level.
+    Produces one strip plot panel per model, arranged in a single column.
+    Within each panel the x-axis shows capability tree levels and the y-axis
+    shows mean node accuracy, with one jittered dot per node. A horizontal
+    dashed line marks the benchmark-level mean accuracy for that model.
+    Each panel title reports the model name and its global benchmark score.
+    Nodes are grouped by the ``depth`` column of ``all_nodes_performance_df``.
 
     Args:
-        df: DataFrame returned by :func:`per_level_performance_analysis`,
-            which includes a ``depth`` column used to assign each node to a
-            level.
+        all_nodes_performance_df: DataFrame returned by
+            :func:`all_nodes_performance_analysis`, which includes a
+            ``depth`` column used to assign each node to a level.
         levels: Qualifying levels from the capability tree, used to look up
             the node count and deduplicated instance count for each level.
         dataset: The dataset being analysed, used for axis labels and title.
         global_ranking: Benchmark-level model scores used as reference lines.
-        num_models: Number of models, used for the figure width.
+        num_models: Number of models, used for the figure height.
         min_instances: Instance threshold used when collecting nodes.
 
     Returns:
-        The matplotlib Figure containing one strip plot panel per level.
+        The matplotlib Figure containing one strip plot panel per model.
     """
+    df = all_nodes_performance_df
     metric = dataset.metric
     ylim = {
         Dataset.DS_1000: (0, 1),
@@ -368,47 +331,46 @@ def plot_per_level_performance_strip_plot(
         Dataset.WILDCHAT_10K: (0, 1),
     }.get(dataset)
 
-    nodes_by_depth = {level.depth: level.num_nodes for level in levels}
-    instances_by_depth = {level.depth: level.num_instances for level in levels}
-
     models = [col for col in df.columns if col != "depth"]
+    depths = sorted(df["depth"].unique())
+    level_labels = [f"Level {int(d)}" for d in depths]
+    level_order = level_labels
+
     long_df = df.reset_index().melt(
         id_vars=["node", "depth"],
         value_vars=models,
         var_name="model",
         value_name=metric,
     )
-    depths = sorted(df["depth"].unique())
-    num_levels = len(depths)
+    long_df["level"] = long_df["depth"].apply(lambda d: f"Level {int(d)}")
+
     min_instance_label = r"$n_{\mathrm{min}}$"
 
     fig, axes = plt.subplots(
-        num_levels,
+        num_models,
         1,
-        figsize=(max(8, num_models * 1.5), 4 * num_levels),
+        figsize=(max(8, len(depths) * 1.5), 4 * num_models),
         squeeze=False,
     )
 
-    for i, depth in enumerate(depths):
-        level_data = long_df[long_df["depth"] == depth]
-        num_nodes_at_level = nodes_by_depth.get(depth, 0)
-        num_instances_at_level = instances_by_depth.get(depth, 0)
+    for i, model in enumerate(models):
+        model_data = long_df[long_df["model"] == model]
+        global_score = global_ranking.get(model)
 
-        x = "model"
+        x = "level"
         y = metric
         xlabel = ""
         ylabel = metric.title()
-        title = f"Level {depth} ({num_nodes_at_level} nodes, {num_instances_at_level} instances)"
-        hue = "model"
-        order = models
+        title = model
+        hue = "level"
+        order = level_order
         palette = "tab10"
-        x_means = global_ranking
-        x_means_label = f"Full Benchmark {metric.title()}"
-        ylim = ylim
+        mean = global_score
+        mean_label = f"Full Benchmark {metric.title()}"
         rotation = 30
 
         plot_stripplot(
-            data=level_data,
+            data=model_data,
             x=x,
             y=y,
             xlabel=xlabel,
@@ -418,14 +380,14 @@ def plot_per_level_performance_strip_plot(
             order=order,
             palette=palette,
             ax=axes[i, 0],
-            x_means=x_means,
-            x_means_label=x_means_label,
+            mean=mean,
+            mean_label=mean_label,
             ylim=ylim,
             rotation=rotation,
         )
 
     plt.suptitle(
-        f"{dataset.pretty_name}: Node {metric.title()} vs Full Benchmark (Per Level)"
+        f"{dataset.pretty_name}: Node {metric.title()} vs Full Benchmark"
         f"\n({min_instance_label}={min_instances})",
         y=1.0,
     )
@@ -496,14 +458,8 @@ def main(dataset: Dataset, min_instances: int, experiment: str) -> None:
     plt.close(all_nodes_performance_fig)
     print(f"Saved plot to {plot_path}")
 
-    per_level_performance_df = per_level_performance_analysis(**shared)
-    data_name = f"per-level_performance_min-instances={min_instances}"
-    data_path = build_data_path(dataset, experiment, data_name)
-    per_level_performance_df.to_csv(data_path)
-    print(f"Saved data to {data_path}")
-
     per_level_performance_fig = plot_per_level_performance_strip_plot(
-        per_level_performance_df,
+        all_nodes_performance_df,
         **shared,
     )
     plot_name = f"per-level_performance_strip-plot_min-instances={min_instances}"
@@ -514,10 +470,11 @@ def main(dataset: Dataset, min_instances: int, experiment: str) -> None:
 
 
 if __name__ == "__main__":
-    min_instance_values = [0, 50]
+    min_instance_values = [50]
     datasets = [Dataset(d.value) for d in Dataset]
     experiment = Path(__file__).stem
 
     for dataset in datasets:
         for min_instances in min_instance_values:
             main(dataset, min_instances, experiment)
+        print(f"{'-'*200}")
