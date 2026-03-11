@@ -98,7 +98,7 @@ def plot_all_nodes_external_agreement_histogram(
     min_instance_label = r"$n_{\mathrm{min}}$"
     ylabel = "Number of Nodes"
     title = (
-        f"{dataset.pretty_name}: Node Agreement with Full Benchmark"
+        f"{dataset.pretty_name}: Node Agreement with Full Benchmark (All Nodes)"
         f"\n({num_models} models, {num_nodes} nodes, {min_instance_label}={min_instances})"
     )
     annotate = True
@@ -154,7 +154,7 @@ def plot_per_level_external_agreement_strip_plot(
     ylabel = r"Kendall's $\tau$"
     min_instance_label = r"$n_{\mathrm{min}}$"
     title = (
-        f"{dataset.pretty_name}: Node Agreement with Full Benchmark"
+        f"{dataset.pretty_name}: Node Agreement with Full Benchmark (Per Level)"
         f"\n({num_models} models, {min_instance_label}={min_instances})"
     )
     hue = "level"
@@ -262,7 +262,7 @@ def plot_all_nodes_performance_strip_plot(
     ylabel = dataset.metric.title()
     min_instance_label = r"$n_{\mathrm{min}}$"
     title = (
-        f"{dataset.pretty_name}: Node {dataset.metric.title()} vs Full Benchmark"
+        f"{dataset.pretty_name}: Node {dataset.metric.title()} vs Full Benchmark (All Nodes)"
         f"\n({num_nodes} nodes, {min_instance_label}={min_instances})"
     )
     hue = "model"
@@ -386,7 +386,7 @@ def plot_per_level_performance_strip_plot(
         )
 
     plt.suptitle(
-        f"{dataset.pretty_name}: Node {dataset.metric.title()} vs Full Benchmark"
+        f"{dataset.pretty_name}: Node {dataset.metric.title()} vs Full Benchmark (Per Level)"
         f"\n({min_instance_label}={min_instances})",
         y=1.0,
     )

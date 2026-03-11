@@ -3,7 +3,6 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-import seaborn as sns
 from scipy.stats import kendalltau
 from tqdm import tqdm
 
@@ -47,7 +46,7 @@ def split_halves_analysis(
         ``["subset", "mean_kendall_tau", "std_kendall_tau", "num_instances"]``.
     """
     tqdm_kwargs = {
-        "desc": "Computing split-halves Kendall's Taus",
+        "desc": "Computing split-halves Kendall's taus",
         "total": len(subsets),
         "unit": dataset.plural,
     }
@@ -113,10 +112,10 @@ def plot_split_halves_histogram(
     """
     data = df["mean_kendall_tau"]
     xlabel = r"Kendall's $\tau$"
-    ylabel = f"{dataset.subset_col.capitalize()} Count"
+    ylabel = f"Number of {dataset.plural.capitalize()}"
     title = (
-        f"{dataset.pretty_name}: Split-Halves Kendall's Tau Across {dataset.plural.capitalize()}"
-        f"\n({num_models} models, {num_subsets} {dataset.plural}, {num_instances} instances, {num_trials} trials)"
+        f"{dataset.pretty_name}: {dataset.subset_col.title()} Internal Agreement (Split-Halves {xlabel})"
+        f"\n({num_models} models, {num_subsets} {dataset.plural}, {num_trials} trials)"
     )
     mean = data.mean()
     std = data.std()
@@ -126,7 +125,6 @@ def plot_split_halves_histogram(
         Dataset.MATH: (0, num_subsets),
         Dataset.MMLU: (0, num_subsets // 2),
     }[dataset]
-    color = sns.color_palette("tab10")[0]
 
     return plot_histogram(
         data,
@@ -138,7 +136,6 @@ def plot_split_halves_histogram(
         std=std,
         xlim=xlim,
         ylim=ylim,
-        color=color,
     )
 
 
@@ -170,7 +167,7 @@ def bootstrap_analysis(
         ``["subset", "mean_kendall_tau", "std_kendall_tau", "num_instances"]``.
     """
     tqdm_kwargs = {
-        "desc": "Computing bootstrapped Kendall's Taus",
+        "desc": "Computing bootstrapped Kendall's taus",
         "total": len(subsets),
         "unit": dataset.plural,
     }
@@ -234,10 +231,10 @@ def plot_bootstrap_histogram(
     """
     data = df["mean_kendall_tau"]
     xlabel = r"Kendall's $\tau$"
-    ylabel = f"{dataset.subset_col.capitalize()} Count"
+    ylabel = f"Number of {dataset.plural.capitalize()}"
     title = (
-        f"{dataset.pretty_name}: Bootstrapped Kendall's Tau Across {dataset.plural.capitalize()}"
-        f"\n({num_models} models, {num_subsets} {dataset.plural}, {num_instances} instances, {num_trials} trials)"
+        f"{dataset.pretty_name}: {dataset.subset_col.title()} Internal Agreement (Bootstrapped {xlabel})"
+        f"\n({num_models} models, {num_subsets} {dataset.plural}, {num_trials} trials)"
     )
     mean = data.mean()
     std = data.std()
@@ -247,7 +244,6 @@ def plot_bootstrap_histogram(
         Dataset.MATH: (0, num_subsets),
         Dataset.MMLU: (0, num_subsets),
     }[dataset]
-    color = sns.color_palette("tab10")[1]
 
     return plot_histogram(
         data,
@@ -259,7 +255,6 @@ def plot_bootstrap_histogram(
         std=std,
         xlim=xlim,
         ylim=ylim,
-        color=color,
     )
 
 
@@ -293,7 +288,7 @@ def minibatch_w_analysis(
         ``["subset", "mean_kendallw", "std_kendallw", "num_instances"]``.
     """
     tqdm_kwargs = {
-        "desc": "Computing mini-batch Kendall's W",
+        "desc": "Computing mini-batch Kendall's Ws",
         "total": len(subsets),
         "unit": dataset.plural,
     }
@@ -362,9 +357,9 @@ def plot_minibatch_w_histogram(
     """
     data = df["mean_kendallw"]
     xlabel = "Kendall's W"
-    ylabel = f"{dataset.subset_col.capitalize()} Count"
+    ylabel = f"Number of {dataset.plural.capitalize()}"
     title = (
-        f"{dataset.pretty_name}: Mini-Batch Kendall's W Across {dataset.plural.capitalize()}"
+        f"{dataset.pretty_name}: {dataset.subset_col.title()} Internal Agreement (Mini-Batch Kendall's W)"
         f"\n({num_models} models, {num_subsets} {dataset.plural}, {num_instances} instances, {num_trials} trials, {num_folds} folds)"
     )
     mean = data.mean()
@@ -375,7 +370,6 @@ def plot_minibatch_w_histogram(
         Dataset.MATH: (0, num_subsets),
         Dataset.MMLU: (0, num_subsets),
     }[dataset]
-    color = sns.color_palette("tab10")[2]
 
     return plot_histogram(
         data,
@@ -387,7 +381,6 @@ def plot_minibatch_w_histogram(
         std=std,
         xlim=xlim,
         ylim=ylim,
-        color=color,
     )
 
 
@@ -420,41 +413,41 @@ def main(dataset: Dataset, experiment: str, num_trials: int, num_folds: int) -> 
     )
 
     split_halves_df = split_halves_analysis(**shared)
-    data_name = f"split-halves_internal-agreement_num-trials={num_trials}"
+    data_name = f"split-halves_internal-agreement_num-models={num_models}_num-trials={num_trials}"
     data_path = build_data_path(dataset, experiment, data_name)
     split_halves_df.to_csv(data_path, index=False)
     print(f"Saved data to {data_path}")
 
     split_halves_fig = plot_split_halves_histogram(split_halves_df, **shared)
-    plot_name = f"split-halves_internal-agreement_histogram_num-trials={num_trials}"
+    plot_name = f"split-halves_internal-agreement_histogram_num-models={num_models}_num-trials={num_trials}"
     plot_path = build_plot_path(dataset, experiment, plot_name)
     split_halves_fig.savefig(plot_path)
     plt.close(split_halves_fig)
     print(f"Saved plot to {plot_path}")
 
     bootstrap_df = bootstrap_analysis(**shared)
-    data_name = f"bootstrap_internal-agreement_num-trials={num_trials}"
+    data_name = (
+        f"bootstrap_internal-agreement_num-models={num_models}_num-trials={num_trials}"
+    )
     data_path = build_data_path(dataset, experiment, data_name)
     bootstrap_df.to_csv(data_path, index=False)
     print(f"Saved data to {data_path}")
 
     bootstrap_fig = plot_bootstrap_histogram(bootstrap_df, **shared)
-    plot_name = f"bootstrap_internal-agreement_histogram_num-trials={num_trials}"
+    plot_name = f"bootstrap_internal-agreement_histogram_num-models={num_models}_num-trials={num_trials}"
     plot_path = build_plot_path(dataset, experiment, plot_name)
     bootstrap_fig.savefig(plot_path)
     plt.close(bootstrap_fig)
     print(f"Saved plot to {plot_path}")
 
     minibatch_w_df = minibatch_w_analysis(**shared)
-    data_name = (
-        f"mini-batch_internal-agreement_num-folds={num_folds}_num-trials={num_trials}"
-    )
+    data_name = f"mini-batch_internal-agreement_num-models={num_models}_num-folds={num_folds}_num-trials={num_trials}"
     data_path = build_data_path(dataset, experiment, data_name)
     minibatch_w_df.to_csv(data_path, index=False)
     print(f"Saved data to {data_path}")
 
     minibatch_w_fig = plot_minibatch_w_histogram(minibatch_w_df, **shared)
-    plot_name = f"mini-batch_internal-agreement_histogram_num-folds={num_folds}_num-trials={num_trials}"
+    plot_name = f"mini-batch_internal-agreement_histogram_num-models={num_models}_num-folds={num_folds}_num-trials={num_trials}"
     plot_path = build_plot_path(dataset, experiment, plot_name)
     minibatch_w_fig.savefig(plot_path)
     plt.close(minibatch_w_fig)
