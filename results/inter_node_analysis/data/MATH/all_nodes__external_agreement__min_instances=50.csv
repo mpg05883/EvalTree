@@ -55,21 +55,22 @@
 53,275,4,"Manipulating and analyzing algebraic, functional, and trigonometric expressions and sequences using advanced mathematical techniques and transformations.",Advanced expression analysis,0.9486832980505137
 54,67,5,"Applying and manipulating algebraic expressions and equations to solve and analyze problems involving complex relationships, variables, averages, and ratios.",Complex problem-solving with algebraic equations,0.39999999999999997
 55,60,6,"Applying and manipulating algebraic expressions and equations to simplify, solve, and analyze complex mathematical problems involving various operations and relationships.",Simplifying and solving complex algebraic problems,0.39999999999999997
-56,681,2,"Analyzing and optimizing mathematical structures and interactions using combinatorial, probabilistic, and statistical techniques",Combinatorial and statistical structure analysis,0.9999999999999999
-57,80,3,Analyzing and optimizing mathematical interactions and structures,Mathematical interactions and structures optimization,0.6
-58,75,4,"Analyzing, transforming, and optimizing mathematical structures, patterns, and relationships under constraints",Constrained mathematical structure optimization,0.6
-59,100,3,"Calculating, analyzing, and optimizing numerical and financial values through arithmetic, proportional reasoning, and data interpretation techniques",Numerical and financial value optimization,0.7999999999999999
-60,166,3,Utilizing probabilistic reasoning and combinatorial techniques in diverse mathematical contexts,Probabilistic and combinatorial reasoning,0.9999999999999999
-61,151,4,Applying and analyzing probabilistic and combinatorial techniques across diverse mathematical contexts,Probabilistic and combinatorial analysis,0.9999999999999999
-62,72,5,"Calculating and applying probabilistic techniques involving integer properties and combinatorial, geometric, and analytical methods",Probabilistic techniques with integer and geometric methods,0.9999999999999999
-63,69,6,"Applying combinatorial, geometric, and analytical probability techniques",Combinatorial and geometric probability methods,0.9999999999999999
-64,61,7,"Calculating probabilities using combinatorial, geometric, and analytical methods",Calculating probabilities with diverse methods,0.9486832980505137
-65,59,8,"Calculating probabilities using combinatorial methods, complementary counting, binomial distributions, and analyzing distinct outcomes, parity, and factors.",Combinatorial probability with complementary and binomial methods,0.9486832980505137
-66,86,3,"Analyzing and manipulating mathematical structures, distributions, and statistical measures",Statistical measures and distributions manipulation,0.9999999999999999
-67,135,3,"Calculating and analyzing combinatorial structures and constraints with permutations, combinations, and symmetries",Combinatorial structures and constraints analysis,0.9999999999999999
-68,57,4,Calculating and analyzing permutations and combinations with constraints and symmetries across various contexts and categories,Permutation and combination analysis with constraints,0.7999999999999999
-69,78,4,Calculating combinatorial structures and constraints within sets,Combinatorial set structure calculations,0.9999999999999999
-70,71,5,"Calculating combinations, permutations, and subsets with constraints and composite elements",Combinatorial calculations with constraints,0.9999999999999999
-71,70,6,Calculating combinations and permutations with various constraints and principles,Constrained combinations and permutations,0.9999999999999999
-72,79,3,"Employing combinatorial reasoning and set theory to solve problems involving counting, exclusions, constraints, symmetries, and permutations in discrete structures.",Combinatorial reasoning in discrete structures,0.9486832980505137
-73,59,4,"Applying combinatorial reasoning to analyze and solve problems involving constraints, symmetries, and permutations in discrete structures",Constraints and symmetries in discrete structures,0.7999999999999999
+56,50,5,"Manipulating and evaluating algebraic expressions and sequences through arithmetic operations, variable substitution, and exponentiation",Algebraic expression manipulation and evaluation,0.5270462766947298
+57,681,2,"Analyzing and optimizing mathematical structures and interactions using combinatorial, probabilistic, and statistical techniques",Combinatorial and statistical structure analysis,0.9999999999999999
+58,80,3,Analyzing and optimizing mathematical interactions and structures,Mathematical interactions and structures optimization,0.6
+59,75,4,"Analyzing, transforming, and optimizing mathematical structures, patterns, and relationships under constraints",Constrained mathematical structure optimization,0.6
+60,100,3,"Calculating, analyzing, and optimizing numerical and financial values through arithmetic, proportional reasoning, and data interpretation techniques",Numerical and financial value optimization,0.7999999999999999
+61,166,3,Utilizing probabilistic reasoning and combinatorial techniques in diverse mathematical contexts,Probabilistic and combinatorial reasoning,0.9999999999999999
+62,151,4,Applying and analyzing probabilistic and combinatorial techniques across diverse mathematical contexts,Probabilistic and combinatorial analysis,0.9999999999999999
+63,72,5,"Calculating and applying probabilistic techniques involving integer properties and combinatorial, geometric, and analytical methods",Probabilistic techniques with integer and geometric methods,0.9999999999999999
+64,69,6,"Applying combinatorial, geometric, and analytical probability techniques",Combinatorial and geometric probability methods,0.9999999999999999
+65,61,7,"Calculating probabilities using combinatorial, geometric, and analytical methods",Calculating probabilities with diverse methods,0.9486832980505137
+66,59,8,"Calculating probabilities using combinatorial methods, complementary counting, binomial distributions, and analyzing distinct outcomes, parity, and factors.",Combinatorial probability with complementary and binomial methods,0.9486832980505137
+67,86,3,"Analyzing and manipulating mathematical structures, distributions, and statistical measures",Statistical measures and distributions manipulation,0.9999999999999999
+68,135,3,"Calculating and analyzing combinatorial structures and constraints with permutations, combinations, and symmetries",Combinatorial structures and constraints analysis,0.9999999999999999
+69,57,4,Calculating and analyzing permutations and combinations with constraints and symmetries across various contexts and categories,Permutation and combination analysis with constraints,0.7999999999999999
+70,78,4,Calculating combinatorial structures and constraints within sets,Combinatorial set structure calculations,0.9999999999999999
+71,71,5,"Calculating combinations, permutations, and subsets with constraints and composite elements",Combinatorial calculations with constraints,0.9999999999999999
+72,70,6,Calculating combinations and permutations with various constraints and principles,Constrained combinations and permutations,0.9999999999999999
+73,79,3,"Employing combinatorial reasoning and set theory to solve problems involving counting, exclusions, constraints, symmetries, and permutations in discrete structures.",Combinatorial reasoning in discrete structures,0.9486832980505137
+74,59,4,"Applying combinatorial reasoning to analyze and solve problems involving constraints, symmetries, and permutations in discrete structures",Constraints and symmetries in discrete structures,0.7999999999999999

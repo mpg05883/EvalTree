@@ -1,6 +1,7 @@
 node,depth,mean_kendall_w,std_kendall_w,num_instances
 Developing quantitative reasoning and analytical problem-solving skills,2,0.851061772679196,0.030215131430439246,1247
 Enhancing statistical and probabilistic reasoning and analysis skills,3,0.7690591190477671,0.036303079252156895,223
+Enhancing quantitative analysis and reasoning efficiency,4,0.4972853694798649,0.07632683692471742,50
 Analyzing and applying probabilistic and statistical reasoning and techniques,4,0.6440598293138068,0.06479306089776736,76
 Utilizing mathematical reasoning and problem-solving principles,3,0.8320757801681979,0.03026806665253007,566
 Analyzing and applying mathematical and algebraic principles and structures,4,0.7931197962810481,0.027923666975718374,296
@@ -119,6 +120,7 @@ Analyzing and synthesizing historical contexts and information for accurate insi
 "Analyzing and evaluating historical, political, and social contexts and systems",4,0.7267430221103091,0.07060790862449173,186
 "Analyzing and synthesizing historical, political, and social contexts and documents to evaluate developments and implications",5,0.5307691866055303,0.08384761443260909,121
 "Analyzing and evaluating historical, political, and social contexts and documents to understand and synthesize developments and contributions",6,0.466571308576265,0.08014761112762826,69
+"Analyzing and evaluating historical and political contexts to understand and synthesize motivations, implications, and developments in governance and societal discourse.",7,0.5266773161037926,0.07191408423262977,50
 Analyzing and evaluating historical and political systems and influences,5,0.6872224793057626,0.06060442196628693,65
 Analyzing and synthesizing historical and geopolitical contexts and dynamics,4,0.7083250550713094,0.06826302030245959,122
 "Analyzing and synthesizing historical, socio-economic, demographic, cultural, and media trends and impacts",3,0.36910498905296224,0.07341602217466939,120
@@ -185,6 +187,7 @@ Analyzing constitutional and governmental power dynamics,4,0.5384317939639227,0.
 Analyzing and evaluating legal principles and liabilities in diverse contexts,3,0.7664849619754869,0.056335072138469555,222
 Analyzing and evaluating legal principles and liabilities in complex scenarios,4,0.4767703080570128,0.07646507662059122,69
 Analyzing and applying legal principles to evaluate complex consumer transaction scenarios,5,0.4985559191953038,0.0725295341517287,59
+Analyzing and applying legal principles to assess liability and evaluate complex scenarios,6,0.41208311982278373,0.07177651830672134,50
 Analyzing and evaluating legal principles to assess negligence and liability,4,0.364097297678626,0.0697859629616788,67
 Analyzing and evaluating legal principles and liability in negligence and related cases,5,0.18828047094139133,0.047714322124306305,52
 Analyzing and applying legal principles related to property rights and transactions,3,0.806176072643025,0.042387125396492406,224
@@ -209,6 +212,7 @@ Analyzing and synthesizing emotional and psychological dynamics across contexts 
 "Analyzing and integrating developmental, psychological, and social influences across diverse environments and the lifespan",4,0.6381117104111004,0.0832724498166218,90
 "Analyzing and synthesizing developmental, psychological, and social influences across the lifespan",5,0.5727284623275435,0.08168914050819541,72
 Analyzing and interpreting behavioral patterns and responses,4,0.5392359604762064,0.07405966458809045,81
+Analyzing and synthesizing theoretical frameworks across multiple domains,4,0.20338494129396917,0.05604082084971017,50
 Conducting comprehensive analyses and evaluations of diverse patterns and influences across contexts,4,0.7093950117273834,0.06564066355599558,149
 Analyzing and evaluating influences on behavior and perception across various contexts,5,0.688448077861403,0.07240855636718455,122
 "Evaluating and synthesizing data and methodologies for validity, accuracy, and insights across diverse domains",3,0.9020698136335994,0.02741322755061557,514
@@ -243,6 +247,7 @@ Analyzing and synthesizing complex theoretical frameworks to evaluate foundation
 Analyzing and synthesizing organizational and structural frameworks across diverse contexts,5,0.3802621655025239,0.07662282652146754,73
 Analyzing and synthesizing complex social and contextual dynamics,5,0.5993973236368572,0.07354213715016486,132
 "Analyzing and synthesizing complex and diverse influences, contexts, and dynamics",6,0.41195730185267726,0.07553042939202856,92
+Analyzing and synthesizing strategic and contextual dynamics across diverse domains,7,0.25167549090838554,0.057521176168140405,50
 Analyzing and optimizing complex systems and strategies for effective decision-making and application,4,0.6488526548339528,0.07182628740339264,156
 Analyzing and optimizing complex systems and processes for strategic decision-making and practical application,5,0.565063874914745,0.07923109360930108,89
 "Analyzing and evaluating systems for security, compatibility, and vulnerabilities",4,0.4977653750392193,0.07696849758541009,100

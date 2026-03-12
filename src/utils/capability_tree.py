@@ -136,14 +136,14 @@ def collect_nodes(root: dict, min_instances: int = 50) -> "list[Node]":
     """Collect all non-root nodes depth-first, returning a flat list of Node objects.
 
     Uses an explicit stack to traverse the tree in depth-first order. Nodes
-    whose size is at or below ``min_instances`` are skipped and their entire
+    whose size is below ``min_instances`` are skipped and their entire
     subtree is pruned — no deeper descendants are visited.
 
     Args:
         root: The raw capability-tree dict returned by :func:`load_capability_tree`.
         min_instances: Minimum number of instances a node must contain to be
-            included. The check is strictly greater-than, so a node whose size
-            equals ``min_instances`` is excluded. Defaults to 50.
+            included. Nodes whose size is greater than or equal to this value
+            are kept. Defaults to 50.
 
     Returns:
         A flat ``list[Node]`` in depth-first traversal order.
@@ -155,7 +155,7 @@ def collect_nodes(root: dict, min_instances: int = 50) -> "list[Node]":
 
     while stack:
         node = stack.pop()
-        if node["size"] <= min_instances:
+        if node["size"] < min_instances:
             continue
         nodes.append(Node.from_dict(node))
         if isinstance(node["subtrees"], list):
@@ -170,14 +170,14 @@ def collect_levels(root: dict, min_instances: int = 50) -> "list[Level]":
     Uses a queue to traverse the tree in breadth-first order so that all
     nodes at a shallower level are visited before any node at the next level.
     Qualifying nodes are grouped into :class:`Level` objects, one per depth,
-    where level 1 is the root's immediate children. Nodes whose size is at or
-    below ``min_instances`` are skipped and their entire subtree is pruned.
+    where level 1 is the root's immediate children. Nodes whose size is below
+    ``min_instances`` are skipped and their entire subtree is pruned.
 
     Args:
         root: The raw capability-tree dict returned by :func:`load_capability_tree`.
         min_instances: Minimum number of instances a node must contain to be
-            included. The check is strictly greater-than, so a node whose size
-            equals ``min_instances`` is excluded. Defaults to 50.
+            included. Nodes whose size is greater than or equal to this value
+            are kept. Defaults to 50.
 
     Returns:
         A ``list[Level]`` ordered by ascending depth, where each :class:`Level`
@@ -190,7 +190,7 @@ def collect_levels(root: dict, min_instances: int = 50) -> "list[Level]":
 
     while queue:
         node, depth = queue.popleft()
-        if node["size"] <= min_instances:
+        if node["size"] < min_instances:
             continue
         nodes_by_depth.setdefault(depth, []).append(Node.from_dict(node))
         if isinstance(node["subtrees"], list):

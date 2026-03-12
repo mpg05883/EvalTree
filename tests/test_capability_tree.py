@@ -47,10 +47,12 @@ def test_dfs_single_qualifying_child():
 
 
 def test_dfs_min_instances_boundary():
-    """The threshold check is strictly greater-than, so a node whose size
-    equals min_instances exactly is excluded."""
+    """The threshold check is greater-than-or-equal, so a node whose size
+    equals min_instances exactly is included."""
     root = make_node(200, [make_node(50, 3)], depth=1)
-    assert collect_nodes(root) == []
+    result = collect_nodes(root)
+    assert len(result) == 1
+    assert result[0].size == 50
 
 
 def test_dfs_all_non_root_nodes_collected():
@@ -141,10 +143,12 @@ def test_bfs_single_qualifying_child():
 
 
 def test_bfs_min_instances_boundary():
-    """The threshold check is strictly greater-than, so a node whose size
-    equals min_instances exactly is excluded and the result is empty."""
+    """The threshold check is greater-than-or-equal, so a node whose size
+    equals min_instances exactly is included."""
     root = make_node(200, [make_node(50, 3)], depth=1)
-    assert collect_levels(root) == []
+    result = collect_levels(root)
+    assert len(result) == 1
+    assert result[0].nodes[0].size == 50
 
 
 def test_bfs_correct_levels():
