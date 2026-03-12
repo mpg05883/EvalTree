@@ -317,28 +317,26 @@ def plot_per_level_performance_stripplot(
     suptitle_fontsize: int = 18,
     **kwargs,
 ) -> plt.Figure:
-    """Plot per-node model scores for each model, faceted by model.
+    """Plot per-node model scores for each level, faceted by level.
 
-    Produces one strip plot panel per model, arranged in a single column.
-    Within each panel the x-axis shows capability tree levels and the y-axis
-    shows mean node model scores, with one jittered dot per node. A horizontal
-    dashed line marks the benchmark-level mean accuracy for that model.
-    Each panel title reports the model name and its global benchmark score.
-    Nodes are grouped by the ``depth`` column of ``all_nodes_performance_df``.
+    Produces one strip plot panel per capability tree level, arranged in a
+    single column. Within each panel the x-axis shows models and the y-axis
+    shows mean node scores, with one jittered dot per node. A short horizontal
+    black line marks the full-benchmark score for each model, making it easy
+    to see which nodes fall above or below the global baseline.
 
     Args:
         all_nodes_performance_df: DataFrame returned by
             :func:`all_nodes_performance_analysis`, which includes a
             ``depth`` column used to assign each node to a level.
-        levels: Qualifying levels from the capability tree, used to look up
-            the node count and deduplicated instance count for each level.
         dataset: The dataset being analysed, used for axis labels and title.
-        global_ranking: Benchmark-level model scores used as reference lines.
-        num_models: Number of models, used for the figure height.
+        global_ranking: Benchmark-level model scores used as per-model
+            reference lines.
+        num_models: Number of models, used to size the figure width.
         min_instances: Instance threshold used when collecting nodes.
 
     Returns:
-        The matplotlib Figure containing one strip plot panel per model.
+        The matplotlib Figure containing one strip plot panel per level.
     """
     df = all_nodes_performance_df
     ylim = {
@@ -350,8 +348,7 @@ def plot_per_level_performance_stripplot(
 
     models = [col for col in df.columns if col != "depth"]
     depths = sorted(df["depth"].unique())
-    level_labels = [f"Level {int(d)}" for d in depths]
-    level_order = level_labels
+    num_levels = len(depths)
 
     long_df = df.reset_index().melt(
         id_vars=["node", "depth"],
@@ -364,50 +361,32 @@ def plot_per_level_performance_stripplot(
     min_instance_label = r"$n_{\mathrm{min}}$"
 
     fig, axes = plt.subplots(
-        num_models,
+        num_levels,
         1,
-        figsize=(max(8, len(depths) * 1.5), 4 * num_models),
+        figsize=(max(8, num_models * 1.5), 4 * num_levels),
         squeeze=False,
     )
 
-    for i, model in enumerate(models):
-        model_data = long_df[long_df["model"] == model]
-        global_score = global_ranking.get(model)
-
-        x = "level"
-        y = dataset.metric
-        xlabel = ""
-        ylabel = dataset.metric.title()
-        title = model
-        hue = "level"
-        order = level_order
-        palette = "tab10"
-        mean = global_score
-        mean_label = f"Full Benchmark {dataset.metric.title()}"
-        mean_color = "black"
-        mean_linestyle = "--"
-        mean_linewidth = 2
-        rotation = 30
+    for i, depth in enumerate(depths):
+        level_label = f"Level {int(depth)}"
+        level_data = long_df[long_df["level"] == level_label]
 
         plot_stripplot(
-            data=model_data,
+            data=level_data,
             size=size,
-            x=x,
-            y=y,
-            xlabel=xlabel,
-            ylabel=ylabel,
-            title=title,
-            hue=hue,
-            order=order,
-            palette=palette,
+            x="model",
+            y=dataset.metric,
+            xlabel="",
+            ylabel=dataset.metric.title(),
+            title=level_label,
+            hue="model",
+            order=models,
+            palette="tab10",
             ax=axes[i, 0],
-            mean=mean,
-            mean_label=mean_label,
-            mean_color=mean_color,
-            mean_linestyle=mean_linestyle,
-            mean_linewidth=mean_linewidth,
+            x_means=global_ranking,
+            x_means_label=f"Full Benchmark {dataset.metric.title()}",
             ylim=ylim,
-            rotation=rotation,
+            rotation=30,
             tick_fontsize=tick_fontsize,
             legend_fontsize=legend_fontsize,
             label_fontsize=label_fontsize,
