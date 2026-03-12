@@ -125,7 +125,9 @@ def plot_split_halves_histogram(
         f"{dataset.pretty_name}: {dataset.subset_col.title()} Internal Agreement (Split-Halves {xlabel})"
         f"\n({num_models} models, {num_subsets} {dataset.plural}, {num_trials} trials)"
     )
+    annotate = True
     median = data.median()
+    median_label = f"Median {xlabel}"
     q1 = data.quantile(0.25)
     q3 = data.quantile(0.75)
     xlim = (-1, 1) if min(data) < 0 else (0, 1)
@@ -140,8 +142,9 @@ def plot_split_halves_histogram(
         xlabel=xlabel,
         ylabel=ylabel,
         title=title,
-        annotate=True,
+        annotate=annotate,
         median=median,
+        median_label=median_label,
         q1=q1,
         q3=q3,
         xlim=xlim,
@@ -249,7 +252,9 @@ def plot_bootstrap_histogram(
         f"{dataset.pretty_name}: {dataset.subset_col.title()} Internal Agreement (Bootstrap {xlabel})"
         f"\n({num_models} models, {num_subsets} {dataset.plural}, {num_trials} trials)"
     )
+    annotate = True
     median = data.median()
+    median_label = f"Median {xlabel}"
     q1 = data.quantile(0.25)
     q3 = data.quantile(0.75)
     xlim = (-1, 1) if min(data) < 0 else (0, 1)
@@ -264,8 +269,9 @@ def plot_bootstrap_histogram(
         xlabel=xlabel,
         ylabel=ylabel,
         title=title,
-        annotate=True,
+        annotate=annotate,
         median=median,
+        median_label=median_label,
         q1=q1,
         q3=q3,
         xlim=xlim,
@@ -377,6 +383,7 @@ def plot_minibatch_histogram(
         f"{dataset.pretty_name}: {dataset.subset_col.title()} Internal Agreement (Mini-Batch Kendall's W)"
         f"\n({num_models} models, {num_subsets} {dataset.plural}, {num_trials} trials, {num_folds} folds)"
     )
+    annotate = True
     median = data.median()
     q1 = data.quantile(0.25)
     q3 = data.quantile(0.75)
@@ -386,18 +393,20 @@ def plot_minibatch_histogram(
         Dataset.MATH: (0, num_subsets),
         Dataset.MMLU: (0, num_subsets),
     }[dataset]
+    median_label = "Median Kendall's W"
 
     return plot_histogram(
         data,
         xlabel=xlabel,
         ylabel=ylabel,
         title=title,
-        annotate=True,
+        annotate=annotate,
         median=median,
         q1=q1,
         q3=q3,
         xlim=xlim,
         ylim=ylim,
+        median_label=median_label,
     )
 
 

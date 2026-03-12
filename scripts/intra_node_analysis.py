@@ -116,10 +116,12 @@ def plot_all_nodes_split_halves_histogram(
     min_instance_label = r"$n_{\mathrm{min}}$"
     ylabel = "Number of Nodes"
     title = (
-        f"{dataset.pretty_name}: Internal Node Agreement (Split-Halves {xlabel})"
+        f"{dataset.pretty_name}: Internal Node Agreement"
         f"\n({num_models} models, {num_nodes} nodes, {num_trials} trials, {min_instance_label}={min_instances})"
     )
+    annotate = True
     median = data.median()
+    median_label = f"Median {xlabel}"
     q1 = data.quantile(0.25)
     q3 = data.quantile(0.75)
     xlim = (-1, 1) if min(data) < 0 else (0, 1)
@@ -130,8 +132,9 @@ def plot_all_nodes_split_halves_histogram(
         xlabel=xlabel,
         ylabel=ylabel,
         title=title,
-        annotate=True,
+        annotate=annotate,
         median=median,
+        median_label=median_label,
         q1=q1,
         q3=q3,
         xlim=xlim,
@@ -145,6 +148,7 @@ def plot_per_level_split_halves_stripplot(
     num_models: int,
     min_instances: int,
     num_trials: int,
+    num_nodes: int,
     **kwargs,
 ) -> plt.Figure:
     """Plot split-halves Kendall's Tau values per capability tree level as a strip plot.
@@ -161,6 +165,7 @@ def plot_per_level_split_halves_stripplot(
         num_models: Number of models in the benchmark.
         min_instances: Instance threshold used when collecting nodes.
         num_trials: Number of split-halves trials used per node.
+        num_nodes: Total number of qualifying nodes analysed.
 
     Returns:
         The matplotlib Figure containing the strip plot.
@@ -192,7 +197,7 @@ def plot_per_level_split_halves_stripplot(
         ylim=ylim,
         rotation=30,
         median=median_tau,
-        median_label=r"Full Benchmark Kendall's $\tau$",
+        median_label=f"Median {ylabel} Across All Nodes",
     )
 
 
@@ -287,7 +292,9 @@ def plot_all_nodes_bootstrap_histogram(
         f"{dataset.pretty_name}: Internal Node Agreement (Bootstrap {xlabel})"
         f"\n({num_models} models, {num_nodes} nodes, {num_trials} trials, {min_instance_label}={min_instances})"
     )
+    annotate = True
     median = data.median()
+    median_label = f"Median {xlabel}"
     q1 = data.quantile(0.25)
     q3 = data.quantile(0.75)
     xlim = (-1, 1) if min(data) < 0 else (0, 1)
@@ -298,8 +305,9 @@ def plot_all_nodes_bootstrap_histogram(
         xlabel=xlabel,
         ylabel=ylabel,
         title=title,
-        annotate=True,
+        annotate=annotate,
         median=median,
+        median_label=median_label,
         q1=q1,
         q3=q3,
         xlim=xlim,
@@ -462,7 +470,9 @@ def plot_all_nodes_minibatch_histogram(
         f"{dataset.pretty_name}: Internal Node Agreement (Mini-Batch Kendall's W)"
         f"\n({num_models} models, {num_nodes} nodes, {num_trials} trials, {num_folds} folds, {min_instance_label}={min_instances})"
     )
+    annotate = True
     median = data.median()
+    median_label = f"Median {xlabel}"
     q1 = data.quantile(0.25)
     q3 = data.quantile(0.75)
     xlim = (0, 1)
@@ -473,8 +483,9 @@ def plot_all_nodes_minibatch_histogram(
         xlabel=xlabel,
         ylabel=ylabel,
         title=title,
-        annotate=True,
+        annotate=annotate,
         median=median,
+        median_label=median_label,
         q1=q1,
         q3=q3,
         xlim=xlim,
