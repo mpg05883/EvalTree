@@ -246,7 +246,7 @@ def main(dataset: Dataset, experiment: str) -> None:
     )
 
     subset_external_agreement_df = subset_external_agreement_analysis(**shared)
-    data_name = f"subset_external-agreement_num-models={num_models}"
+    data_name = f"subset__external_agreement__{num_models=}"
     data_path = build_data_path(dataset, experiment, data_name)
     subset_external_agreement_df.to_csv(data_path, index=False)
     logger.info(f"Saved data to {data_path}")
@@ -255,14 +255,14 @@ def main(dataset: Dataset, experiment: str) -> None:
         subset_external_agreement_df,
         **shared,
     )
-    plot_name = f"subset_external-agreement_histogram_num-models={num_models}"
+    plot_name = f"subset__external_agreement__histogram__{num_models=}"
     plot_path = build_plot_path(dataset, experiment, plot_name)
     subset_external_agreement_fig.savefig(plot_path)
     plt.close(subset_external_agreement_fig)
     logger.info(f"Saved plot to {plot_path}")
 
     subset_scores_df = subset_performance_analysis(**shared)
-    data_name = "subset_performance"
+    data_name = "subset__performance"
     data_path = build_data_path(dataset, experiment, data_name)
     subset_scores_df.to_csv(data_path, index=False)
     logger.info(f"Saved data to {data_path}")
@@ -271,7 +271,7 @@ def main(dataset: Dataset, experiment: str) -> None:
         subset_scores_df=subset_scores_df,
         **shared,
     )
-    plot_name = "subset_performance_stripplot"
+    plot_name = "subset__performance__stripplot"
     plot_path = build_plot_path(dataset, experiment, plot_name)
     subset_performance_fig.savefig(plot_path)
     plt.close(subset_performance_fig)

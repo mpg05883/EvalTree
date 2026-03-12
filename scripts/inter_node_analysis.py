@@ -441,7 +441,7 @@ def main(dataset: Dataset, min_instances: int, experiment: str) -> None:
     )
 
     all_nodes_external_agreement_df = all_nodes_external_agreement_analysis(**shared)
-    data_name = f"all-nodes_external-agreement_min-instances={min_instances}"
+    data_name = f"all_nodes__external_agreement__{min_instances=}"
     data_path = build_data_path(dataset, experiment, data_name)
     all_nodes_external_agreement_df.to_csv(data_path)
     logger.info(f"Saved data to {data_path}")
@@ -450,7 +450,7 @@ def main(dataset: Dataset, min_instances: int, experiment: str) -> None:
         all_nodes_external_agreement_df,
         **shared,
     )
-    plot_name = f"all-nodes_external-agreement_histogram_min-instances={min_instances}"
+    plot_name = f"all_nodes__external_agreement__histogram__{min_instances=}"
     plot_path = build_plot_path(dataset, experiment, plot_name)
     all_nodes_external_agreement_fig.savefig(plot_path)
     plt.close(all_nodes_external_agreement_fig)
@@ -460,14 +460,14 @@ def main(dataset: Dataset, min_instances: int, experiment: str) -> None:
         all_nodes_external_agreement_df,
         **shared,
     )
-    plot_name = f"per-level_external-agreement_stripplot_min-instances={min_instances}"
+    plot_name = f"per_level__external_agreement__stripplot__{min_instances=}"
     plot_path = build_plot_path(dataset, experiment, plot_name)
     per_level_external_agreement_fig.savefig(plot_path)
     plt.close(per_level_external_agreement_fig)
     logger.info(f"Saved plot to {plot_path}")
 
     all_nodes_performance_df = all_nodes_performance_analysis(**shared)
-    data_name = f"all-nodes_performance_min-instances={min_instances}"
+    data_name = f"all_nodes__performance__{min_instances=}"
     data_path = build_data_path(dataset, experiment, data_name)
     all_nodes_performance_df.to_csv(data_path)
     logger.info(f"Saved data to {data_path}")
@@ -476,7 +476,7 @@ def main(dataset: Dataset, min_instances: int, experiment: str) -> None:
         all_nodes_performance_df,
         **shared,
     )
-    plot_name = f"all-nodes_performance_stripplot_min-instances={min_instances}"
+    plot_name = f"all_nodes__performance__stripplot__{min_instances=}"
     plot_path = build_plot_path(dataset, experiment, plot_name)
     all_nodes_performance_fig.savefig(plot_path)
     plt.close(all_nodes_performance_fig)
@@ -486,7 +486,7 @@ def main(dataset: Dataset, min_instances: int, experiment: str) -> None:
         all_nodes_performance_df,
         **shared,
     )
-    plot_name = f"per-level_performance_stripplot_min-instances={min_instances}"
+    plot_name = f"per_level__performance__stripplot__{min_instances=}"
     plot_path = build_plot_path(dataset, experiment, plot_name)
     per_level_performance_fig.savefig(plot_path)
     plt.close(per_level_performance_fig)
@@ -499,7 +499,7 @@ if __name__ == "__main__":
 
     for i, dataset in enumerate(datasets):
         one_tenth = dataset.num_instances // 10
-        min_instance_values = [0, 50, one_tenth]
+        min_instance_values = [50]
         for min_instances in min_instance_values:
             print(
                 f"{'-'*80} Dataset {i+1}/{len(datasets)}: {dataset.pretty_name}, "

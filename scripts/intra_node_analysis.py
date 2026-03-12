@@ -177,6 +177,7 @@ def plot_per_level_split_halves_stripplot(
         f"\n({num_models} models, {num_trials} trials, {min_instance_label}={min_instances})"
     )
     ylim = (-1, 1) if df["mean_kendall_tau"].min() < 0 else (0, 1)
+    median_tau = df["mean_kendall_tau"].median()
 
     return plot_stripplot(
         data=plot_df,
@@ -190,6 +191,8 @@ def plot_per_level_split_halves_stripplot(
         palette="tab10",
         ylim=ylim,
         rotation=30,
+        median=median_tau,
+        median_label=r"Full Benchmark Kendall's $\tau$",
     )
 
 
@@ -342,6 +345,7 @@ def plot_per_level_bootstrap_stripplot(
         f"\n({num_models} models, {num_trials} trials, {min_instance_label}={min_instances})"
     )
     ylim = (-1, 1) if df["mean_kendall_tau"].min() < 0 else (0, 1)
+    median_tau = df["mean_kendall_tau"].median()
 
     return plot_stripplot(
         data=plot_df,
@@ -355,10 +359,12 @@ def plot_per_level_bootstrap_stripplot(
         palette="tab10",
         ylim=ylim,
         rotation=30,
+        median=median_tau,
+        median_label=r"Full Benchmark Kendall's $\tau$",
     )
 
 
-def minibatch_w_analysis(
+def minibatch_analysis(
     nodes: list[Node],
     model_scores_df: pd.DataFrame,
     num_trials: int,
@@ -420,7 +426,7 @@ def minibatch_w_analysis(
     return pd.DataFrame(results)
 
 
-def plot_all_nodes_minibatch_w_histogram(
+def plot_all_nodes_minibatch_histogram(
     df: pd.DataFrame,
     dataset: Dataset,
     num_models: int,
@@ -432,12 +438,12 @@ def plot_all_nodes_minibatch_w_histogram(
 ) -> plt.Figure:
     """Plot the distribution of mini-batch Kendall's W values across all nodes.
 
-    Takes the output of :func:`minibatch_w_analysis` and visualises how
+    Takes the output of :func:`minibatch_analysis` and visualises how
     concordant model rankings are across random folds within each node. The
     x-axis always spans (0, 1) since Kendall's W is non-negative.
 
     Args:
-        df: DataFrame returned by :func:`minibatch_w_analysis`.
+        df: DataFrame returned by :func:`minibatch_analysis`.
         dataset: The dataset being analysed, used for the plot title.
         num_models: Number of models in the benchmark.
         num_nodes: Total number of qualifying nodes analysed.
@@ -476,7 +482,7 @@ def plot_all_nodes_minibatch_w_histogram(
     )
 
 
-def plot_per_level_minibatch_w_stripplot(
+def plot_per_level_minibatch_stripplot(
     df: pd.DataFrame,
     dataset: Dataset,
     num_models: int,
@@ -487,13 +493,13 @@ def plot_per_level_minibatch_w_stripplot(
 ) -> plt.Figure:
     """Plot mini-batch Kendall's W values per capability tree level as a strip plot.
 
-    Takes the output of :func:`minibatch_w_analysis` and produces a single
+    Takes the output of :func:`minibatch_analysis` and produces a single
     strip plot where each x-axis tick corresponds to a capability tree level
     and every dot represents one node. Dots are color-coded by level using the
     tab10 palette.
 
     Args:
-        df: DataFrame returned by :func:`minibatch_w_analysis`, which includes
+        df: DataFrame returned by :func:`minibatch_analysis`, which includes
             a ``depth`` column used to assign nodes to levels.
         dataset: The dataset being analysed, used for the plot title.
         num_models: Number of models in the benchmark.
@@ -516,6 +522,8 @@ def plot_per_level_minibatch_w_stripplot(
         f"\n({num_models} models, {num_trials} trials, {num_folds} folds, {min_instance_label}={min_instances})"
     )
 
+    median_w = df["mean_kendall_w"].median()
+
     return plot_stripplot(
         data=plot_df,
         x="level",
@@ -528,6 +536,8 @@ def plot_per_level_minibatch_w_stripplot(
         palette="tab10",
         ylim=(0, 1),
         rotation=30,
+        median=median_w,
+        median_label="Full Benchmark Kendall's W",
     )
 
 
@@ -560,7 +570,7 @@ def main(
     )
 
     split_halves_df = split_halves_analysis(**shared)
-    data_name = f"all-nodes_split-halves_internal-agreement_num-models={num_models}_min-instances={min_instances}_num-trials={num_trials}"
+    data_name = f"all_nodes__split_halves__internal_agreement__{num_models=}__{min_instances=}__{num_trials=}"
     data_path = build_data_path(dataset, experiment, data_name)
     split_halves_df.to_csv(data_path, index=False)
     logger.info(f"Saved data to {data_path}")
@@ -569,7 +579,7 @@ def main(
         split_halves_df,
         **shared,
     )
-    plot_name = f"all-nodes_split-halves_internal-agreement_histogram_min-instances={min_instances}_num-trials={num_trials}"
+    plot_name = f"all_nodes__split_halves__internal_agreement__histogram__{min_instances=}__{num_trials=}"
     plot_path = build_plot_path(dataset, experiment, plot_name)
     split_halves_all_nodes_fig.savefig(plot_path)
     plt.close(split_halves_all_nodes_fig)
@@ -579,14 +589,14 @@ def main(
         split_halves_df,
         **shared,
     )
-    plot_name = f"per-level_split-halves_internal-agreement_stripplot_min-instances={min_instances}_num-trials={num_trials}"
+    plot_name = f"per_level__split_halves__internal_agreement__stripplot__{min_instances=}__{num_trials=}"
     plot_path = build_plot_path(dataset, experiment, plot_name)
     split_halves_per_level_fig.savefig(plot_path)
     plt.close(split_halves_per_level_fig)
     logger.info(f"Saved plot to {plot_path}")
 
     bootstrap_df = bootstrap_analysis(**shared)
-    data_name = f"all-nodes_bootstrap_internal-agreement_num-models={num_models}_min-instances={min_instances}_num-trials={num_trials}"
+    data_name = f"all_nodes__bootstrap__internal_agreement__{num_models=}__{min_instances=}__{num_trials=}"
     data_path = build_data_path(dataset, experiment, data_name)
     bootstrap_df.to_csv(data_path, index=False)
     logger.info(f"Saved data to {data_path}")
@@ -595,7 +605,7 @@ def main(
         bootstrap_df,
         **shared,
     )
-    plot_name = f"all-nodes_bootstrap_internal-agreement_histogram_min-instances={min_instances}_num-trials={num_trials}"
+    plot_name = f"all_nodes__bootstrap__internal_agreement__histogram__{min_instances=}__{num_trials=}"
     plot_path = build_plot_path(dataset, experiment, plot_name)
     bootstrap_all_nodes_fig.savefig(plot_path)
     plt.close(bootstrap_all_nodes_fig)
@@ -605,36 +615,36 @@ def main(
         bootstrap_df,
         **shared,
     )
-    plot_name = f"per-level_bootstrap_internal-agreement_stripplot_min-instances={min_instances}_num-trials={num_trials}"
+    plot_name = f"per_level__bootstrap__internal_agreement__stripplot__{min_instances=}__{num_trials=}"
     plot_path = build_plot_path(dataset, experiment, plot_name)
     bootstrap_per_level_fig.savefig(plot_path)
     plt.close(bootstrap_per_level_fig)
     logger.info(f"Saved plot to {plot_path}")
 
-    minibatch_w_df = minibatch_w_analysis(**shared)
-    data_name = f"all-nodes_mini-batch_internal-agreement_num-models={num_models}_min-instances={min_instances}_num-trials={num_trials}_num-folds={num_folds}"
+    minibatch_df = minibatch_analysis(**shared)
+    data_name = f"all_nodes__minibatch__internal_agreement__{num_models=}__{min_instances=}__{num_trials=}__{num_folds=}"
     data_path = build_data_path(dataset, experiment, data_name)
-    minibatch_w_df.to_csv(data_path, index=False)
+    minibatch_df.to_csv(data_path, index=False)
     logger.info(f"Saved data to {data_path}")
 
-    minibatch_w_all_nodes_fig = plot_all_nodes_minibatch_w_histogram(
-        minibatch_w_df,
+    minibatch_all_nodes_fig = plot_all_nodes_minibatch_histogram(
+        minibatch_df,
         **shared,
     )
-    plot_name = f"all-nodes_mini-batch_internal-agreement_histogram_min-instances={min_instances}_num-trials={num_trials}_num-folds={num_folds}"
+    plot_name = f"all_nodes__minibatch__internal_agreement__histogram__{min_instances=}__{num_trials=}__{num_folds=}"
     plot_path = build_plot_path(dataset, experiment, plot_name)
-    minibatch_w_all_nodes_fig.savefig(plot_path)
-    plt.close(minibatch_w_all_nodes_fig)
+    minibatch_all_nodes_fig.savefig(plot_path)
+    plt.close(minibatch_all_nodes_fig)
     logger.info(f"Saved plot to {plot_path}")
 
-    minibatch_w_per_level_fig = plot_per_level_minibatch_w_stripplot(
-        minibatch_w_df,
+    minibatch_per_level_fig = plot_per_level_minibatch_stripplot(
+        minibatch_df,
         **shared,
     )
-    plot_name = f"per-level_mini-batch_internal-agreement_stripplot_min-instances={min_instances}_num-trials={num_trials}_num-folds={num_folds}"
+    plot_name = f"per_level__minibatch__internal_agreement__stripplot__{min_instances=}__{num_trials=}__{num_folds=}"
     plot_path = build_plot_path(dataset, experiment, plot_name)
-    minibatch_w_per_level_fig.savefig(plot_path)
-    plt.close(minibatch_w_per_level_fig)
+    minibatch_per_level_fig.savefig(plot_path)
+    plt.close(minibatch_per_level_fig)
     logger.info(f"Saved plot to {plot_path}")
 
 
@@ -644,12 +654,12 @@ if __name__ == "__main__":
     # - WildChat-10K only has evaluation results for two models
     datasets = [Dataset.DS_1000, Dataset.MATH, Dataset.MMLU]
     experiment = Path(__file__).stem
-    num_trial_values = [50, 500, 1000]
-    num_fold_values = [2, 5, 10]
+    num_trial_values = [500]
+    num_fold_values = [5]
 
     for i, dataset in enumerate(datasets):
         one_tenth = dataset.num_instances // 10
-        min_instance_values = [0, 50, one_tenth]
+        min_instance_values = [50]
 
         for min_instances in min_instance_values:
             for num_trials in num_trial_values:
