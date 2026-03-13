@@ -178,7 +178,7 @@ def plot_per_level_split_halves_stripplot(
     ylabel = r"Kendall's $\tau$"
     min_instance_label = r"$n_{\mathrm{min}}$"
     title = (
-        f"{dataset.pretty_name}: Internal Node Agreement (Split-Halves {ylabel})"
+        f"{dataset.pretty_name}: Internal Node Agreement"
         f"\n({num_models} models, {num_trials} trials, {min_instance_label}={min_instances})"
     )
     ylim = (-1, 1) if df["mean_kendall_tau"].min() < 0 else (0, 1)
@@ -197,7 +197,7 @@ def plot_per_level_split_halves_stripplot(
         ylim=ylim,
         rotation=30,
         median=median_tau,
-        median_label=f"Median {ylabel} Across All Nodes",
+        median_label=f"Median {ylabel} (All Nodes)",
     )
 
 

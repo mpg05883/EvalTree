@@ -122,7 +122,7 @@ def plot_split_halves_histogram(
     xlabel = r"Kendall's $\tau$"
     ylabel = f"Number of {dataset.plural.capitalize()}"
     title = (
-        f"{dataset.pretty_name}: {dataset.subset_col.title()} Internal Agreement (Split-Halves {xlabel})"
+        f"{dataset.pretty_name}: {dataset.subset_col.title()} Internal Agreement"
         f"\n({num_models} models, {num_subsets} {dataset.plural}, {num_trials} trials)"
     )
     annotate = True
