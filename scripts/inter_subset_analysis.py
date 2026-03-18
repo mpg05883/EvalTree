@@ -1,4 +1,5 @@
 import logging
+import random
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -176,8 +177,21 @@ def plot_subset_performance_stripplot(
     Returns:
         The matplotlib Figure containing the strip plot.
     """
-    models = subset_scores_df.columns.tolist()
+    all_models = sorted(subset_scores_df.columns.tolist())
+
+    # Randomly sample a subset of models if there are more than 10
+    sample_size = 10
+    seed = 42
+    if len(all_models) > sample_size:
+        rng = random.Random(seed)
+        models = sorted(rng.sample(all_models, sample_size))
+        subset_scores_df = subset_scores_df[models]
+        model_scores_df = model_scores_df[models]
+    else:
+        models = all_models
+
     global_means = model_scores_df.mean().to_dict()
+    plot_num_models = len(models)
 
     long_df = subset_scores_df.reset_index().melt(
         id_vars="subset",
@@ -200,7 +214,7 @@ def plot_subset_performance_stripplot(
     size = 10
     x_means = global_means
     x_means_label = f"Full Benchmark {dataset.metric.title()}"
-    figsize = (max(8, num_models * 1.5), 5)
+    figsize = (max(8, plot_num_models * 1.5), 5)
     ylim = (0, 1)
     rotation = 30
 
@@ -220,6 +234,7 @@ def plot_subset_performance_stripplot(
         figsize=figsize,
         ylim=ylim,
         rotation=rotation,
+        num_models=None,
     )
 
 

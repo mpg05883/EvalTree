@@ -132,9 +132,13 @@ def plot_split_halves_histogram(
     q3 = data.quantile(0.75)
     xlim = (-1, 1) if min(data) < 0 else (0, 1)
     ylim = {
+        Dataset.BBH: (0, num_subsets),
         Dataset.DS_1000: (0, num_subsets),
+        Dataset.GPQA_DIAMOND: (0, num_subsets),
         Dataset.MATH: (0, num_subsets),
+        Dataset.MATH_LVL_5: (0, num_subsets),
         Dataset.MMLU: (0, num_subsets // 2),
+        Dataset.MMLU_PRO: (0, num_subsets),
     }[dataset]
 
     return plot_histogram(
@@ -259,6 +263,10 @@ def plot_bootstrap_histogram(
     q3 = data.quantile(0.75)
     xlim = (-1, 1) if min(data) < 0 else (0, 1)
     ylim = {
+        Dataset.BBH: (0, num_subsets),
+        Dataset.GPQA_DIAMOND: (0, num_subsets),
+        Dataset.MATH_LVL_5: (0, num_subsets),
+        Dataset.MMLU_PRO: (0, num_subsets),
         Dataset.DS_1000: (0, num_subsets),
         Dataset.MATH: (0, num_subsets),
         Dataset.MMLU: (0, num_subsets),
@@ -389,6 +397,10 @@ def plot_minibatch_histogram(
     q3 = data.quantile(0.75)
     xlim = (0, 1)
     ylim = {
+        Dataset.BBH: (0, num_subsets),
+        Dataset.GPQA_DIAMOND: (0, num_subsets),
+        Dataset.MATH_LVL_5: (0, num_subsets),
+        Dataset.MMLU_PRO: (0, num_subsets),
         Dataset.DS_1000: (0, num_subsets),
         Dataset.MATH: (0, num_subsets),
         Dataset.MMLU: (0, num_subsets),
