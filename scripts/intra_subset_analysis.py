@@ -1,9 +1,11 @@
 import logging
+import math
 from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+import seaborn as sns
 from scipy.stats import kendalltau
 from tqdm import tqdm
 
@@ -422,6 +424,143 @@ def plot_minibatch_histogram(
     )
 
 
+def plot_per_subset_performance_histograms(
+    dataset: Dataset,
+    dataset_df: pd.DataFrame,
+    model_scores_df: pd.DataFrame,
+    subsets,
+    num_models: int,
+    num_subsets: int,
+    **kwargs,
+) -> plt.Figure:
+    """Plot a grid of histograms showing model performance distributions per subset.
+
+    Each subplot corresponds to one subset and shows a histogram of per-model
+    mean scores computed over the instances belonging to that subset.
+
+    The subplots are arranged in a grid as close to square as possible. When a
+    perfect square is not possible the grid is wider than it is tall.
+
+    Args:
+        dataset: The dataset being analysed, used for labels and titles.
+        dataset_df: Full benchmark instance-level DataFrame.
+        model_scores_df: Per-instance model scores (instances x models).
+        subsets: Iterable of subset identifiers to plot.
+        num_models: Number of models in the benchmark.
+        num_subsets: Number of subsets.
+
+    Returns:
+        The matplotlib Figure containing the subplot grid.
+    """
+    annotation_fontsize = 12
+    tick_fontsize = annotation_fontsize + 2
+    legend_fontsize = tick_fontsize
+    label_fontsize = tick_fontsize + 2
+    title_fontsize = tick_fontsize + 2
+    suptitle_fontsize = title_fontsize + 2
+    raw_annotation_color = "red"
+    linestyle = "--"
+    linewidth = 3
+    alpha = 0.3
+    subplot_size = (6, 4)
+
+    # Compute per-subset mean model scores (subsets x models)
+    subset_scores = {}
+    for subset in subsets:
+        mask = (
+            get_metadata_mask(dataset_df, dataset.subset_col, subset)
+            if dataset == Dataset.DS_1000
+            else dataset_df[dataset.subset_col] == subset
+        )
+        subset_scores[subset] = model_scores_df[mask].mean()
+    subset_scores = pd.DataFrame(subset_scores).T
+    subset_scores.index.name = "subset"
+
+    subsets = sorted(subset_scores.index.tolist())
+    n = len(subsets)
+    ncols = math.ceil(math.sqrt(n))
+    nrows = math.ceil(n / ncols)
+    if nrows > ncols:
+        ncols += 1
+        nrows = math.ceil(n / ncols)
+
+    fig, axes = plt.subplots(
+        nrows,
+        ncols,
+        figsize=(subplot_size[0] * ncols, subplot_size[1] * nrows),
+        squeeze=False,
+    )
+    axes_flat = axes.flatten()
+
+    bins = np.linspace(0, 1, 11)
+    for idx, subset_name in enumerate(subsets):
+        ax = axes_flat[idx]
+        data = subset_scores.loc[subset_name]
+
+        sns.histplot(
+            data=data,
+            bins=bins,
+            ax=ax,
+            color=sns.color_palette("tab10")[0],
+        )
+        ax.set_xlim(0, 1)
+
+        # Annotate bar heights
+        for patch in ax.patches:
+            if patch.get_height() > 0:
+                ax.text(
+                    patch.get_x() + patch.get_width() / 2,
+                    patch.get_height(),
+                    f"{int(patch.get_height())}",
+                    ha="center",
+                    va="bottom",
+                    fontweight="bold",
+                    fontsize=annotation_fontsize,
+                )
+
+        # Median line
+        median_val = data.median()
+        ax.axvline(
+            median_val,
+            color=raw_annotation_color,
+            linestyle=linestyle,
+            linewidth=linewidth,
+            label=f"Median: {median_val:.2f}",
+        )
+
+        # IQR shaded region
+        q1 = data.quantile(0.25)
+        q3 = data.quantile(0.75)
+        iqr = q3 - q1
+        ax.axvspan(
+            q1,
+            q3,
+            alpha=alpha,
+            color=raw_annotation_color,
+            label=f"IQR: {iqr:.2f}",
+        )
+
+        ax.legend(fontsize=legend_fontsize - 4)
+        ax.tick_params(labelsize=tick_fontsize - 2)
+        ax.set_title(subset_name, fontsize=title_fontsize - 2)
+        ax.set_xlabel("Score (0\u20131)", fontsize=label_fontsize - 2)
+        ax.set_ylabel("Number of Models", fontsize=label_fontsize - 2)
+
+    # Hide unused axes
+    for idx in range(n, len(axes_flat)):
+        axes_flat[idx].set_visible(False)
+
+    suptitle = (
+        f"{dataset.pretty_name}: Distribution of Raw "
+        f"{dataset.metric.title()} Scores\n"
+        f"by {dataset.subset_col.title()}"
+    )
+    plt.tight_layout(rect=[0, 0, 1, 0.94])
+    plt.suptitle(suptitle, fontsize=suptitle_fontsize, y=0.98)
+
+    return fig
+
+
 def main(dataset: Dataset, experiment: str, num_trials: int, num_folds: int) -> None:
     dataset_df = load_dataset(dataset)
     model_scores_df = load_model_scores(dataset)
@@ -463,6 +602,13 @@ def main(dataset: Dataset, experiment: str, num_trials: int, num_folds: int) -> 
     plot_path = build_plot_path(dataset, experiment, plot_name)
     split_halves_fig.savefig(plot_path)
     plt.close(split_halves_fig)
+    logger.info(f"Saved plot to {plot_path}")
+
+    per_subset_fig = plot_per_subset_performance_histograms(**shared)
+    plot_name = f"per_subset__performance__histograms__{num_models=}"
+    plot_path = build_plot_path(dataset, experiment, plot_name)
+    per_subset_fig.savefig(plot_path)
+    plt.close(per_subset_fig)
     logger.info(f"Saved plot to {plot_path}")
 
     # bootstrap_df = bootstrap_analysis(**shared)

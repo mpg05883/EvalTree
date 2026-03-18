@@ -1,4 +1,5 @@
 import logging
+import math
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -552,6 +553,71 @@ def plot_per_level_minibatch_stripplot(
     )
 
 
+def plot_per_node_performance_histograms(
+    nodes: list[Node],
+    model_scores_df: pd.DataFrame,
+    dataset: Dataset,
+    num_models: int,
+    min_instances: int,
+    **kwargs,
+) -> plt.Figure:
+    """Plot a grid of histograms showing model performance distributions per node.
+
+    Each subplot corresponds to one capability-tree node and shows a histogram
+    of per-model mean scores computed over the instances belonging to that node.
+
+    The subplots are arranged in a grid as close to square as possible. When a
+    perfect square is not possible the grid is wider than it is tall.
+
+    Args:
+        nodes: Qualifying nodes collected from the capability tree.
+        model_scores_df: Per-instance model scores (instances × models).
+        dataset: The dataset being analysed, used for labels and titles.
+        num_models: Number of models in the benchmark.
+        min_instances: Instance threshold used when collecting nodes.
+
+    Returns:
+        The matplotlib Figure containing the subplot grid.
+    """
+    n = len(nodes)
+    ncols = math.ceil(math.sqrt(n))
+    nrows = math.ceil(n / ncols)
+
+    subplot_size = 4
+    fig = plt.figure(figsize=(ncols * subplot_size, nrows * subplot_size))
+
+    min_instance_label = r"$n_{\mathrm{min}}$"
+    fig.suptitle(
+        f"{dataset.pretty_name}: Per-Node {dataset.metric.title()} Distribution"
+        f"\n({num_models} models, {n} nodes, {min_instance_label}={min_instances})",
+        fontsize=16,
+    )
+
+    for i, node in enumerate(nodes):
+        ax = fig.add_subplot(nrows, ncols, i + 1)
+        node_scores = model_scores_df.iloc[node.get_indices()]
+        per_model_means = node_scores.mean()
+        median = per_model_means.median()
+
+        plot_histogram(
+            per_model_means,
+            xlabel=dataset.metric.title(),
+            ylabel="Models",
+            title=node.capability,
+            ax=ax,
+            median=median,
+            median_label="Median",
+            xlim=(0, 1),
+            title_fontsize=10,
+            label_fontsize=8,
+            tick_fontsize=7,
+            legend_fontsize=8,
+        )
+
+    fig.tight_layout(rect=[0, 0, 1, 0.93])
+    return fig
+
+
 def main(
     dataset: Dataset,
     experiment: str,
@@ -656,6 +722,13 @@ def main(
     plot_path = build_plot_path(dataset, experiment, plot_name)
     minibatch_per_level_fig.savefig(plot_path)
     plt.close(minibatch_per_level_fig)
+    logger.info(f"Saved plot to {plot_path}")
+
+    per_node_performance_fig = plot_per_node_performance_histograms(**shared)
+    plot_name = f"per_node__performance__histograms__{min_instances=}"
+    plot_path = build_plot_path(dataset, experiment, plot_name)
+    per_node_performance_fig.savefig(plot_path)
+    plt.close(per_node_performance_fig)
     logger.info(f"Saved plot to {plot_path}")
 
 

@@ -123,6 +123,41 @@ def plot_subset_external_agreement_histogram(
     )
 
 
+def plot_benchmark_performance_histogram(
+    model_scores_df: pd.DataFrame,
+    dataset: Dataset,
+    num_models: int,
+    **kwargs,
+) -> plt.Figure:
+    """Plot the distribution of mean model scores across the entire benchmark.
+
+    Each model's mean score (averaged over all instances) becomes one data point.
+    The resulting histogram shows how model performance is spread across the
+    benchmark, annotated with the median.
+    """
+    data = model_scores_df.mean()
+    xlabel = dataset.metric.title()
+    ylabel = "Number of Models"
+    title = (
+        f"{dataset.pretty_name}: {dataset.metric.title()} Distribution"
+        f"\n({num_models} models)"
+    )
+    median = data.median()
+    median_label = f"Median {xlabel}"
+    annotate = True
+
+    return plot_histogram(
+        data,
+        xlabel=xlabel,
+        ylabel=ylabel,
+        title=title,
+        median=median,
+        median_label=median_label,
+        xlim=(0, 1),
+        annotate=annotate,
+    )
+
+
 def subset_performance_analysis(
     dataset: Dataset,
     dataset_df: pd.DataFrame,
@@ -278,6 +313,13 @@ def main(dataset: Dataset, experiment: str) -> None:
     plot_path = build_plot_path(dataset, experiment, plot_name)
     subset_external_agreement_fig.savefig(plot_path)
     plt.close(subset_external_agreement_fig)
+    logger.info(f"Saved plot to {plot_path}")
+
+    benchmark_performance_fig = plot_benchmark_performance_histogram(**shared)
+    plot_name = f"benchmark__performance__histogram__{num_models=}"
+    plot_path = build_plot_path(dataset, experiment, plot_name)
+    benchmark_performance_fig.savefig(plot_path)
+    plt.close(benchmark_performance_fig)
     logger.info(f"Saved plot to {plot_path}")
 
     subset_scores_df = subset_performance_analysis(**shared)

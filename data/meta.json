@@ -940,7 +940,7 @@
   },
   "MATH-Lvl-5": {
     "path": "data/MATH-Lvl-5.json",
-    "metrics": "Accuracy",
+    "metrics": "Exact Match Score",
     "url": "https://github.com/hendrycks/test",
     "models": [
         "Qwen__Qwen2.5-72B-Instruct",
