@@ -99,41 +99,20 @@ class Dataset(StrEnum):
 
     @property
     def subset_col(self) -> str:
-        """Column name for pre-defined subsets in the dataset.
-
-        NOTE: Only MATH, MMLU, and DS-1000 have pre-defined subsets.
-        """
-        allowed = {Dataset.DS_1000, Dataset.MATH, Dataset.MMLU}
-
-        if self not in allowed:
-            raise ValueError(
-                f"Dataset {self} does not have pre-defined subsets: "
-                f"allowed datasets are {allowed}"
-            )
-
+        """Column name for pre-defined subsets in the dataset."""
         return {
             Dataset.BBH: "subset",
             Dataset.DS_1000: MetadataKey.LIBRARY,  # Can be either "library" or "perturbation_type"
             Dataset.GPQA_DIAMOND: "Subdomain",  # Can be either "Subdomain" or "High-level domain"
             Dataset.MATH: "subset",
-            Dataset.MATH_LVL_5: "types",
+            Dataset.MATH_LVL_5: "type",
             Dataset.MMLU: "subject",
-            Dataset.MMLU_PRO: "categories",
+            Dataset.MMLU_PRO: "category",
         }[self]
 
     @property
     def plural(self) -> str:
-        """Plural form of the dataset's subsets.
-
-        NOTE: Only applies to MATH, MMLU, and DS-1000.
-        """
-        allowed = {Dataset.DS_1000, Dataset.MATH, Dataset.MMLU}
-
-        if self not in allowed:
-            raise ValueError(
-                f"Dataset {self} does not have pre-defined subsets: "
-                f"allowed datasets are {allowed}"
-            )
+        """Plural form of the dataset's subsets."""
 
         return {
             Dataset.BBH: "subsets",

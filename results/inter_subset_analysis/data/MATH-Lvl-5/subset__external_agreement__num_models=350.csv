@@ -1,0 +1,85 @@
+subset,scores,kendall_tau,num_instances
+Algebra,"Qwen__Qwen2.5-72B-Instruct                0.019544
+Qwen__Qwen2-72B-Instruct                  0.560261
+mlabonne__BigQwen2.5-52B-Instruct         0.289902
+meta-llama__Llama-3.1-70B-Instruct        0.042345
+abacusai__Dracarys-72B-Instruct           0.550489
+                                            ...   
+nvidia__AceMath-7B-RM                     0.000000
+HuggingFaceTB__SmolLM2-135M-Instruct_2    0.000000
+HuggingFaceTB__SmolLM2-360M-Instruct_2    0.006515
+TinyLlama__TinyLlama-1.1B-Chat-v1.0       0.006515
+PrimeIntellect__INTELLECT-1-Instruct      0.000000
+Length: 350, dtype: float64",0.9171322529913006,307
+Counting & Probability,"Qwen__Qwen2.5-72B-Instruct                0.000000
+Qwen__Qwen2-72B-Instruct                  0.365854
+mlabonne__BigQwen2.5-52B-Instruct         0.138211
+meta-llama__Llama-3.1-70B-Instruct        0.008130
+abacusai__Dracarys-72B-Instruct           0.333333
+                                            ...   
+nvidia__AceMath-7B-RM                     0.000000
+HuggingFaceTB__SmolLM2-135M-Instruct_2    0.000000
+HuggingFaceTB__SmolLM2-360M-Instruct_2    0.008130
+TinyLlama__TinyLlama-1.1B-Chat-v1.0       0.016260
+PrimeIntellect__INTELLECT-1-Instruct      0.000000
+Length: 350, dtype: float64",0.7796466178678385,123
+Geometry,"Qwen__Qwen2.5-72B-Instruct                0.000000
+Qwen__Qwen2-72B-Instruct                  0.166667
+mlabonne__BigQwen2.5-52B-Instruct         0.106061
+meta-llama__Llama-3.1-70B-Instruct        0.007576
+abacusai__Dracarys-72B-Instruct           0.166667
+                                            ...   
+nvidia__AceMath-7B-RM                     0.000000
+HuggingFaceTB__SmolLM2-135M-Instruct_2    0.000000
+HuggingFaceTB__SmolLM2-360M-Instruct_2    0.000000
+TinyLlama__TinyLlama-1.1B-Chat-v1.0       0.000000
+PrimeIntellect__INTELLECT-1-Instruct      0.000000
+Length: 350, dtype: float64",0.702513706944556,132
+Intermediate Algebra,"Qwen__Qwen2.5-72B-Instruct                0.000000
+Qwen__Qwen2-72B-Instruct                  0.157143
+mlabonne__BigQwen2.5-52B-Instruct         0.050000
+meta-llama__Llama-3.1-70B-Instruct        0.003571
+abacusai__Dracarys-72B-Instruct           0.107143
+                                            ...   
+nvidia__AceMath-7B-RM                     0.000000
+HuggingFaceTB__SmolLM2-135M-Instruct_2    0.000000
+HuggingFaceTB__SmolLM2-360M-Instruct_2    0.000000
+TinyLlama__TinyLlama-1.1B-Chat-v1.0       0.007143
+PrimeIntellect__INTELLECT-1-Instruct      0.000000
+Length: 350, dtype: float64",0.7515299249900879,280
+Number Theory,"Qwen__Qwen2.5-72B-Instruct                0.000000
+Qwen__Qwen2-72B-Instruct                  0.383117
+mlabonne__BigQwen2.5-52B-Instruct         0.214286
+meta-llama__Llama-3.1-70B-Instruct        0.058442
+abacusai__Dracarys-72B-Instruct           0.370130
+                                            ...   
+nvidia__AceMath-7B-RM                     0.000000
+HuggingFaceTB__SmolLM2-135M-Instruct_2    0.006494
+HuggingFaceTB__SmolLM2-360M-Instruct_2    0.025974
+TinyLlama__TinyLlama-1.1B-Chat-v1.0       0.019481
+PrimeIntellect__INTELLECT-1-Instruct      0.000000
+Length: 350, dtype: float64",0.7700578069031369,154
+Prealgebra,"Qwen__Qwen2.5-72B-Instruct                0.046632
+Qwen__Qwen2-72B-Instruct                  0.554404
+mlabonne__BigQwen2.5-52B-Instruct         0.321244
+meta-llama__Llama-3.1-70B-Instruct        0.056995
+abacusai__Dracarys-72B-Instruct           0.590674
+                                            ...   
+nvidia__AceMath-7B-RM                     0.000000
+HuggingFaceTB__SmolLM2-135M-Instruct_2    0.005181
+HuggingFaceTB__SmolLM2-360M-Instruct_2    0.010363
+TinyLlama__TinyLlama-1.1B-Chat-v1.0       0.005181
+PrimeIntellect__INTELLECT-1-Instruct      0.000000
+Length: 350, dtype: float64",0.9034807346910562,193
+Precalculus,"Qwen__Qwen2.5-72B-Instruct                0.007407
+Qwen__Qwen2-72B-Instruct                  0.118519
+mlabonne__BigQwen2.5-52B-Instruct         0.051852
+meta-llama__Llama-3.1-70B-Instruct        0.000000
+abacusai__Dracarys-72B-Instruct           0.088889
+                                            ...   
+nvidia__AceMath-7B-RM                     0.000000
+HuggingFaceTB__SmolLM2-135M-Instruct_2    0.000000
+HuggingFaceTB__SmolLM2-360M-Instruct_2    0.000000
+TinyLlama__TinyLlama-1.1B-Chat-v1.0       0.007407
+PrimeIntellect__INTELLECT-1-Instruct      0.000000
+Length: 350, dtype: float64",0.714948301283937,135

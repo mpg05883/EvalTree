@@ -1,0 +1,169 @@
+subset,scores,kendall_tau,num_instances
+business,"Qwen__Qwen2.5-72B-Instruct                0.449937
+Qwen__Qwen2.5-32B-Instruct                0.487959
+mistralai__Mistral-Large-Instruct-2411    0.458809
+mlabonne__BigQwen2.5-52B-Instruct         0.447402
+allenai__Llama-3.1-Tulu-3-70B-DPO         0.356147
+                                            ...   
+HuggingFaceTB__SmolLM-135M-Instruct       0.098859
+google__umt5-base                         0.098859
+google__switch-base-8                     0.098859
+HuggingFaceTB__SmolLM2-135M-Instruct_2    0.086185
+HuggingFaceTB__SmolLM2-360M-Instruct_2    0.105196
+Length: 101, dtype: float64",0.9076852559644338,789
+law,"Qwen__Qwen2.5-72B-Instruct                0.480472
+Qwen__Qwen2.5-32B-Instruct                0.456857
+mistralai__Mistral-Large-Instruct-2411    0.509537
+mlabonne__BigQwen2.5-52B-Instruct         0.443233
+allenai__Llama-3.1-Tulu-3-70B-DPO         0.389646
+                                            ...   
+HuggingFaceTB__SmolLM-135M-Instruct       0.140781
+google__umt5-base                         0.107175
+google__switch-base-8                     0.108992
+HuggingFaceTB__SmolLM2-135M-Instruct_2    0.102634
+HuggingFaceTB__SmolLM2-360M-Instruct_2    0.118983
+Length: 101, dtype: float64",0.8743801127566169,1101
+psychology,"Qwen__Qwen2.5-72B-Instruct                0.736842
+Qwen__Qwen2.5-32B-Instruct                0.748120
+mistralai__Mistral-Large-Instruct-2411    0.748120
+mlabonne__BigQwen2.5-52B-Instruct         0.749373
+allenai__Llama-3.1-Tulu-3-70B-DPO         0.718045
+                                            ...   
+HuggingFaceTB__SmolLM-135M-Instruct       0.097744
+google__umt5-base                         0.114035
+google__switch-base-8                     0.121554
+HuggingFaceTB__SmolLM2-135M-Instruct_2    0.104010
+HuggingFaceTB__SmolLM2-360M-Instruct_2    0.114035
+Length: 101, dtype: float64",0.8840358023851629,798
+biology,"Qwen__Qwen2.5-72B-Instruct                0.807531
+Qwen__Qwen2.5-32B-Instruct                0.827057
+mistralai__Mistral-Large-Instruct-2411    0.813110
+mlabonne__BigQwen2.5-52B-Instruct         0.801953
+allenai__Llama-3.1-Tulu-3-70B-DPO         0.778243
+                                            ...   
+HuggingFaceTB__SmolLM-135M-Instruct       0.110181
+google__umt5-base                         0.100418
+google__switch-base-8                     0.104603
+HuggingFaceTB__SmolLM2-135M-Instruct_2    0.125523
+HuggingFaceTB__SmolLM2-360M-Instruct_2    0.115760
+Length: 101, dtype: float64",0.901689320893822,717
+chemistry,"Qwen__Qwen2.5-72B-Instruct                0.417845
+Qwen__Qwen2.5-32B-Instruct                0.435512
+mistralai__Mistral-Large-Instruct-2411    0.401060
+mlabonne__BigQwen2.5-52B-Instruct         0.395760
+allenai__Llama-3.1-Tulu-3-70B-DPO         0.290636
+                                            ...   
+HuggingFaceTB__SmolLM-135M-Instruct       0.111307
+google__umt5-base                         0.094523
+google__switch-base-8                     0.094523
+HuggingFaceTB__SmolLM2-135M-Instruct_2    0.112191
+HuggingFaceTB__SmolLM2-360M-Instruct_2    0.098940
+Length: 101, dtype: float64",0.8729278811501423,1132
+history,"Qwen__Qwen2.5-72B-Instruct                0.656168
+Qwen__Qwen2.5-32B-Instruct                0.606299
+mistralai__Mistral-Large-Instruct-2411    0.629921
+mlabonne__BigQwen2.5-52B-Instruct         0.606299
+allenai__Llama-3.1-Tulu-3-70B-DPO         0.656168
+                                            ...   
+HuggingFaceTB__SmolLM-135M-Instruct       0.149606
+google__umt5-base                         0.112861
+google__switch-base-8                     0.118110
+HuggingFaceTB__SmolLM2-135M-Instruct_2    0.118110
+HuggingFaceTB__SmolLM2-360M-Instruct_2    0.107612
+Length: 101, dtype: float64",0.8477762704433137,381
+other,"Qwen__Qwen2.5-72B-Instruct                0.634199
+Qwen__Qwen2.5-32B-Instruct                0.591991
+mistralai__Mistral-Large-Instruct-2411    0.639610
+mlabonne__BigQwen2.5-52B-Instruct         0.580087
+allenai__Llama-3.1-Tulu-3-70B-DPO         0.519481
+                                            ...   
+HuggingFaceTB__SmolLM-135M-Instruct       0.121212
+google__umt5-base                         0.115801
+google__switch-base-8                     0.115801
+HuggingFaceTB__SmolLM2-135M-Instruct_2    0.119048
+HuggingFaceTB__SmolLM2-360M-Instruct_2    0.107143
+Length: 101, dtype: float64",0.8919786218136009,924
+health,"Qwen__Qwen2.5-72B-Instruct                0.655257
+Qwen__Qwen2.5-32B-Instruct                0.673594
+mistralai__Mistral-Large-Instruct-2411    0.710269
+mlabonne__BigQwen2.5-52B-Instruct         0.660147
+allenai__Llama-3.1-Tulu-3-70B-DPO         0.624694
+                                            ...   
+HuggingFaceTB__SmolLM-135M-Instruct       0.128362
+google__umt5-base                         0.113692
+google__switch-base-8                     0.116137
+HuggingFaceTB__SmolLM2-135M-Instruct_2    0.108802
+HuggingFaceTB__SmolLM2-360M-Instruct_2    0.119804
+Length: 101, dtype: float64",0.8809589357170521,818
+economics,"Qwen__Qwen2.5-72B-Instruct                0.718009
+Qwen__Qwen2.5-32B-Instruct                0.716825
+mistralai__Mistral-Large-Instruct-2411    0.708531
+mlabonne__BigQwen2.5-52B-Instruct         0.706161
+allenai__Llama-3.1-Tulu-3-70B-DPO         0.619668
+                                            ...   
+HuggingFaceTB__SmolLM-135M-Instruct       0.133886
+google__umt5-base                         0.122038
+google__switch-base-8                     0.132701
+HuggingFaceTB__SmolLM2-135M-Instruct_2    0.116114
+HuggingFaceTB__SmolLM2-360M-Instruct_2    0.125592
+Length: 101, dtype: float64",0.9224516239127302,844
+math,"Qwen__Qwen2.5-72B-Instruct                0.472243
+Qwen__Qwen2.5-32B-Instruct                0.500370
+mistralai__Mistral-Large-Instruct-2411    0.449297
+mlabonne__BigQwen2.5-52B-Instruct         0.479645
+allenai__Llama-3.1-Tulu-3-70B-DPO         0.335307
+                                            ...   
+HuggingFaceTB__SmolLM-135M-Instruct       0.105848
+google__umt5-base                         0.100666
+google__switch-base-8                     0.102887
+HuggingFaceTB__SmolLM2-135M-Instruct_2    0.112509
+HuggingFaceTB__SmolLM2-360M-Instruct_2    0.105107
+Length: 101, dtype: float64",0.8383645906716436,1351
+physics,"Qwen__Qwen2.5-72B-Instruct                0.464203
+Qwen__Qwen2.5-32B-Instruct                0.468822
+mistralai__Mistral-Large-Instruct-2411    0.432640
+mlabonne__BigQwen2.5-52B-Instruct         0.474211
+allenai__Llama-3.1-Tulu-3-70B-DPO         0.319477
+                                            ...   
+HuggingFaceTB__SmolLM-135M-Instruct       0.112394
+google__umt5-base                         0.093918
+google__switch-base-8                     0.093149
+HuggingFaceTB__SmolLM2-135M-Instruct_2    0.104696
+HuggingFaceTB__SmolLM2-360M-Instruct_2    0.104696
+Length: 101, dtype: float64",0.9097830773555889,1299
+computer science,"Qwen__Qwen2.5-72B-Instruct                0.607317
+Qwen__Qwen2.5-32B-Instruct                0.617073
+mistralai__Mistral-Large-Instruct-2411    0.629268
+mlabonne__BigQwen2.5-52B-Instruct         0.617073
+allenai__Llama-3.1-Tulu-3-70B-DPO         0.553659
+                                            ...   
+HuggingFaceTB__SmolLM-135M-Instruct       0.107317
+google__umt5-base                         0.136585
+google__switch-base-8                     0.141463
+HuggingFaceTB__SmolLM2-135M-Instruct_2    0.114634
+HuggingFaceTB__SmolLM2-360M-Instruct_2    0.129268
+Length: 101, dtype: float64",0.8684956271963682,410
+philosophy,"Qwen__Qwen2.5-72B-Instruct                0.595190
+Qwen__Qwen2.5-32B-Instruct                0.589178
+mistralai__Mistral-Large-Instruct-2411    0.607214
+mlabonne__BigQwen2.5-52B-Instruct         0.585170
+allenai__Llama-3.1-Tulu-3-70B-DPO         0.494990
+                                            ...   
+HuggingFaceTB__SmolLM-135M-Instruct       0.142285
+google__umt5-base                         0.122244
+google__switch-base-8                     0.106212
+HuggingFaceTB__SmolLM2-135M-Instruct_2    0.106212
+HuggingFaceTB__SmolLM2-360M-Instruct_2    0.122244
+Length: 101, dtype: float64",0.894456927217831,499
+engineering,"Qwen__Qwen2.5-72B-Instruct                0.495356
+Qwen__Qwen2.5-32B-Instruct                0.496388
+mistralai__Mistral-Large-Instruct-2411    0.407637
+mlabonne__BigQwen2.5-52B-Instruct         0.481940
+allenai__Llama-3.1-Tulu-3-70B-DPO         0.307534
+                                            ...   
+HuggingFaceTB__SmolLM-135M-Instruct       0.111455
+google__umt5-base                         0.113519
+google__switch-base-8                     0.117647
+HuggingFaceTB__SmolLM2-135M-Instruct_2    0.106295
+HuggingFaceTB__SmolLM2-360M-Instruct_2    0.111455
+Length: 101, dtype: float64",0.8318779812648175,969

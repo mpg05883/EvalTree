@@ -1,0 +1,157 @@
+subset,scores,kendall_tau,num_instances
+Physics (general),"Qwen__Qwen2.5-72B-Instruct             0.263158
+Qwen__Qwen2-72B-Instruct               0.368421
+mlabonne__BigQwen2.5-52B-Instruct      0.157895
+meta-llama__Llama-3.1-70B-Instruct     0.315789
+abacusai__Dracarys-72B-Instruct        0.368421
+                                         ...   
+HuggingFaceTB__SmolLM-135M-Instruct    0.210526
+google__umt5-base                      0.473684
+bigscience__bloom-560m                 0.157895
+google__switch-base-8                  0.052632
+TinyLlama__TinyLlama-1.1B-Chat-v1.0    0.368421
+Length: 302, dtype: float64",0.3246355119131355,19
+Organic Chemistry,"Qwen__Qwen2.5-72B-Instruct             0.444444
+Qwen__Qwen2-72B-Instruct               0.333333
+mlabonne__BigQwen2.5-52B-Instruct      0.277778
+meta-llama__Llama-3.1-70B-Instruct     0.291667
+abacusai__Dracarys-72B-Instruct        0.375000
+                                         ...   
+HuggingFaceTB__SmolLM-135M-Instruct    0.277778
+google__umt5-base                      0.333333
+bigscience__bloom-560m                 0.305556
+google__switch-base-8                  0.250000
+TinyLlama__TinyLlama-1.1B-Chat-v1.0    0.263889
+Length: 302, dtype: float64",0.38233745771925,72
+Quantum Mechanics,"Qwen__Qwen2.5-72B-Instruct             0.24
+Qwen__Qwen2-72B-Instruct               0.60
+mlabonne__BigQwen2.5-52B-Instruct      0.16
+meta-llama__Llama-3.1-70B-Instruct     0.32
+abacusai__Dracarys-72B-Instruct        0.56
+                                       ... 
+HuggingFaceTB__SmolLM-135M-Instruct    0.16
+google__umt5-base                      0.16
+bigscience__bloom-560m                 0.12
+google__switch-base-8                  0.28
+TinyLlama__TinyLlama-1.1B-Chat-v1.0    0.24
+Length: 302, dtype: float64",0.3998756642313666,25
+Electromagnetism and Photonics,"Qwen__Qwen2.5-72B-Instruct             0.333333
+Qwen__Qwen2-72B-Instruct               0.333333
+mlabonne__BigQwen2.5-52B-Instruct      0.166667
+meta-llama__Llama-3.1-70B-Instruct     0.333333
+abacusai__Dracarys-72B-Instruct        0.333333
+                                         ...   
+HuggingFaceTB__SmolLM-135M-Instruct    0.166667
+google__umt5-base                      0.333333
+bigscience__bloom-560m                 0.333333
+google__switch-base-8                  0.166667
+TinyLlama__TinyLlama-1.1B-Chat-v1.0    0.333333
+Length: 302, dtype: float64",0.02923485746801363,6
+High-energy particle physics,"Qwen__Qwen2.5-72B-Instruct             0.357143
+Qwen__Qwen2-72B-Instruct               0.428571
+mlabonne__BigQwen2.5-52B-Instruct      0.285714
+meta-llama__Llama-3.1-70B-Instruct     0.500000
+abacusai__Dracarys-72B-Instruct        0.571429
+                                         ...   
+HuggingFaceTB__SmolLM-135M-Instruct    0.285714
+google__umt5-base                      0.142857
+bigscience__bloom-560m                 0.285714
+google__switch-base-8                  0.214286
+TinyLlama__TinyLlama-1.1B-Chat-v1.0    0.214286
+Length: 302, dtype: float64",0.4094966845511047,14
+Genetics,"Qwen__Qwen2.5-72B-Instruct             0.50
+Qwen__Qwen2-72B-Instruct               0.50
+mlabonne__BigQwen2.5-52B-Instruct      0.00
+meta-llama__Llama-3.1-70B-Instruct     0.00
+abacusai__Dracarys-72B-Instruct        0.50
+                                       ... 
+HuggingFaceTB__SmolLM-135M-Instruct    0.00
+google__umt5-base                      0.25
+bigscience__bloom-560m                 0.00
+google__switch-base-8                  0.00
+TinyLlama__TinyLlama-1.1B-Chat-v1.0    0.00
+Length: 302, dtype: float64",0.2134174039734942,4
+Astrophysics,"Qwen__Qwen2.5-72B-Instruct             0.384615
+Qwen__Qwen2-72B-Instruct               0.230769
+mlabonne__BigQwen2.5-52B-Instruct      0.384615
+meta-llama__Llama-3.1-70B-Instruct     0.384615
+abacusai__Dracarys-72B-Instruct        0.307692
+                                         ...   
+HuggingFaceTB__SmolLM-135M-Instruct    0.384615
+google__umt5-base                      0.307692
+bigscience__bloom-560m                 0.384615
+google__switch-base-8                  0.153846
+TinyLlama__TinyLlama-1.1B-Chat-v1.0    0.076923
+Length: 302, dtype: float64",0.3440819783037952,13
+Molecular Biology,"Qwen__Qwen2.5-72B-Instruct             0.533333
+Qwen__Qwen2-72B-Instruct               0.666667
+mlabonne__BigQwen2.5-52B-Instruct      0.333333
+meta-llama__Llama-3.1-70B-Instruct     0.200000
+abacusai__Dracarys-72B-Instruct        0.733333
+                                         ...   
+HuggingFaceTB__SmolLM-135M-Instruct    0.066667
+google__umt5-base                      0.200000
+bigscience__bloom-560m                 0.066667
+google__switch-base-8                  0.200000
+TinyLlama__TinyLlama-1.1B-Chat-v1.0    0.066667
+Length: 302, dtype: float64",0.38982093214612773,15
+Chemistry (general),"Qwen__Qwen2.5-72B-Instruct             0.30
+Qwen__Qwen2-72B-Instruct               0.15
+mlabonne__BigQwen2.5-52B-Instruct      0.20
+meta-llama__Llama-3.1-70B-Instruct     0.35
+abacusai__Dracarys-72B-Instruct        0.20
+                                       ... 
+HuggingFaceTB__SmolLM-135M-Instruct    0.35
+google__umt5-base                      0.30
+bigscience__bloom-560m                 0.35
+google__switch-base-8                  0.15
+TinyLlama__TinyLlama-1.1B-Chat-v1.0    0.40
+Length: 302, dtype: float64",0.19124218521164063,20
+Relativistic Mechanics,"Qwen__Qwen2.5-72B-Instruct             0.285714
+Qwen__Qwen2-72B-Instruct               0.428571
+mlabonne__BigQwen2.5-52B-Instruct      0.571429
+meta-llama__Llama-3.1-70B-Instruct     0.571429
+abacusai__Dracarys-72B-Instruct        0.428571
+                                         ...   
+HuggingFaceTB__SmolLM-135M-Instruct    0.571429
+google__umt5-base                      0.428571
+bigscience__bloom-560m                 0.571429
+google__switch-base-8                  0.714286
+TinyLlama__TinyLlama-1.1B-Chat-v1.0    0.285714
+Length: 302, dtype: float64",0.37629433681428287,7
+Inorganic Chemistry,"Qwen__Qwen2.5-72B-Instruct             1.0
+Qwen__Qwen2-72B-Instruct               0.0
+mlabonne__BigQwen2.5-52B-Instruct      1.0
+meta-llama__Llama-3.1-70B-Instruct     1.0
+abacusai__Dracarys-72B-Instruct        0.0
+                                      ... 
+HuggingFaceTB__SmolLM-135M-Instruct    1.0
+google__umt5-base                      1.0
+bigscience__bloom-560m                 1.0
+google__switch-base-8                  0.0
+TinyLlama__TinyLlama-1.1B-Chat-v1.0    1.0
+Length: 302, dtype: float64",0.12426347103530669,1
+Optics and Acoustics,"Qwen__Qwen2.5-72B-Instruct             1.0
+Qwen__Qwen2-72B-Instruct               0.0
+mlabonne__BigQwen2.5-52B-Instruct      1.0
+meta-llama__Llama-3.1-70B-Instruct     0.0
+abacusai__Dracarys-72B-Instruct        0.0
+                                      ... 
+HuggingFaceTB__SmolLM-135M-Instruct    1.0
+google__umt5-base                      0.0
+bigscience__bloom-560m                 1.0
+google__switch-base-8                  1.0
+TinyLlama__TinyLlama-1.1B-Chat-v1.0    1.0
+Length: 302, dtype: float64",-0.030596344223439504,1
+Condensed Matter Physics,"Qwen__Qwen2.5-72B-Instruct             1.0
+Qwen__Qwen2-72B-Instruct               1.0
+mlabonne__BigQwen2.5-52B-Instruct      1.0
+meta-llama__Llama-3.1-70B-Instruct     1.0
+abacusai__Dracarys-72B-Instruct        1.0
+                                      ... 
+HuggingFaceTB__SmolLM-135M-Instruct    0.0
+google__umt5-base                      0.0
+bigscience__bloom-560m                 0.0
+google__switch-base-8                  0.0
+TinyLlama__TinyLlama-1.1B-Chat-v1.0    0.0
+Length: 302, dtype: float64",0.32712740508033833,1
