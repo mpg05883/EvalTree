@@ -279,8 +279,15 @@ def main(dataset: Dataset, experiment: str) -> None:
 
 
 if __name__ == "__main__":
-    # Only MATH, MMLU, and DS-1000 have pre-defined subsets
-    datasets = [Dataset.MATH, Dataset.MMLU, Dataset.DS_1000]
+    datasets = [
+        Dataset.MATH,
+        Dataset.MMLU,
+        Dataset.DS_1000,
+        Dataset.BBH,
+        Dataset.GPQA_DIAMOND,
+        Dataset.MATH_LVL_5,
+        Dataset.MMLU_PRO,
+    ]
     experiment = Path(__file__).stem
     num_datasets = len(datasets)
 

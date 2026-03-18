@@ -27,22 +27,30 @@ class MetadataKey(StrEnum):
 
 
 class Dataset(StrEnum):
+    BBH = "BBH"
     CHATBOT_ARENA = "Chatbot-Arena"
     CHATBOT_ARENA_NEW = "Chatbot-Arena_NEW"
     DS_1000 = "DS-1000"
+    GPQA_DIAMOND = "GPQA-Diamond"
     MATH = "MATH"
+    MATH_LVL_5 = "MATH-Lvl-5"
     MMLU = "MMLU"
+    MMLU_PRO = "MMLU-Pro"
     WILDCHAT_10K = "WildChat10K"
 
     @property
     def pretty_name(self) -> str:
         """Properly formatted name of the dataset."""
         return {
+            Dataset.BBH: "BIG-Bench Hard",
             Dataset.CHATBOT_ARENA: "Chatbot Arena",
             Dataset.CHATBOT_ARENA_NEW: "Chatbot Arena (NEW)",
             Dataset.DS_1000: "DS-1000",
+            Dataset.GPQA_DIAMOND: "GPQA Diamond",
             Dataset.MATH: "MATH",
+            Dataset.MATH_LVL_5: "MATH Level 5",
             Dataset.MMLU: "MMLU",
+            Dataset.MMLU_PRO: "MMLU-Pro",
             Dataset.WILDCHAT_10K: "WildChat",
         }[self]
 
@@ -54,11 +62,15 @@ class Dataset(StrEnum):
         https://zhiyuan-zeng.github.io/EvalTree/
         """
         return {
+            Dataset.BBH: 5759,
             Dataset.CHATBOT_ARENA: 44230,
             Dataset.CHATBOT_ARENA_NEW: 40273,
             Dataset.DS_1000: 1000,
+            Dataset.GPQA_DIAMOND: 198,
             Dataset.MATH: 5000,
+            Dataset.MATH_LVL_5: 1324,
             Dataset.MMLU: 14042,
+            Dataset.MMLU_PRO: 12032,
             Dataset.WILDCHAT_10K: 10000,
         }[self]
 
@@ -100,9 +112,13 @@ class Dataset(StrEnum):
             )
 
         return {
+            Dataset.BBH: "subset",
             Dataset.DS_1000: MetadataKey.LIBRARY,  # Can be either "library" or "perturbation_type"
+            Dataset.GPQA_DIAMOND: "Subdomain",  # Can be either "Subdomain" or "High-level domain"
             Dataset.MATH: "subset",
+            Dataset.MATH_LVL_5: "types",
             Dataset.MMLU: "subject",
+            Dataset.MMLU_PRO: "categories",
         }[self]
 
     @property
@@ -120,7 +136,11 @@ class Dataset(StrEnum):
             )
 
         return {
+            Dataset.BBH: "subsets",
             Dataset.DS_1000: "libraries",
+            Dataset.GPQA_DIAMOND: "Subdomains",
             Dataset.MATH: "subsets",
+            Dataset.MATH_LVL_5: "types",
             Dataset.MMLU: "subjects",
+            Dataset.MMLU_PRO: "categories",
         }[self]

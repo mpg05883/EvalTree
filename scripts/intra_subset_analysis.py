@@ -453,40 +453,47 @@ def main(dataset: Dataset, experiment: str, num_trials: int, num_folds: int) -> 
     plt.close(split_halves_fig)
     logger.info(f"Saved plot to {plot_path}")
 
-    bootstrap_df = bootstrap_analysis(**shared)
-    data_name = f"bootstrap__internal_agreement__{num_models=}__{num_trials=}"
-    data_path = build_data_path(dataset, experiment, data_name)
-    bootstrap_df.to_csv(data_path, index=False)
-    logger.info(f"Saved data to {data_path}")
+    # bootstrap_df = bootstrap_analysis(**shared)
+    # data_name = f"bootstrap__internal_agreement__{num_models=}__{num_trials=}"
+    # data_path = build_data_path(dataset, experiment, data_name)
+    # bootstrap_df.to_csv(data_path, index=False)
+    # logger.info(f"Saved data to {data_path}")
 
-    bootstrap_fig = plot_bootstrap_histogram(bootstrap_df, **shared)
-    plot_name = (
-        f"bootstrap__internal_agreement__histogram__{num_models=}__{num_trials=}"
-    )
-    plot_path = build_plot_path(dataset, experiment, plot_name)
-    bootstrap_fig.savefig(plot_path)
-    plt.close(bootstrap_fig)
-    logger.info(f"Saved plot to {plot_path}")
+    # bootstrap_fig = plot_bootstrap_histogram(bootstrap_df, **shared)
+    # plot_name = (
+    #     f"bootstrap__internal_agreement__histogram__{num_models=}__{num_trials=}"
+    # )
+    # plot_path = build_plot_path(dataset, experiment, plot_name)
+    # bootstrap_fig.savefig(plot_path)
+    # plt.close(bootstrap_fig)
+    # logger.info(f"Saved plot to {plot_path}")
 
-    minibatch_df = minibatch_analysis(**shared)
-    data_name = (
-        f"minibatch__internal_agreement__{num_models=}__{num_folds=}__{num_trials=}"
-    )
-    data_path = build_data_path(dataset, experiment, data_name)
-    minibatch_df.to_csv(data_path, index=False)
-    logger.info(f"Saved data to {data_path}")
+    # minibatch_df = minibatch_analysis(**shared)
+    # data_name = (
+    #     f"minibatch__internal_agreement__{num_models=}__{num_folds=}__{num_trials=}"
+    # )
+    # data_path = build_data_path(dataset, experiment, data_name)
+    # minibatch_df.to_csv(data_path, index=False)
+    # logger.info(f"Saved data to {data_path}")
 
-    minibatch_fig = plot_minibatch_histogram(minibatch_df, **shared)
-    plot_name = f"minibatch__internal_agreement__histogram__{num_models=}__{num_folds=}__{num_trials=}"
-    plot_path = build_plot_path(dataset, experiment, plot_name)
-    minibatch_fig.savefig(plot_path)
-    plt.close(minibatch_fig)
-    logger.info(f"Saved plot to {plot_path}")
+    # minibatch_fig = plot_minibatch_histogram(minibatch_df, **shared)
+    # plot_name = f"minibatch__internal_agreement__histogram__{num_models=}__{num_folds=}__{num_trials=}"
+    # plot_path = build_plot_path(dataset, experiment, plot_name)
+    # minibatch_fig.savefig(plot_path)
+    # plt.close(minibatch_fig)
+    # logger.info(f"Saved plot to {plot_path}")
 
 
 if __name__ == "__main__":
-    # Only MATH, MMLU, and DS-1000 have pre-defined subsets
-    datasets = [Dataset.MATH, Dataset.MMLU, Dataset.DS_1000]
+    datasets = [
+        Dataset.MATH,
+        Dataset.MMLU,
+        Dataset.DS_1000,
+        Dataset.BBH,
+        Dataset.GPQA_DIAMOND,
+        Dataset.MATH_LVL_5,
+        Dataset.MMLU_PRO,
+    ]
     experiment = Path(__file__).stem
     num_trial_values = [500]
     num_fold_values = [5]

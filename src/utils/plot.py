@@ -1,4 +1,5 @@
 import math
+import random
 import textwrap
 
 import matplotlib.pyplot as plt
@@ -211,6 +212,8 @@ def plot_stripplot(
     label_fontsize: int = 12,
     title_fontsize: int = 14,
     legend_line_factor: float = 0.75,
+    num_models: int | None = 10,
+    seed: int = 42,
 ) -> Figure:
     """Plot a categorical strip plot using seaborn.
 
@@ -279,6 +282,18 @@ def plot_stripplot(
 
     # Determines which column is used to color-code the dots
     hue_col = hue if hue is not None else x
+
+    # Randomly sample a subset of models (identified by hue column) if requested
+    if num_models is not None:
+        all_models = sorted(data[hue_col].unique())
+        if len(all_models) > num_models:
+            rng = random.Random(seed)
+            sampled = set(rng.sample(all_models, num_models))
+            data = data[data[hue_col].isin(sampled)]
+            if order is not None:
+                order = [v for v in order if v in sampled]
+            if hue_order is not None:
+                hue_order = [v for v in hue_order if v in sampled]
 
     # Controls the left-to-right order of categories on the x-axis
     display_order = order if order is not None else sorted(data[x].unique())
