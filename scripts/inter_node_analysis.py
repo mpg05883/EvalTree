@@ -282,7 +282,7 @@ def plot_all_nodes_performance_stripplot(
     palette = "tab10"
     x_means = global_ranking
     x_means_label = f"Full Benchmark {dataset.metric.title()}"
-    figsize = (max(8, num_models * 1.5), 5)
+    figsize = (max(8, min(num_models, 10) * 1.5), 5)
     rotation = 30
 
     return plot_stripplot(
@@ -300,6 +300,7 @@ def plot_all_nodes_performance_stripplot(
         figsize=figsize,
         ylim=ylim,
         rotation=rotation,
+        num_models=10,
     )
 
 
@@ -363,7 +364,7 @@ def plot_per_level_performance_stripplot(
     fig, axes = plt.subplots(
         num_levels,
         1,
-        figsize=(max(8, num_models * 1.5), 4 * num_levels),
+        figsize=(max(8, min(num_models, 10) * 1.5), 4 * num_levels),
         squeeze=False,
     )
 
@@ -391,6 +392,7 @@ def plot_per_level_performance_stripplot(
             legend_fontsize=legend_fontsize,
             label_fontsize=label_fontsize,
             title_fontsize=title_fontsize,
+            num_models=10,
         )
 
     plt.suptitle(

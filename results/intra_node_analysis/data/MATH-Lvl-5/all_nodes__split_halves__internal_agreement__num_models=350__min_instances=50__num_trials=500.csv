@@ -1,0 +1,18 @@
+node,depth,mean_kendall_tau,std_kendall_tau,num_instances
+"Analyzing, optimizing, and manipulating numerical relationships through prime factorization, divisibility, and modular arithmetic.",2,0.7053205456005096,0.015996418534899234,203
+"Analyzing and applying prime factorization, divisibility, and integer properties to evaluate numerical relationships and simplify expressions.",3,0.6262946183247609,0.023180398652034508,66
+"Analyzing, optimizing, and calculating quantitative relationships through advanced techniques, statistical reasoning, combinatorial methods, and geometric principles.",2,0.7917149463445863,0.011972465302917042,255
+Analyzing and calculating probabilities through combinatorial methods and expected value reasoning.,3,0.604015399416932,0.027236018501594114,66
+"Analyzing, optimizing, and manipulating mathematical expressions and functions through algebraic techniques, geometric interpretation, and advanced problem-solving methods.",2,0.8396650336659615,0.008774498876987863,534
+"Analyzing and transforming mathematical functions and structures through trigonometric properties, vector manipulations, and complex number transformations.",3,0.5504711918688825,0.04980248980397538,53
+Analyzing and solving quadratic equations and functions through algebraic manipulation and geometric interpretation.,3,0.6821486329901114,0.018219846709721467,76
+"Applying advanced problem-solving techniques through algebraic manipulation, functional analysis, and geometric interpretation to derive, simplify, and solve mathematical equations and inequalities.",3,0.6867578380882565,0.020384089584871267,73
+"Simplifying, manipulating, and analyzing algebraic, exponential, and rational expressions through various techniques and properties.",3,0.7321192860191694,0.021269714599432207,60
+"Optimizing and manipulating mathematical expressions and relationships using inequalities, algebraic techniques, and multivariable calculus.",3,0.653725407295315,0.02268120087182931,68
+"Manipulating and solving polynomial expressions through interpolation, recurrence relations, systematic techniques, matrix operations, and trigonometric identities.",3,0.5820074308644974,0.03009376993707785,75
+"Analyzing, manipulating, and solving polynomial expressions and equations through systematic techniques, matrix operations, and trigonometric identities.",4,0.5825161341933158,0.03104471375575645,69
+"Analyzing, optimizing, and interpreting mathematical functions and their properties to determine solutions, ranges, critical points, and valid input domains.",3,0.5479111012368137,0.03831878126246335,57
+"Analyzing and applying geometric properties, relationships, and transformations across two- and three-dimensional contexts using algebraic, trigonometric, and spatial reasoning.",2,0.7806538778967599,0.012613214909778564,332
+"Analyzing and calculating geometric properties, relationships, and probabilities through various methods and representations.",3,0.653864635589103,0.03150653145261193,62
+"Analyzing and calculating geometric properties, areas, and probabilities through decomposition, algebraic manipulation, and graphical representation in coordinate systems.",4,0.6520616285529713,0.03182229426300207,54
+"Applying geometric analysis and proportional reasoning to solve problems involving lengths, areas, and relationships in polygons and triangles.",3,0.5015813184994826,0.031555886699383355,55

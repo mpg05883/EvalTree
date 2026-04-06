@@ -672,71 +672,79 @@ def main(
     plt.close(split_halves_per_level_fig)
     logger.info(f"Saved plot to {plot_path}")
 
-    bootstrap_df = bootstrap_analysis(**shared)
-    data_name = f"all_nodes__bootstrap__internal_agreement__{num_models=}__{min_instances=}__{num_trials=}"
-    data_path = build_data_path(dataset, experiment, data_name)
-    bootstrap_df.to_csv(data_path, index=False)
-    logger.info(f"Saved data to {data_path}")
+    # bootstrap_df = bootstrap_analysis(**shared)
+    # data_name = f"all_nodes__bootstrap__internal_agreement__{num_models=}__{min_instances=}__{num_trials=}"
+    # data_path = build_data_path(dataset, experiment, data_name)
+    # bootstrap_df.to_csv(data_path, index=False)
+    # logger.info(f"Saved data to {data_path}")
 
-    bootstrap_all_nodes_fig = plot_all_nodes_bootstrap_histogram(
-        bootstrap_df,
-        **shared,
-    )
-    plot_name = f"all_nodes__bootstrap__internal_agreement__histogram__{min_instances=}__{num_trials=}"
-    plot_path = build_plot_path(dataset, experiment, plot_name)
-    bootstrap_all_nodes_fig.savefig(plot_path)
-    plt.close(bootstrap_all_nodes_fig)
-    logger.info(f"Saved plot to {plot_path}")
+    # bootstrap_all_nodes_fig = plot_all_nodes_bootstrap_histogram(
+    #     bootstrap_df,
+    #     **shared,
+    # )
+    # plot_name = f"all_nodes__bootstrap__internal_agreement__histogram__{min_instances=}__{num_trials=}"
+    # plot_path = build_plot_path(dataset, experiment, plot_name)
+    # bootstrap_all_nodes_fig.savefig(plot_path)
+    # plt.close(bootstrap_all_nodes_fig)
+    # logger.info(f"Saved plot to {plot_path}")
 
-    bootstrap_per_level_fig = plot_per_level_bootstrap_stripplot(
-        bootstrap_df,
-        **shared,
-    )
-    plot_name = f"per_level__bootstrap__internal_agreement__stripplot__{min_instances=}__{num_trials=}"
-    plot_path = build_plot_path(dataset, experiment, plot_name)
-    bootstrap_per_level_fig.savefig(plot_path)
-    plt.close(bootstrap_per_level_fig)
-    logger.info(f"Saved plot to {plot_path}")
+    # bootstrap_per_level_fig = plot_per_level_bootstrap_stripplot(
+    #     bootstrap_df,
+    #     **shared,
+    # )
+    # plot_name = f"per_level__bootstrap__internal_agreement__stripplot__{min_instances=}__{num_trials=}"
+    # plot_path = build_plot_path(dataset, experiment, plot_name)
+    # bootstrap_per_level_fig.savefig(plot_path)
+    # plt.close(bootstrap_per_level_fig)
+    # logger.info(f"Saved plot to {plot_path}")
 
-    minibatch_df = minibatch_analysis(**shared)
-    data_name = f"all_nodes__minibatch__internal_agreement__{num_models=}__{min_instances=}__{num_trials=}__{num_folds=}"
-    data_path = build_data_path(dataset, experiment, data_name)
-    minibatch_df.to_csv(data_path, index=False)
-    logger.info(f"Saved data to {data_path}")
+    # minibatch_df = minibatch_analysis(**shared)
+    # data_name = f"all_nodes__minibatch__internal_agreement__{num_models=}__{min_instances=}__{num_trials=}__{num_folds=}"
+    # data_path = build_data_path(dataset, experiment, data_name)
+    # minibatch_df.to_csv(data_path, index=False)
+    # logger.info(f"Saved data to {data_path}")
 
-    minibatch_all_nodes_fig = plot_all_nodes_minibatch_histogram(
-        minibatch_df,
-        **shared,
-    )
-    plot_name = f"all_nodes__minibatch__internal_agreement__histogram__{min_instances=}__{num_trials=}__{num_folds=}"
-    plot_path = build_plot_path(dataset, experiment, plot_name)
-    minibatch_all_nodes_fig.savefig(plot_path)
-    plt.close(minibatch_all_nodes_fig)
-    logger.info(f"Saved plot to {plot_path}")
+    # minibatch_all_nodes_fig = plot_all_nodes_minibatch_histogram(
+    #     minibatch_df,
+    #     **shared,
+    # )
+    # plot_name = f"all_nodes__minibatch__internal_agreement__histogram__{min_instances=}__{num_trials=}__{num_folds=}"
+    # plot_path = build_plot_path(dataset, experiment, plot_name)
+    # minibatch_all_nodes_fig.savefig(plot_path)
+    # plt.close(minibatch_all_nodes_fig)
+    # logger.info(f"Saved plot to {plot_path}")
 
-    minibatch_per_level_fig = plot_per_level_minibatch_stripplot(
-        minibatch_df,
-        **shared,
-    )
-    plot_name = f"per_level__minibatch__internal_agreement__stripplot__{min_instances=}__{num_trials=}__{num_folds=}"
-    plot_path = build_plot_path(dataset, experiment, plot_name)
-    minibatch_per_level_fig.savefig(plot_path)
-    plt.close(minibatch_per_level_fig)
-    logger.info(f"Saved plot to {plot_path}")
+    # minibatch_per_level_fig = plot_per_level_minibatch_stripplot(
+    #     minibatch_df,
+    #     **shared,
+    # )
+    # plot_name = f"per_level__minibatch__internal_agreement__stripplot__{min_instances=}__{num_trials=}__{num_folds=}"
+    # plot_path = build_plot_path(dataset, experiment, plot_name)
+    # minibatch_per_level_fig.savefig(plot_path)
+    # plt.close(minibatch_per_level_fig)
+    # logger.info(f"Saved plot to {plot_path}")
 
-    per_node_performance_fig = plot_per_node_performance_histograms(**shared)
-    plot_name = f"per_node__performance__histograms__{min_instances=}"
-    plot_path = build_plot_path(dataset, experiment, plot_name)
-    per_node_performance_fig.savefig(plot_path)
-    plt.close(per_node_performance_fig)
-    logger.info(f"Saved plot to {plot_path}")
+    # per_node_performance_fig = plot_per_node_performance_histograms(**shared)
+    # plot_name = f"per_node__performance__histograms__{min_instances=}"
+    # plot_path = build_plot_path(dataset, experiment, plot_name)
+    # per_node_performance_fig.savefig(plot_path)
+    # plt.close(per_node_performance_fig)
+    # logger.info(f"Saved plot to {plot_path}")
 
 
 if __name__ == "__main__":
     # NOTE: We ignore the following datasets:
     # - Chatbot-Arena and Chatbot-Arena (New) don't have per-instance scores
     # - WildChat-10K only has evaluation results for two models
-    datasets = [Dataset.DS_1000, Dataset.MATH, Dataset.MMLU]
+    datasets = [
+        Dataset.DS_1000,
+        Dataset.MATH,
+        Dataset.MMLU,
+        Dataset.BBH,
+        Dataset.GPQA_DIAMOND,
+        Dataset.MMLU_PRO,
+        Dataset.MATH_LVL_5,
+    ]
     experiment = Path(__file__).stem
     num_trial_values = [500]
     num_fold_values = [5]

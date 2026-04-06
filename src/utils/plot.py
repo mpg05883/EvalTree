@@ -271,6 +271,8 @@ def plot_stripplot(
         tick_fontsize: Font size for axis tick labels.
         label_fontsize: Font size for axis labels.
         title_fontsize: Font size for the plot title.
+        num_models: Number of models to sample. If None, all models are used.
+        seed: Seed for the random number generator.
 
     Returns:
         The matplotlib Figure containing the strip plot.

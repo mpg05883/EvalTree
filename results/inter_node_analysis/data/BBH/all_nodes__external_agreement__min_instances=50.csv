@@ -1,0 +1,89 @@
+,size,depth,capability,distinction,kendall_tau
+0,517,2,Analyzing and interpreting chronological relationships and event sequences under time constraints,Interpreting chronological relationships and event sequences,0.7588342460514005
+1,250,3,Analyzing time constraints and event relationships to identify feasible options and scenarios,Feasible scenario identification,0.4519533504411038
+2,66,4,Analyzing time constraints and sequential events to identify feasible intervals,Identifying feasible intervals through sequential events,0.37561028614269665
+3,70,4,Analyzing scheduling conflicts and time constraints to identify gaps,Finding gaps in scheduling conflicts,0.49574001827246855
+4,68,5,Analyzing scheduling conflicts and time constraints,Scheduling conflict analysis,0.48622411863352655
+5,267,3,"Analyzing, calculating, and interpreting chronological relationships and date sequences with precision and accuracy.",Precise chronological analysis,0.7467790268896685
+6,58,4,Calculating relative and subsequent dates while accounting for variations and reference points.,Calculating relative dates with variations,0.735537357040156
+7,66,4,Calculating and interpreting date and time intervals with precision and accuracy,Calculating precise date intervals,0.6812898835007432
+8,244,2,"Analyzing and identifying discrepancies in translation accuracy, completeness, and numerical consistency across various contexts.",Assessing translation accuracy and consistency,0.7995080690458731
+9,59,3,Identifying and analyzing discrepancies in named entities during translation evaluations and analyses.,Named entity discrepancy identification in translations,0.20835498929468788
+10,453,2,Categorizing and analyzing objects and data through logical reasoning and defined criteria.,Categorizing objects and data through logical criteria,0.821266786273662
+11,95,3,"Categorizing, analyzing, and classifying objects based on visual attributes, color distinctions, and defined criteria.",Visual classification based on attributes and color,0.8241021256392403
+12,358,3,"Analyzing, counting, and categorizing distinct items and data through logical reasoning and specified criteria.",Data analysis and categorization through logical reasoning,0.7600874373353425
+13,77,4,Counting and categorizing distinct items based on defined classifications and attributes.,Categorizing items by classifications and attributes,0.5722253082225854
+14,63,4,Counting and categorizing distinct and discrete items accurately,Accurate counting and categorization of items,0.653123386464244
+15,70,4,Counting and aggregating distinct and discrete items accurately,Accurate counting and aggregation of items,0.5476700770040125
+16,250,2,Analyzing thematic and stylistic similarities across diverse cinematic narratives and genres,Identifying thematic similarities in cinematic narratives,0.6299611869520079
+17,115,3,Analyzing thematic and stylistic similarities across diverse cinematic works to identify connections and matching titles.,Identifying connections among cinematic works,0.6383794964921594
+18,110,4,Analyzing thematic and stylistic similarities across diverse cinematic works,Thematic and stylistic analysis of films,0.6373155971088552
+19,65,5,Analyzing thematic and stylistic similarities among films.,Analyzing similarities among films.,0.6268910904580739
+20,469,2,Interpreting nuanced language through contextual analysis and creative evaluation of humor and cultural references,Analyzing nuanced language and cultural references,0.7734132445464386
+21,173,3,Identifying and interpreting sarcasm through contextual analysis and tone evaluation in various forms of communication,Sarcasm identification through tone and context,0.6039331813752952
+22,252,3,Mastering the analysis and creative interpretation of humorous wordplay and cultural references,Humorous wordplay and cultural reference interpretation,0.7280032078809722
+23,78,4,"Identifying, analyzing, and creatively interpreting humorous wordplay and puns",Identifying and interpreting puns,0.7001270740417631
+24,54,5,Identifying and interpreting humorous wordplay in creative contexts,Identifying humorous wordplay in creative contexts,0.6772783238250193
+25,708,2,"Analyzing and interpreting spatial relationships, movements, and geometric properties through visual representation and sequential evaluation.",Interpreting spatial relationships through visual analysis,0.737821810894013
+26,115,3,"Analyzing and interpreting geometric shapes and their properties through visual representation, path analysis, and relationship identification.",Analyzing geometric shapes through path analysis,0.6451127752171598
+27,119,3,Analyzing and visualizing spatial movements and relationships to assess positional outcomes and directional attributes.,Visualizing spatial movements and relationships,0.5717051932215236
+28,54,4,Analyzing spatial movements and directional changes for accurate positional assessment and outcome evaluation.,Assessing directional changes for positional accuracy,0.46675090239057776
+29,107,3,Analyzing and calculating net displacement through spatial movements and their effects,Calculating net displacement from movements,0.4320839380719796
+30,119,3,Tracking and analyzing dynamic positional changes and movements in complex sequences and environments,Tracking dynamic positional changes,0.19365281942582532
+31,51,3,Analyzing and interpreting geometric properties to identify shapes in SVG path commands,Identifying shapes in SVG path commands,0.5007713703635147
+32,592,2,Tracking and analyzing dynamic sequential exchanges to deduce ownership outcomes and relational dynamics,Tracking dynamic exchanges for ownership and relational insights,0.161568321253732
+33,70,3,Tracking and systematically analyzing sequential partner exchanges to understand relational dynamics.,Understanding relational dynamics in exchanges,0.01821595851861648
+34,97,3,Tracking and analyzing sequential exchanges to monitor item ownership changes,Monitoring ownership changes in exchanges,-0.0754873423729081
+35,51,4,Analyzing and tracking item ownership through sequential exchanges,Item ownership analysis through exchanges,0.02818192061950949
+36,95,3,Tracking and analyzing sequential exchanges to deduce and determine outcomes,Outcome determination through exchange analysis,0.41542140868140986
+37,81,4,Tracking and analyzing sequential exchanges to determine outcomes,Determining outcomes from exchanges,0.3822249087852499
+38,226,3,Analyzing and tracking ownership through logical deduction in sequential exchanges,Logical deduction of ownership in exchanges,0.235520643108672
+39,220,4,Analyzing and deducing ownership through logical deduction in sequential exchanges,Ownership analysis through logical deduction,0.21170386617395448
+40,77,5,Analyzing and deducing ownership through logical deduction in sequential exchanges,Deducing ownership through logic,0.10582222455336648
+41,62,6,Analyzing and tracking item ownership through logical deduction in sequential exchanges,Tracking item ownership through logical deduction,0.18455304560365954
+42,112,5,Analyzing and tracking item ownership through logical deduction in sequential exchanges,Tracking item ownership logically,0.2575046886259118
+43,111,6,Analyzing and tracking item ownership through logical deduction in sequential exchanges,Item ownership analysis through logical deduction,0.26224889921309996
+44,1168,2,"Analyzing, evaluating, and deducing logical relationships and truthfulness through systematic reasoning and contextual understanding.",Evaluating logical relationships through systematic reasoning,0.813506755721722
+45,141,3,"Evaluating and analyzing logical expressions through systematic assessment of truth values, negation, and simplification.",Analyzing truth values and simplification of expressions,0.6926672787140288
+46,156,3,Evaluating contextual plausibility and coherence through comprehensive understanding and logical reasoning.,Assessing contextual plausibility and coherence,0.5959248450639056
+47,68,4,evaluating the plausibility of statements through contextual knowledge and logical reasoning,Evaluating statement plausibility through contextual knowledge,0.4907727896059333
+48,67,5,Evaluating the plausibility of statements through contextual knowledge and logical reasoning.,Evaluating statements with contextual knowledge,0.47565230196661074
+49,178,3,Analyzing and evaluating logical relationships and quantitative information to deduce valid conclusions and identify inconsistencies through deductive reasoning.,Deducing conclusions from logical relationships and data,0.4545172795082486
+50,188,3,"Analyzing complex decision-making scenarios to evaluate intentions, outcomes, and ethical implications through causal and conditional relationships.",Evaluating decision-making scenarios and ethics,0.6431242062455574
+51,154,4,"Analyzing and evaluating complex causal and conditional relationships to discern intentions, responsibilities, and implications across diverse scenarios.",Causal analysis of intentions and responsibilities,0.6007815995791557
+52,107,3,Evaluating and applying Boolean algebra principles through systematic analysis of logical expressions and operations,Applying Boolean algebra to logical expressions,0.6762034749001278
+53,159,3,"Analyzing logical relationships, consistency, and underlying meanings in statements",Analyzing logical relationships and meanings,0.39705518553945723
+54,101,4,Analyzing and understanding logical relationships and interdependencies among statements,Understanding interdependencies in statements,0.10210450023378849
+55,99,5,Analyzing and comprehensively understanding logical statements and their interdependencies,Understanding logical statements and interdependencies,0.04209793890582663
+56,54,6,Analyzing logical statements and their interdependencies comprehensively,Comprehensive analysis of logical statements,0.11001519113936452
+57,86,3,Analyzing and deducing truthfulness through systematic reasoning,Deducing truthfulness through systematic reasoning,-0.032455483200862355
+58,82,4,Analyzing and deducing truth values through systematic and deductive reasoning,Deductive truth value analysis,-0.030112601278661895
+59,70,5,Analyzing and deducing truth values through systematic reasoning,Systematic truth value analysis,-0.11338935115159851
+60,109,3,"Analyzing and evaluating logical structures to identify inconsistencies, fallacies, and contradictions in reasoning.",Identifying inconsistencies and fallacies in reasoning,-0.11229509519967597
+61,507,2,Analyzing and applying linguistic structures for clarity and effective communication,Applying linguistic structures for effective communication,0.7105726961084287
+62,254,3,Analyzing and applying grammatical rules for adjective order and modifiers in English language structure.,Grammatical rules for adjective order and modifiers,0.5786613059548527
+63,224,4,Applying the rules of adjective order in English grammar,Applying adjective order rules,0.5824017920301007
+64,56,5,Analyzing and applying the rules of adjective order in English grammar,Understanding adjective hierarchy,0.5265982778657826
+65,55,6,Analyzing and applying the rules of adjective order in English grammar,Analyzing adjective order rules,0.5197034885443893
+66,129,5,Analyzing and applying the rules of adjective order in English grammar,Applying adjective order rules,0.585276377946147
+67,253,3,Analyzing pronoun antecedents and contextual elements for clarity and effective referential identification,Pronoun antecedent analysis for clear reference,0.6826787399987421
+68,851,2,Analyzing and synthesizing complex relationships among diverse and ordered data sets.,Analyzing complex relationships in diverse data sets,0.86133600692242
+69,659,3,"Analyzing and deducing logical, spatial, and sequential relationships among ordered and ranked data sets and entities.",Logical relationships in ordered data sets,0.8422497987736122
+70,89,4,"Analyzing logical relationships and deducing values among sequentially, ranked, and ordered items",Deducing values among ranked items,0.7112289987319025
+71,71,5,Analyzing logical relationships among ordered items,Analyzing relationships among ordered items,0.7031705273509234
+72,59,6,Analyzing logical relationships among ordered items,Evaluating dependencies in order,0.715264115555388
+73,96,4,Analyzing spatial relationships and logical sequences among objects to identify relative positions and arrangements.,Identifying relative positions among objects,0.766117675688583
+74,80,5,Analyzing logical relationships and spatial arrangements among objects,Analyzing logical relationships among objects,0.7311078650413163
+75,79,6,Analyzing logical relationships and spatial arrangements among objects,Analyzing logical relationships among objects,0.7362438502040469
+76,60,7,Analyzing logical relationships and spatial arrangements among objects,Analyzing logical relationships,0.7414286857681632
+77,51,8,Analyzing logical relationships and spatial arrangements among objects,Analyzing logical relationships,0.7244147709870586
+78,68,4,"Analyzing and deducing logical relationships, rankings, and positional arrangements within ordered sets and sequences",Deducing logical relationships in ordered sets,0.72380140664569
+79,85,4,Analyzing spatial relationships and logical sequences among objects in a sequence.,Analyzing spatial sequences among objects,0.7552581393264669
+80,73,5,Analyzing spatial relationships and logical sequences,Analyzing spatial relationships and sequences,0.7604133789329229
+81,111,4,Analyzing spatial and logical relationships among objects and their arrangements,Analyzing spatial arrangements of objects,0.7205842376930978
+82,98,5,Analyzing logical and spatial relationships among objects and their arrangements,Analyzing logical and spatial relationships,0.6868113213960619
+83,97,6,Analyzing logical and spatial relationships among objects,Analyzing logical relationships among objects,0.6903517958534601
+84,95,7,Analyzing logical relationships and spatial arrangements among objects,Analyzing logical relationships in spatial contexts,0.6834491462827148
+85,64,8,Analyzing logical relationships and spatial arrangements among objects,Analyzing logical relationships,0.6825578912123249
+86,97,4,Analyzing logical and hierarchical relationships among ordered and sequential elements,Analyzing logical and hierarchical relationships,0.7796511515268085
+87,192,3,Analyzing and synthesizing comparative relationships among diverse data sets to extract insights and evaluate connections based on multiple criteria.,Comparative insights from diverse data sets,0.8401377456104259

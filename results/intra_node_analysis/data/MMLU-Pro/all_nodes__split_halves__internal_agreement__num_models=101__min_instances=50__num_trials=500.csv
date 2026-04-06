@@ -1,0 +1,215 @@
+node,depth,mean_kendall_tau,std_kendall_tau,num_instances
+Employing advanced analytical reasoning and quantitative techniques for complex problem-solving and decision-making across scientific domains.,2,0.9172438786981412,0.012324853201562529,5093
+Analyzing and mastering complex thermodynamic systems and advanced analytical techniques for evaluating chemical properties and reaction dynamics.,3,0.8625437765496068,0.016478374689159334,1401
+Analyzing and optimizing complex thermodynamic systems and molecular interactions.,4,0.8585490579798921,0.01781712773254037,934
+Evaluating and optimizing molecular behavior and energy changes through advanced thermodynamic analysis.,5,0.8369511344516115,0.018947546074109017,723
+Analyzing and applying advanced thermodynamic and gas laws to evaluate molecular behavior and energy changes in complex systems.,6,0.7246833559395395,0.030189116914246146,173
+"Analyzing and applying gas laws to evaluate relationships among pressure, volume, temperature, and gas properties in both ideal and non-ideal conditions.",7,0.5344392040061813,0.05901864906743893,50
+Applying advanced thermodynamic principles to analyze and quantify gas behavior and energy changes in complex systems.,7,0.6489051873882411,0.036355063300430326,93
+Optimizing energy efficiency through advanced thermodynamic analysis and evaluation of molecular behavior and phase transitions in dynamic systems.,6,0.8146835251288724,0.02293429095654932,550
+"Applying advanced thermodynamic principles and analytical techniques to optimize energy efficiency, analyze temperature relationships, and evaluate material behavior in dynamic systems.",7,0.762531404356556,0.02918844845076847,230
+Integrating advanced thermodynamic analysis and heat transfer evaluation to optimize thermal performance and energy efficiency across various systems.,8,0.5281939236639726,0.05742164131778507,52
+Applying advanced thermodynamic principles and heat transfer analysis to optimize energy transfer and system performance in thermal and fluid dynamics.,8,0.6747553889750154,0.04172701292109145,81
+"Applying advanced thermodynamic analysis and principles to evaluate energy transformations, molecular behavior, reaction kinetics, and phase transitions across various systems.",7,0.7474960096928015,0.02822146037554363,320
+"Analyzing and applying thermodynamic principles to evaluate reaction kinetics, equilibrium states, and energy transformations.",8,0.4023759425788045,0.07069805567931854,55
+Applying advanced thermodynamic analysis to evaluate phase transitions and fluid properties in complex multi-component systems.,8,0.5702050840894543,0.05494685105454863,55
+"Applying advanced thermodynamic principles to analyze, calculate, and evaluate phase transitions, energy changes, and properties in fluid systems under varying conditions.",9,0.5481327069884063,0.05624690103567799,52
+"Applying advanced thermodynamic analysis to evaluate energy relationships, transformations, and properties in various systems.",8,0.6178162909820569,0.04439293411221107,72
+Mastering advanced fluid dynamics and thermodynamics for comprehensive analysis and optimization of transport phenomena and energy exchange in complex systems.,5,0.789383880455869,0.02777307830729469,211
+Applying advanced principles of heat transfer and fluid dynamics for optimizing thermal energy exchange and transformations.,6,0.6378951869441373,0.046412768653155655,56
+"Mastering advanced analytical and mathematical techniques for evaluating chemical properties, reaction dynamics, and thermodynamic behaviors across diverse contexts.",4,0.7841535465647835,0.026460329845341354,467
+Analyzing chemical equilibria and calculating pH in aqueous solutions.,5,0.47616018384076636,0.07100914348241551,65
+"Evaluating and applying advanced kinetic, thermodynamic, and stoichiometric principles to analyze reaction dynamics and predict outcomes.",5,0.6310942716326086,0.037626821955519085,80
+Applying advanced stoichiometric analysis and thermodynamic principles to solve complex quantitative problems in chemical contexts.,5,0.5873675300657066,0.04629924159490732,105
+"Mastering advanced analytical and mathematical techniques for evaluating gas behavior, phase transitions, and reaction dynamics in complex physical chemistry systems.",5,0.5252601921963598,0.057611051993060505,66
+"Employing advanced analytical reasoning and mathematical techniques to evaluate, interpret, and optimize complex systems across multiple scientific domains.",3,0.885805293439847,0.014235828138527853,1794
+Mastering advanced analytical reasoning and mathematical techniques for interpreting and optimizing complex optical phenomena.,4,0.6932042574730236,0.03403533799314223,215
+Analyzing and optimizing optical properties through advanced mathematical and geometric reasoning.,5,0.6448109487043532,0.04364111355568341,91
+Analyzing and calculating optical properties through advanced mathematical and geometric reasoning.,6,0.5110131991627485,0.05828094518384336,58
+Analyzing and interpreting complex optical phenomena through advanced mathematical techniques and principles.,5,0.5022014509850962,0.05461831598033683,92
+Mastering advanced optical analysis and application of mathematical principles to evaluate and understand the behavior of polarized light in anisotropic materials.,6,0.39007370611700776,0.07117114320519345,54
+Employing advanced analytical and mathematical reasoning for complex system evaluation and dynamic modeling.,4,0.7739700132210978,0.02374973998777274,286
+"Employing advanced mathematical reasoning and techniques for complex analysis, modeling, and interpretation of dynamic systems and functions across various mathematical domains.",5,0.6881348597221432,0.037602881742862956,123
+Integrating and applying advanced analytical and mathematical techniques to model and solve complex dynamic systems.,6,0.5458072036372242,0.04866141465792532,50
+Mastering advanced analytical techniques for evaluating complex systems through mathematical and physical principles.,5,0.741904765354164,0.029910523240897203,163
+"Mastering advanced analytical techniques for optimizing and evaluating complex systems across mathematical, physical, and communication domains.",6,0.583562061950207,0.045743317236228986,70
+Integrating advanced mathematical analysis and principles of physics to evaluate and interpret complex wave phenomena and dynamic behaviors in oscillatory systems.,6,0.6951920529868699,0.035083842521413874,93
+Integrating advanced analytical reasoning and techniques to evaluate and interpret complex scientific data across multiple domains.,4,0.8003939882432217,0.023642502756369237,393
+Integrating advanced analytical reasoning and precise measurement techniques for evaluating complex physical systems and scientific data.,5,0.6232029198414952,0.04745671730397178,89
+Integrating advanced analytical techniques to evaluate energy dynamics and particle interactions in complex physical systems.,6,0.4831405633204805,0.05878186809291624,57
+Integrating and interpreting complex scientific data through advanced analytical techniques.,5,0.7233777986692573,0.03194878937558458,84
+"Analyzing and integrating complex interactions of energy, atomic structures, and quantum principles in advanced scientific systems.",6,0.7053380924267231,0.03245998923802137,65
+Applying advanced analytical reasoning to interpret complex physical phenomena and interactions across various scientific domains.,5,0.5002197180126191,0.055458536689313845,53
+Applying advanced quantum mechanics to analyze and solve complex atomic and molecular problems through detailed calculations and evaluations.,5,0.5619136072209259,0.052533779008835504,121
+Analyzing and applying advanced quantum mechanics to solve complex problems in atomic and molecular systems.,6,0.5406412384708306,0.05388571428108615,100
+Analyzing and applying advanced quantum mechanics to interpret atomic systems and calculate energy properties.,7,0.45683474657917267,0.06562572527103738,82
+Mastering advanced analysis and application of electromagnetic principles and mathematical techniques in evaluating and optimizing complex energy systems.,4,0.7806042015227612,0.02516633960437749,405
+"Mastering advanced analysis and optimization of electrical systems through deep reasoning and expert-level application of electromagnetic principles, circuit dynamics, and performance metrics.",5,0.7486563584493329,0.028120602057236044,221
+analyzing and applying advanced electromagnetic principles and mathematical techniques to evaluate complex interactions and transformations in energy systems,5,0.6532825601259096,0.03845648833829486,184
+Applying advanced analytical techniques to evaluate and calculate complex electrostatic and electrochemical interactions.,6,0.5800514065618371,0.04452980049937484,127
+Analyzing and applying advanced principles of electrostatics to evaluate interactions and fields in complex systems.,7,0.5414319683045963,0.05678652539664175,95
+"Analyzing and applying advanced electrostatic principles to evaluate forces, charge distributions, and interactions in complex systems.",8,0.5380436599078186,0.047252431107490916,60
+Mastering advanced analytical reasoning and mathematical modeling to evaluate and optimize complex dynamic systems across various physical domains.,4,0.796991339812786,0.021936409677495317,495
+Applying advanced analytical reasoning and mathematical techniques to solve complex biomechanical and dynamic motion problems.,5,0.5302653937485636,0.05214833062040029,73
+Mastering the analysis and application of advanced mathematical principles and physical laws in rotational dynamics and circular motion to solve complex problems.,5,0.49428099349005583,0.058521298709140177,55
+Employing advanced analytical reasoning and mathematical modeling to solve complex physical problems and analyze dynamic systems.,5,0.5585892315035458,0.05587654872869976,76
+"Analyzing and applying advanced principles of physics to evaluate forces, motion, energy interactions, and oscillatory behavior in dynamic systems.",5,0.5269794444402055,0.05624430061019613,59
+Mastering advanced gravitational physics and mechanics for analyzing celestial motion and energy transformations.,5,0.5450715836772665,0.059471955861159234,52
+Mastering advanced analytical and quantitative reasoning for complex problem-solving and informed decision-making.,3,0.8653386711572039,0.01358176391025294,1898
+Mastering advanced analytical and mathematical techniques for complex problem-solving and decision-making.,4,0.7771798341460142,0.026518908461417308,344
+Mastering advanced mathematical and statistical reasoning for complex analysis and decision-making.,5,0.7343123876801423,0.029445010613672298,178
+Mastering advanced probabilistic reasoning and statistical analysis for complex decision-making and analyzing probabilities of independent events using conditional principles.,6,0.6305651221842502,0.0437013654176961,81
+Mastering advanced probabilistic reasoning and statistical analysis for complex decision-making.,7,0.6121405872507005,0.04175542638605136,74
+Analyzing and optimizing complex probabilistic models through advanced mathematical and statistical reasoning.,6,0.633737319459457,0.043006276489166446,87
+"Employing advanced mathematical and statistical reasoning to analyze, evaluate, and optimize complex probabilistic models and spatial relationships.",7,0.6015051203668229,0.04944594944974389,77
+Employing advanced statistical reasoning and probabilistic analysis to evaluate complex stochastic processes and optimize outcomes.,8,0.5654725753409036,0.05247786776110498,55
+Mastering advanced analytical techniques for complex data analysis and statistical reasoning in decision-making and performance optimization.,5,0.6857158853068527,0.0371469929528628,96
+Mastering advanced analytical and mathematical reasoning for complex problem-solving and quantitative analysis across diverse contexts.,4,0.8262138743350651,0.02130714680850236,796
+"Mastering advanced mathematical reasoning and problem-solving techniques through systematic analysis, combinatorial reasoning, and efficient numerical manipulation.",5,0.668965208901252,0.03858444724218875,126
+Mastering advanced quantitative reasoning and precise mathematical analysis for complex problem-solving across dynamic and multidimensional contexts.,5,0.7310697384830634,0.030291291094249568,229
+"Mastering advanced mathematical techniques for deep analytical reasoning, function evaluation, and problem-solving across various contexts.",5,0.713715717335702,0.0341502918522261,215
+Mastering advanced mathematical techniques for evaluating and optimizing multivariable functions and analyzing their behavior through derivatives.,6,0.42736801613282444,0.059416783217623996,56
+Mastering advanced calculus and complex analysis techniques for evaluating and optimizing multivariable functions and geometric properties.,7,0.4340340476352352,0.059008100293034584,50
+"Mastering advanced analytical, mathematical, and geometric reasoning for complex problem-solving and spatial optimization.",5,0.7289815348787455,0.03109487008282864,226
+Mastering advanced analytical and mathematical reasoning for complex problem-solving and strategic insight derivation.,6,0.7064523427869926,0.030412711814874316,174
+Mastering advanced mathematical reasoning and problem-solving through algebraic manipulation and expression evaluation.,7,0.6399798459619628,0.03877206315913516,117
+Mastering advanced analytical and mathematical reasoning for complex problem-solving and strategic insight derivation.,7,0.6470651963581769,0.042873274466918576,57
+Employing advanced mathematical and geometric reasoning to analyze and optimize complex spatial relationships.,6,0.47728191663385827,0.0581740724547407,52
+Mastering advanced financial analysis and quantitative modeling for informed decision-making and resource optimization.,4,0.8231075898628838,0.02073458050778833,758
+Evaluating and mastering complex financial analysis and modeling techniques for informed decision-making.,5,0.6311173682192687,0.041385531845694344,162
+Mastering advanced financial analysis and modeling techniques for comprehensive investment evaluation and decision-making.,6,0.5756832126138147,0.05207807378410278,117
+Analyzing and calculating complex quantitative and financial data for informed decision-making and resource optimization.,5,0.6364451858590942,0.045299019205709064,168
+Analyzing and optimizing financial metrics and resource allocation through advanced quantitative techniques.,5,0.7119423207022767,0.03523637835043098,208
+Calculating and analyzing financial metrics through advanced modeling and deep reasoning techniques.,5,0.7791513227613898,0.028330533553725484,191
+"Integrating, analyzing, and synthesizing complex information across diverse domains for informed decision-making and expert-level reasoning.",2,0.9375233992393394,0.008892663204196157,6939
+"Integrating and synthesizing complex data across psychological, physiological, cognitive, anatomical, and nutritional domains for informed decision-making and expert assessment.",3,0.905657619830193,0.010628342024166569,777
+"Analyzing and synthesizing complex cognitive, psychological, and empirical data across diverse contexts and domains.",4,0.7584076751428015,0.0241504077723351,66
+Evaluating and implementing evidence-based decision-making and safety measures in complex healthcare and emergency contexts.,4,0.7515086067438945,0.027374421250980503,86
+Analyzing and synthesizing clinical presentations and diagnostic data for accurate diagnosis and effective intervention across diverse medical conditions.,4,0.8431355659466185,0.018560366674952804,173
+Analyzing and synthesizing complex physiological and psychological interactions across diverse systems and conditions for comprehensive assessment and understanding.,4,0.7949796785081232,0.021707624521911776,80
+Integrating and analyzing complex psychological and behavioral information for informed assessment and decision-making.,4,0.7691355799309412,0.021498521608742882,108
+Analyzing and synthesizing complex anatomical and neurobiological information for expert clinical assessment and decision-making.,4,0.7830832593047363,0.024252275566907056,101
+Analyzing and applying complex anatomical knowledge for expert assessment and decision-making in clinical contexts.,5,0.6591461175718282,0.037595005650828725,54
+Integrating and analyzing complex health and nutritional data for personalized interventions and comprehensive risk assessments.,4,0.7658843119892336,0.02785924139946102,89
+Integrating and analyzing complex sensory information for adaptive decision-making and expert-level evaluation across behavioral and neurophysiological contexts.,4,0.8026612779102295,0.018365131751762482,74
+"Engaging in interdisciplinary analysis and synthesis of complex ethical, cultural, historical, and socio-political dynamics for informed decision-making and critical evaluation.",3,0.9081563339232308,0.011355527969131547,1385
+"Analyzing and synthesizing interdisciplinary cultural, historical, and philosophical contexts for critical evaluation and interpretation of societal dynamics.",4,0.8483774201191714,0.017930844655475797,287
+"Analyzing and synthesizing evidence to evaluate technological, cultural, and ecological developments across historical and prehistoric contexts.",5,0.7174045422501488,0.02971691123702094,55
+Analyzing and synthesizing interdisciplinary historical and cultural knowledge through critical evaluation and contextual interpretation.,5,0.7945048357389405,0.02201799988641283,92
+"analyzing and synthesizing complex historical, cultural, and philosophical contexts for deep insight and evaluation of societal dynamics and knowledge access",5,0.6981556785840002,0.027608696155024995,63
+"Engaging in complex ethical evaluation and critical synthesis of philosophical, theological, and historical arguments for informed decision-making.",4,0.8372242243923644,0.01949109671165923,327
+Evaluating and applying complex ethical frameworks for nuanced moral reasoning and decision-making across diverse contexts.,5,0.8032985555173071,0.02134118876430359,146
+Analyzing and evaluating complex ethical frameworks and implications for nuanced moral reasoning and decision-making across diverse contexts.,6,0.7815839018649613,0.02250733998078661,114
+Analyzing and evaluating complex ethical frameworks for nuanced moral reasoning and decision-making through deep reasoning and emotional insight.,7,0.7666732034401044,0.025116914210013472,94
+Analyzing and evaluating complex ethical frameworks and human rights principles for nuanced moral reasoning and decision-making.,8,0.7293864574731768,0.031761902100899575,54
+Analyzing and evaluating complex ethical frameworks and arguments for nuanced moral reasoning and decision-making.,9,0.7151758541677454,0.033187219556962785,52
+"Analyzing and synthesizing complex philosophical, theological, and historical arguments for critical evaluation and informed reasoning.",5,0.7854750011020223,0.024627337033692288,181
+"Analyzing and synthesizing complex arguments and concepts across philosophical, theological, and historical contexts for critical understanding and informed reasoning.",6,0.7729832435192218,0.025517124837490048,160
+"Integrating and analyzing complex systems, frameworks, and dynamics for informed decision-making and effective reasoning across diverse contexts.",4,0.8766419825387299,0.01336043085341329,534
+Analyzing interpersonal dynamics and psychological research to enhance understanding and decision-making.,5,0.7338453534674566,0.026349519021113817,55
+Analyzing and synthesizing complex interdisciplinary frameworks for informed decision-making and contextual evaluation.,5,0.7663891656347136,0.022567560958674956,113
+Analyzing and evaluating complex frameworks and methodologies for strategic insights and contextual understanding across diverse domains.,5,0.7365165533183146,0.028893522586071644,59
+Evaluating and integrating complex systems and stakeholder dynamics for informed decision-making and sustainable outcomes.,5,0.7519004840224851,0.024284114830746887,95
+Evaluating and analyzing complex systems and dynamics for informed decision-making and effective collaboration.,6,0.7502692333879345,0.02401841199280919,78
+Analyzing and optimizing complex organizational dynamics for informed decision-making and collaborative problem-solving.,7,0.7406672496486295,0.0255746882836527,68
+Analyzing complex dynamics for informed decision-making and collaborative problem-solving.,8,0.7416238608452543,0.02711396699189036,61
+Evaluating and synthesizing complex cognitive and perceptual frameworks for informed reasoning across diverse contexts.,5,0.7878677981771434,0.0212913754531683,85
+"Analyzing and synthesizing complex cognitive, psychological, and cultural frameworks for informed reasoning and evaluation across diverse contexts.",6,0.7866445772708719,0.02085278668788513,81
+Analyzing and synthesizing complex communication dynamics and relationships for effective reasoning and audience engagement.,5,0.6986736804373619,0.03266444350161705,63
+Analyzing and synthesizing psychological theories to evaluate and enhance behavioral patterns and motivational dynamics in organizational contexts.,5,0.7818135345607011,0.022259993787600563,55
+"Analyzing and synthesizing complex socio-political, historical, and geopolitical dynamics for informed decision-making and strategic insights.",4,0.8228466901632485,0.01734153881905536,237
+Analyzing and synthesizing complex historical and sociopolitical contexts for informed governance and civic engagement.,5,0.7460986420118756,0.02596390477754132,107
+"Analyzing and interpreting historical and political contexts to evaluate their implications for governance, social policy, and political dynamics.",6,0.6693577975505672,0.034973520525019716,51
+"Analyzing and synthesizing complex geopolitical, socio-political, and historical dynamics to derive strategic insights and evaluate security implications.",5,0.739976801578023,0.027552105408613928,87
+"Analyzing and synthesizing complex historical and geopolitical contexts to derive strategic insights on economic motivations, power dynamics, and national security implications.",6,0.7113667828879318,0.031139111645885727,57
+Integrating and analyzing complex data for informed decision-making and expert-level reasoning.,3,0.8855119634840647,0.01237473757688578,760
+Analyzing and interpreting complex data for informed decision-making and predictive insights.,4,0.8798393343183201,0.01427402478234368,444
+Evaluating and analyzing complex data and methodologies for informed decision-making and optimized performance across diverse fields.,5,0.8321373123650443,0.016873629018012638,188
+Engaging in advanced statistical analysis and interpretation of complex data for informed decision-making and predictive insights.,5,0.8370055617009431,0.01920888758287211,256
+Engaging in advanced quantitative analysis and interpretation of complex data for informed decision-making and system stability.,6,0.8099204356188098,0.021578153282541576,108
+Engaging in comprehensive quantitative analysis and interpretation of statistical data for informed decision-making and performance optimization.,7,0.7400420982868632,0.029572503463774467,62
+Evaluating and analyzing complex statistical methodologies for informed decision-making and accurate data interpretation.,6,0.7686234448189297,0.02664565067083762,91
+Integrating and analyzing complex data to enhance decision-making and expert-level reasoning across diverse domains.,4,0.8459062055795155,0.016467131548336816,316
+Analyzing and synthesizing complex data to inform decision-making and assess impacts across diverse domains.,5,0.7918532230356768,0.021365090111355726,208
+Analyzing and synthesizing complex data to derive insights and inform decision-making across diverse domains.,6,0.7582785643239158,0.024135425131014,145
+Analyzing and interpreting complex demographic and statistical data to derive insights and assess trends across various domains.,7,0.6884599295277604,0.034930796071869157,102
+Analyzing and interpreting complex data to assess public health impacts and inform agricultural practices.,6,0.6959642929595358,0.03643045524577525,63
+Analyzing and interpreting complex data to inform public health and agricultural practices.,7,0.6822352897636245,0.035009800326781,62
+"Analyzing and interpreting complex health and demographic data to assess trends, outcomes, and risk factors for population health.",8,0.6647610644615435,0.041596877992669305,52
+Integrating and analyzing complex data across diverse domains to derive insights and enhance expert-level reasoning.,5,0.8029957592517565,0.0200709839032223,108
+Analyzing and optimizing complex economic data and strategies for informed decision-making and resource allocation.,3,0.8859307553855469,0.012293438838641016,963
+Conducting comprehensive financial analysis and strategic interpretation for informed decision-making and optimization.,4,0.7799196484325409,0.0206907314359976,170
+Conducting in-depth financial analysis and strategic evaluation to interpret complex business structures and inform decision-making.,5,0.7707067940192124,0.02151413665790495,118
+Conducting comprehensive financial analysis and strategic evaluation for informed decision-making and risk management.,6,0.7661571964535726,0.02303282739638025,114
+"Analyzing and evaluating complex economic data, metrics, theories, and interrelations for informed decision-making and strategic assessment of market dynamics and policies.",4,0.8665456880601019,0.013480686829443632,511
+"Analyzing and evaluating complex economic theories, systems, and models for informed decision-making and strategic application in diverse contexts.",5,0.8305453576644034,0.01560629064845193,166
+"Analyzing and interpreting complex economic data to assess trends, relationships, and dynamics across various indicators and markets.",5,0.8072766642715948,0.01845478911220092,140
+"Analyzing and interpreting economic data to assess trends and stability in defense, energy investments, and macroeconomic indicators.",6,0.7128697722250303,0.031171981455150682,50
+"Analyzing and evaluating the complex interactions between economic policies, market dynamics, and behavioral influences on macroeconomic stability.",5,0.7805522563916284,0.022952821455383996,92
+Analyzing and evaluating the impacts of economic and fiscal policies on market dynamics and macroeconomic stability.,6,0.7103572373337766,0.03445814468377471,51
+"Analyzing and evaluating complex interrelations among economic, socio-cultural, and historical systems to assess policies, market dynamics, and geopolitical impacts.",5,0.7730353132702039,0.023526333852115566,83
+Analyzing and optimizing economic strategies for informed decision-making and resource allocation.,4,0.8493749324816542,0.014088584215125623,282
+Analyzing and synthesizing market dynamics and economic strategies for informed decision-making and enhanced consumer understanding.,5,0.8224069589486609,0.016144481848183317,170
+Analyzing and optimizing economic systems for informed decision-making and resource allocation through data-driven insights.,5,0.7856078258160123,0.022163188730367482,112
+"Analyzing and optimizing economic systems through data-driven insights, resource allocation, and strategic decision-making.",6,0.7715122334585551,0.021352033094885002,86
+Analyzing and applying complex legal frameworks and principles for informed decision-making and compliance across diverse contexts.,3,0.8845468904643159,0.01367435139042466,1166
+Analyzing and interpreting complex legal principles and frameworks in property law for informed decision-making and effective ownership assessment.,4,0.6785537874318995,0.03385887650309682,143
+Analyzing and interpreting complex legal frameworks and principles for informed decision-making and advocacy across diverse contexts.,4,0.856200408384849,0.018056241668492363,410
+"Analyzing and interpreting complex legal frameworks and historical precedents to evaluate implications for rights, duties, and policies across various domains.",5,0.6270145273336702,0.05011503928651942,53
+"Analyzing and evaluating constitutional law principles to assess voting rights, due process implications, and compliance across diverse judicial contexts.",5,0.7463965204544163,0.03198950814420172,92
+"Analyzing and evaluating constitutional law principles and legal frameworks to assess rights, compliance, and implications across diverse judicial contexts.",6,0.7331697758918061,0.033858608090334585,87
+Analyzing and interpreting complex legal frameworks and principles for informed decision-making and effective advocacy across diverse contexts.,5,0.732238759407148,0.028052493038853342,134
+Analyzing and interpreting complex legal frameworks and principles for informed decision-making and effective advocacy across diverse contexts.,6,0.6669833400284941,0.03548868177799708,71
+Analyzing and interpreting complex legal and contractual frameworks for compliance and validity across diverse contexts.,4,0.740257428632079,0.02909849255478507,196
+Analyzing and interpreting complex legal and contractual obligations across various contexts and transactions.,5,0.7411241672804869,0.027186799849953088,178
+Evaluating and analyzing legal complexities and obligations in contractual agreements and health and safety contexts.,6,0.6362968307814506,0.04028261739304315,57
+Analyzing and evaluating legal and ethical complexities in contractual agreements and obligations.,7,0.6297449753195639,0.03984902096481499,56
+Evaluating and applying advanced legal reasoning and expert evidence in complex judicial contexts.,4,0.6984499529442807,0.03529011887211867,167
+Evaluating and applying expert evidence for informed legal reasoning.,5,0.6407984375201897,0.04231297606290987,67
+Evaluating and applying standards for the credibility and relevance of evidence in legal reasoning contexts.,6,0.5953161034288711,0.044494344170497524,62
+applying advanced legal reasoning and procedural analysis in complex judicial contexts,5,0.5767336373170604,0.04958228633627686,100
+applying advanced legal reasoning and ethical evaluation to analyze evidentiary standards in complex judicial contexts,6,0.5485164079472724,0.05574050032050276,87
+Evaluating and analyzing legal principles and evidentiary standards for informed reasoning in complex judicial contexts.,7,0.49366534216027275,0.06701406472603165,64
+Evaluating and analyzing legal standards and evidentiary principles for informed reasoning in judicial contexts,8,0.4941092271986216,0.06738680236836356,60
+Analyzing and applying complex legal and ethical principles for informed decision-making across diverse contexts.,4,0.723221470651073,0.03146081790218325,250
+"Analyzing and applying complex legal principles related to culpability, intent, consent, and justifiable use of force across various contexts.",5,0.5855455926249693,0.04667403813443431,111
+Analyzing and applying complex legal principles to assess culpability and intent in criminal cases.,6,0.5527866684034765,0.048045982296829826,79
+"Analyzing and applying complex legal principles to assess culpability, intent, and jurisdictional implications in challenging cases.",7,0.5311596836548106,0.054391843806641395,73
+Evaluating and analyzing complex legal principles and ethical responsibilities for informed decision-making across diverse contexts.,5,0.6710645456869235,0.03885283591356119,139
+Evaluating and analyzing complex legal principles and ethical responsibilities across diverse contexts.,6,0.6454251196505817,0.04040235143008157,112
+Evaluating and interpreting complex legal principles and liability scenarios across various contexts.,7,0.5235490052216856,0.05267912885353397,86
+"Analyzing, synthesizing, and optimizing complex systems and information through advanced reasoning and critical evaluation.",3,0.8793057906032623,0.013009752289039079,897
+Analyzing and evaluating complex mathematical properties and relationships for advanced reasoning and problem-solving.,4,0.6473688323147291,0.036117111178767425,98
+Analyzing and synthesizing complex information and advanced principles for critical reasoning and informed decision-making across multiple domains.,4,0.7734037373830692,0.020851954670917352,69
+Analyzing and synthesizing complex information and frameworks for informed decision-making and critical reasoning.,5,0.7544601234299733,0.026355306477664313,54
+Optimizing and securing complex network systems through advanced analysis and implementation of cryptographic principles.,4,0.6631514451242061,0.030189857671905154,50
+"Analyzing, optimizing, and synthesizing complex systems and algorithms for advanced problem-solving and performance evaluation.",4,0.8191190890985676,0.018210640768543496,127
+"Employing advanced combinatorial reasoning, set theory, and probabilistic analysis to evaluate and optimize complex configurations and relationships.",4,0.36395396237915373,0.0698962182100793,62
+Integrating advanced analytical techniques for evaluating complex systems and chemical interactions.,4,0.7224484004218835,0.030375308313065,59
+"Analyzing and optimizing complex systems, structures, and relationships for informed reasoning and interpretation across diverse contexts.",4,0.8155566690379196,0.019184397850600735,137
+Analyzing complex systems and specialized terminology for informed problem-solving and historical categorization.,5,0.7729305025164676,0.02422239484573073,61
+Analyzing and interpreting complex systems and phenomena through critical reasoning and expert knowledge for informed problem-solving.,6,0.7681074434230424,0.025301704640133146,59
+Analyzing and evaluating complex logical structures and relationships through systematic reasoning and critical analysis.,4,0.7774424528047059,0.024344520699350135,180
+"Engaging in comprehensive logical analysis and reasoning to derive, evaluate, and interpret complex relationships and implications across various logical structures.",5,0.6653788010385188,0.03666954210002991,53
+Analyzing and synthesizing advanced mathematical structures and properties through rigorous reasoning and logical application.,4,0.6263122554528514,0.04441205033357242,74
+"Integrating and analyzing complex biological, chemical, and genetic systems for expert-level problem-solving and reasoning.",3,0.9061606880887095,0.009252839620080491,991
+"Analyzing and synthesizing complex genetic information to evaluate mutations, inheritance patterns, evolutionary dynamics, and reproductive mechanisms.",4,0.8230722263848735,0.0147629512635441,229
+Analyzing and synthesizing genetic inheritance patterns to evaluate health implications and predict phenotypic outcomes.,5,0.7133325948932426,0.027985048635143308,70
+"Analyzing and interpreting genetic inheritance patterns to evaluate, predict, and apply implications for health and phenotypic outcomes.",6,0.693547344633979,0.03366785040163945,59
+Integrating and analyzing complex biological and chemical systems for expert-level problem-solving and reasoning.,4,0.8853886873877231,0.010997613137486303,493
+Integrating and analyzing complex biological systems and processes for innovative problem-solving and expert-level reasoning in health and metabolic dynamics.,5,0.8806362810924065,0.01232194972057723,416
+Integrating and analyzing advanced biological methodologies for comprehensive understanding of cellular and molecular processes across diverse organisms.,6,0.8044634623292446,0.020086752045811087,68
+Analyzing and synthesizing metabolic and physiological interactions to optimize energy utilization and health outcomes.,6,0.7478674188443474,0.030978030102492407,58
+Analyzing and synthesizing complex biological systems and processes for evaluating metabolic and transport mechanisms.,6,0.8317922544377148,0.01673264778280689,120
+"Analyzing and synthesizing complex biochemical pathways and interactions to evaluate metabolic processes, regulatory mechanisms, and energy dynamics in biological systems.",7,0.8337469147283203,0.01639191689181819,118
+Analyzing and synthesizing complex biological information and processes for critical reasoning and innovative problem-solving.,6,0.7466494274473954,0.030837321490388175,58
+Integrating and analyzing complex biological systems and interactions to understand health mechanisms and regulatory processes.,6,0.7715346321726785,0.022826191401756592,55
+"Analyzing and evaluating complex chemical interactions, properties, and techniques for expert-level identification and characterization.",5,0.7855291556501574,0.021912821654789107,77
+"Integrating and analyzing complex scientific, biological, and ecological data to evaluate relationships, adaptations, and interactions among organisms and their environments.",4,0.8707696975004828,0.014041652832034958,269
+Integrating and analyzing complex biological and evolutionary data to evaluate relationships and adaptations across diverse species.,5,0.8266880953732816,0.016172757612521196,146
+Integrating and analyzing complex biological systems and interrelations across diverse organisms and environmental contexts.,6,0.7512927230546568,0.026488301080603623,51
+"Analyzing and synthesizing complex evolutionary, biological, and archaeological data to infer relationships, adaptations, and mechanisms across species.",6,0.797773155200748,0.021085186422181487,71
+Integrating analytical and evaluative techniques to assess ecological interactions and organism adaptations in response to environmental challenges.,5,0.8025716282139149,0.020142177400033986,75
+Integrating analytical techniques to evaluate complex ecological interactions and historical subsistence practices through evidence-based assessment and biological transmission dynamics.,6,0.7677509784386927,0.022359788643073645,62
+Analyzing complex biological interactions and transmission dynamics in ecological and epidemiological contexts,7,0.7797178496262971,0.021852611867713423,56
+"Analyzing ecological interactions, adaptations, and evolutionary dynamics to evaluate species distributions, behaviors, and community characteristics across diverse environments.",8,0.7865789010029582,0.021641492579505848,54
